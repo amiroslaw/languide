@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -15,30 +16,28 @@ public class Article {
     @GeneratedValue
     private Long id;
     private String title;
-    @NotBlank
-    @Column(columnDefinition = "TEXT")
-    private String firsLanguage;
-    @NotBlank
-    @Column(columnDefinition = "TEXT")
-    private String secondLanguage;
+    @ElementCollection
+    private List<String> firstLanguage;
+    @ElementCollection
+    private List<String> secondLanguage;
     private String tag;
     @CreatedDate
     private Date createDate;
     @ManyToOne
     private Notebook notebook;
 
-    Article(){}
+    public Article(){}
 
-    public Article(String title, String firsLanguage, String secondLanguage, String tag, Date createDate) {
+    public Article(String title, List<String> firstLanguage, List<String> secondLanguage, String tag, Date createDate) {
         this.title = title;
-        this.firsLanguage = firsLanguage;
+        this.firstLanguage = firstLanguage;
         this.secondLanguage = secondLanguage;
         this.tag = tag;
         this.createDate = createDate;
     }
 
-    public Article(String title, String firsLanguage, String secondLanguage, String tag, Date createDate, Notebook notebook) {
-        this(title, firsLanguage, secondLanguage, tag, createDate);
+    public Article(String title, List<String> firstLanguage, List<String> secondLanguage, String tag, Date createDate, Notebook notebook) {
+        this(title, firstLanguage, secondLanguage, tag, createDate);
         this.notebook = notebook;
     }
 }

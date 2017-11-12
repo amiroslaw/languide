@@ -8,30 +8,20 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import xyz.miroslaw.languide.model.Article;
-
+import xyz.miroslaw.languide.command.ArticleCommand;
 import xyz.miroslaw.languide.service.ArticleService;
 
-import java.sql.Date;
-import java.time.LocalDate;
-
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 public class HomeControllerTest {
-    private static final LocalDate localDate = LocalDate.of(2017, 10, 22);
-    private static final Date date1 = Date.valueOf(localDate);
-    private static final Article ARTICLE = new Article("cooking", "Take a one egg", "Weź jedno jajko", "Cooking", date1, null);
 
     @InjectMocks
-    private  HomeController controller;
+    private HomeController controller;
     @Mock
     private ArticleService service;
     private MockMvc mockMvc;
@@ -44,19 +34,37 @@ public class HomeControllerTest {
     }
 
     @Test
-    public void getHomePage_shouldReturnHomePage() throws Exception {
+    public void getHomePage_shouldShowHomePage() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"));
     }
 
     @Test
-    public void pair() throws Exception {
-        doNothing().when(service).saveArticle(any(Article.class));
+    public void pair_shouldShowArticle() throws Exception {
+        doNothing().when(service).createArticle(any(ArticleCommand.class));
 
-        mockMvc.perform(post("/").contentType(MediaType.APPLICATION_FORM_URLENCODED))
+        mockMvc.perform(post("").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("firstLanguage", "egg")
+                .param("secondLanguage", "jajko"))
                 .andExpect(status().isCreated())
                 .andExpect(view().name("article"));
+
+        verify(service, times(1)).createArticle(any(ArticleCommand.class));
+    }
+
+    @Test
+    public void pair_shouldFailValidation() throws Exception {
+        doNothing().when(service).createArticle(any(ArticleCommand.class));
+
+        mockMvc.perform(post("").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//                    .param("firstLanguage", "egg")
+                .param("secondLanguage", ""))
+                .andExpect(status().isBadRequest())
+        ;
+//                .andExpect(model().attributeExists("article"))
+//                .andExpect(view().name("index"));
+
     }
 
     @Test

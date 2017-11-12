@@ -23,6 +23,5 @@ public class NotebookServiceImp implements NotebookService {
 
     @Override
     public void createNotebook() {
-
     }
 }
