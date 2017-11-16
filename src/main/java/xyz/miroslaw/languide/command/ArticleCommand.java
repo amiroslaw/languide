@@ -1,12 +1,14 @@
 package xyz.miroslaw.languide.command;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import xyz.miroslaw.languide.model.Notebook;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 public class ArticleCommand {
     private Long id;
     private String title;

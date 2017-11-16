@@ -27,14 +27,17 @@ public class HomeController {
     }
 
     @GetMapping({"/", ""})
-    public String getHomePage() {
+    public String getHomePage(Model model) {
+        ArticleCommand articleCommand = new ArticleCommand();
+        model.addAttribute("articleCommand", articleCommand);
         return "index";
     }
 
     @PostMapping({"/", ""})
     @ResponseStatus(HttpStatus.CREATED)
 //    public String pair(@Valid @ModelAttribute Article article, Model model, BindingResult bindingResult){
-    public String pair(@Valid @ModelAttribute("article") ArticleCommand articleCommand, Model model, BindingResult bindingResult) {
+//    public String pair(@Valid @ModelAttribute("article") ArticleCommand articleCommand, Model model, BindingResult bindingResult) {
+    public String pair(@Valid @ModelAttribute ArticleCommand articleCommand, Model model, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             System.out.println("valid blad");
@@ -43,13 +46,13 @@ public class HomeController {
         //TODO convert and after that result pass to the methods
         model.addAttribute("article", articleCommand);
         articleService.createArticle(articleCommand);
-        return "article";
+        return "/article";
     }
 
-    @GetMapping("/articles")
-    public String getArticles() {
+    @GetMapping("/article")
+    public String showArticle() {
 
-        return articleService.findArticles().toString();
+        return "article";
     }
 
 }

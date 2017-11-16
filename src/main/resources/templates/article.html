@@ -18,19 +18,10 @@
 </head>
 <body>
 <h1>Languide</h1>
-<!--/*@thymesVar id="articleCommand" type="xyz.miroslaw.languide.command.ArticleCommand"*/-->
-<form th:object="${articleCommand}" th:action="@{/article}" method="post">
-    <div class="row">
-        <div class="col-sm-4">
-            <label for="firstLanguage">Put text from first language</label>
-                <input type="text" id="firstLanguage"  class="form-control" style="height: 500px" th:field="*{firstLanguage}" >
-        </div>
-        <div class="col-sm-4">
-            <label for="secondLanguage">Put text from second language</label>
-                <input type="text" id="secondLanguage" class="form-control" style="height: 500px" th:field="*{secondLanguage}">
-        </div>
-    </div>
-    <button type="submit" class="btn btn-success">Pair</button>
-</form>
+<table>
+    <tr>
+        <td>1 lang</td><td>2 lang</td>
+    </tr>
+</table>
 </body>
 </html>
