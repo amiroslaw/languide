@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import xyz.miroslaw.languide.command.ArticleCommand;
+import xyz.miroslaw.languide.model.Article;
 import xyz.miroslaw.languide.service.ArticleService;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -42,7 +43,7 @@ public class HomeControllerTest {
 
     @Test
     public void pair_shouldShowArticle() throws Exception {
-        doNothing().when(service).createArticle(any(ArticleCommand.class));
+        when(service.createArticle(any(ArticleCommand.class))).thenReturn(any(Article.class));
 
         mockMvc.perform(post("").contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("firstLanguage", "egg")
@@ -55,7 +56,7 @@ public class HomeControllerTest {
 
     @Test
     public void pair_shouldFailValidation() throws Exception {
-        doNothing().when(service).createArticle(any(ArticleCommand.class));
+        when(service.createArticle(any(ArticleCommand.class))).thenReturn(any(Article.class));
 
         mockMvc.perform(post("").contentType(MediaType.APPLICATION_FORM_URLENCODED)
 //                    .param("firstLanguage", "egg")

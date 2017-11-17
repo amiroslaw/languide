@@ -9,7 +9,7 @@ public interface ArticleService {
     List<Article> findArticles();
     Article findById(Long id);
     void deleteById(Long id);
-    void createArticle(ArticleCommand article);
+    Article createArticle(ArticleCommand article);
 
     void updateArticle(Long id);
 }

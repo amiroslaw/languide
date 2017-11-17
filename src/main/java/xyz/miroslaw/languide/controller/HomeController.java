@@ -6,9 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import xyz.miroslaw.languide.command.ArticleCommand;
+import xyz.miroslaw.languide.model.Article;
 import xyz.miroslaw.languide.service.ArticleService;
 
 import javax.validation.Valid;
@@ -39,12 +42,10 @@ public class HomeController {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             return "index";
         }
-        //TODO convert and after that result pass to the methods
-        model.addAttribute("article", articleCommand);
-        articleService.createArticle(articleCommand);
+        Article article = articleService.createArticle(articleCommand);
+        model.addAttribute("article", article);
         return "article";
     }
-
 
 
 }

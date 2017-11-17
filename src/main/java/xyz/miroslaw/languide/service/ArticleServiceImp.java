@@ -55,11 +55,10 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public void createArticle(ArticleCommand command) {
+    public Article createArticle(ArticleCommand command) {
         //will I have notebook object?
         Article article = convertToArticle(command);
-        articleRepository.save(article);
-
+        return articleRepository.save(article);
     }
 
     private Article convertToArticle(ArticleCommand command) {
