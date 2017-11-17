@@ -67,7 +67,7 @@ public class ArticleServiceImp implements ArticleService {
         Article article = new Article();
         article.setId(command.getId());
         article.setTitle(command.getTitle());
-        article.setCreateDate(command.getCreateDate());
+        article.setCreationDate(command.getCreationDate());
         article.setTag(command.getTag());
         article.setNotebook(command.getNotebook());
         article.setFirstLanguage(convertToList(command.getFirstLanguage()));

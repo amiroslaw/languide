@@ -17,20 +17,34 @@
 
 </head>
 <body>
-<h1>Languide</h1>
-<!--/*@thymesVar id="articleCommand" type="xyz.miroslaw.languide.command.ArticleCommand"*/-->
-<form th:object="${articleCommand}" th:action="@{/article}" method="post">
-    <div class="row">
-        <div class="col-sm-4">
-            <label for="firstLanguage">Put text from first language</label>
-                <input type="text" id="firstLanguage"  class="form-control" style="height: 500px" th:field="*{firstLanguage}" >
-        </div>
-        <div class="col-sm-4">
-            <label for="secondLanguage">Put text from second language</label>
-                <input type="text" id="secondLanguage" class="form-control" style="height: 500px" th:field="*{secondLanguage}">
+<div class="container">
+    <h1>Languide</h1>
+    <div class="row justify-content-sm-center">
+        <div class="col-9">
+            <!--/*@thymesVar id="articleCommand" type="xyz.miroslaw.languide.command.ArticleCommand"*/-->
+            <form th:object="${articleCommand}" th:action="@{/}" method="post">
+                <div class="row ">
+                    <div class="col form-group" th:classappend="${#fields.hasErrors('firstLanguage')}? 'has-error'">
+                        <label for="firstLanguage">Put text from first language <span class="required">*</span></label>
+                        <input type="text" id="firstLanguage" class="form-control" style="height: 500px"
+                               th:field="*{firstLanguage}"/>
+                        <span th:if="${#fields.hasErrors('firstLanguage')}" th:errors="*{firstLanguage}"
+                              th:class="help-block">Error</span>
+                    </div>
+                    <div class="col form-group" th:classappend="${#fields.hasErrors('firstLanguage')}? 'has-error'">
+                        <label for="secondLanguage">Put text from second language</label>
+                        <input type="text" id="secondLanguage" class="form-control" style="height: 500px"
+                               th:field="*{secondLanguage}"/>
+                        <span th:if="${#fields.hasErrors('secondLanguage')}" th:errors="*{secondLanguage}"
+                              th:class="help-block">Error</span>
+                    </div>
+                </div>
+                <div class="row justify-content-sm-center">
+                        <button type="submit" class="btn btn-success col-auto">Pair</button>
+                </div>
+            </form>
         </div>
     </div>
-    <button type="submit" class="btn btn-success">Pair</button>
-</form>
+</div>
 </body>
 </html>

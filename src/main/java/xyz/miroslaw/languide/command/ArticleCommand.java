@@ -17,15 +17,15 @@ public class ArticleCommand {
     @NotBlank
     private String secondLanguage;
     private String tag;
-    private Date createDate;
+    private Date creationDate;
     private Notebook notebook;
 
-    public ArticleCommand(String title, @NotBlank String firstLanguage, @NotBlank String secondLanguage, String tag, Date createDate, Notebook notebook) {
+    public ArticleCommand(String title, @NotBlank String firstLanguage, @NotBlank String secondLanguage, String tag, Date creationDate, Notebook notebook) {
         this.title = title;
         this.firstLanguage = firstLanguage;
         this.secondLanguage = secondLanguage;
         this.tag = tag;
-        this.createDate = createDate;
+        this.creationDate = creationDate;
         this.notebook = notebook;
     }
 }

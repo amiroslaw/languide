@@ -6,10 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import xyz.miroslaw.languide.command.ArticleCommand;
 import xyz.miroslaw.languide.service.ArticleService;
 
@@ -30,29 +28,23 @@ public class HomeController {
     public String getHomePage(Model model) {
         ArticleCommand articleCommand = new ArticleCommand();
         model.addAttribute("articleCommand", articleCommand);
+        log.debug("index page");
         return "index";
     }
 
     @PostMapping({"/", ""})
     @ResponseStatus(HttpStatus.CREATED)
-//    public String pair(@Valid @ModelAttribute Article article, Model model, BindingResult bindingResult){
-//    public String pair(@Valid @ModelAttribute("article") ArticleCommand articleCommand, Model model, BindingResult bindingResult) {
-    public String pair(@Valid @ModelAttribute ArticleCommand articleCommand, Model model, BindingResult bindingResult) {
+    public String pair(@Valid @ModelAttribute("articleCommand") ArticleCommand articleCommand, Model model, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
-            System.out.println("valid blad");
             return "index";
         }
         //TODO convert and after that result pass to the methods
         model.addAttribute("article", articleCommand);
         articleService.createArticle(articleCommand);
-        return "/article";
-    }
-
-    @GetMapping("/article")
-    public String showArticle() {
-
         return "article";
     }
+
+
 
 }

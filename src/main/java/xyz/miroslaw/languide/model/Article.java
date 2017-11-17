@@ -4,7 +4,6 @@ import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
 
@@ -22,22 +21,22 @@ public class Article {
     private List<String> secondLanguage;
     private String tag;
     @CreatedDate
-    private Date createDate;
+    private Date creationDate;
     @ManyToOne
     private Notebook notebook;
 
     public Article(){}
 
-    public Article(String title, List<String> firstLanguage, List<String> secondLanguage, String tag, Date createDate) {
+    public Article(String title, List<String> firstLanguage, List<String> secondLanguage, String tag, Date creationDate) {
         this.title = title;
         this.firstLanguage = firstLanguage;
         this.secondLanguage = secondLanguage;
         this.tag = tag;
-        this.createDate = createDate;
+        this.creationDate = creationDate;
     }
 
-    public Article(String title, List<String> firstLanguage, List<String> secondLanguage, String tag, Date createDate, Notebook notebook) {
-        this(title, firstLanguage, secondLanguage, tag, createDate);
+    public Article(String title, List<String> firstLanguage, List<String> secondLanguage, String tag, Date creationDate, Notebook notebook) {
+        this(title, firstLanguage, secondLanguage, tag, creationDate);
         this.notebook = notebook;
     }
 }
