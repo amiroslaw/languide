@@ -44,7 +44,7 @@ public class HomeController {
         }
         Article article = articleService.createArticle(articleCommand);
         model.addAttribute("article", article);
-        return "article";
+        return "/article/view";
     }
 
 
