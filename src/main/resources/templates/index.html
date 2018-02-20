@@ -3,43 +3,59 @@
 <head>
     <title>Languide</title>
     <th:block th:replace="~{layouts/main :: head}">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
-              integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+              crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                crossorigin="anonymous"></script>
     </th:block>
 </head>
 <body>
 <div class="container">
     <div th:insert="~{layouts/main :: content}"></div>
-        <div class="row justify-content-sm-center">
-            <div class="col-9">
-                <!--/*@thymesVar id="articleCommand" type="xyz.miroslaw.languide.command.ArticleCommand"*/-->
-                <form th:object="${articleCommand}" th:action="@{/}" method="post">
-                    <div class="row ">
-                        <div class="col form-group" th:classappend="${#fields.hasErrors('firstLanguage')}? 'has-error'">
-                            <label for="firstLanguage">Put text from first language <span
-                                    class="required">*</span></label>
-                            <input type="text" id="firstLanguage" class="form-control" style="height: 500px"
-                                   th:field="*{firstLanguage}"/>
-                            <span th:if="${#fields.hasErrors('firstLanguage')}" th:errors="*{firstLanguage}"
-                                  th:class="help-block">Error</span>
+    <div class="row justify-content-sm-center">
+        <div class="col-9">
+            <div class="card">
+                <div class="card-header bg-primary text-light text-center">
+                    Article
+                </div>
+                <div class="card-body">
+                    <!--/*@thymesVar id="articleCommand" type="xyz.miroslaw.languide.command.ArticleCommand"*/-->
+                    <form th:object="${articleCommand}" th:action="@{/user/99/article}" method="post">
+                        <div class="row ">
+                            <div class="col form-group"
+                                 th:classappend="${#fields.hasErrors('firstLanguage')}? 'has-error'">
+                                <label for="firstLanguage">Put text from first language <span
+                                        class="required">*</span></label>
+                                <textarea type="textarea" id="firstLanguage" class="form-control" style="height: 500px"
+                                          th:field="*{firstLanguage}"></textarea>
+                                <span th:if="${#fields.hasErrors('firstLanguage')}" th:errors="*{firstLanguage}"
+                                      th:class="help-block">Error</span>
+                            </div>
+                            <div class="col form-group"
+                                 th:classappend="${#fields.hasErrors('firstLanguage')}? 'has-error'">
+                                <label for="secondLanguage">Put text from second language</label>
+                                <textarea type="textarea" id="secondLanguage" class="form-control" style="height: 500px"
+                                          th:field="*{secondLanguage}"></textarea>
+                                <span th:if="${#fields.hasErrors('secondLanguage')}" th:errors="*{secondLanguage}"
+                                      th:class="help-block">Error</span>
+                            </div>
                         </div>
-                        <div class="col form-group" th:classappend="${#fields.hasErrors('firstLanguage')}? 'has-error'">
-                            <label for="secondLanguage">Put text from second language</label>
-                            <input type="text" id="secondLanguage" class="form-control" style="height: 500px"
-                                   th:field="*{secondLanguage}"/>
-                            <span th:if="${#fields.hasErrors('secondLanguage')}" th:errors="*{secondLanguage}"
-                                  th:class="help-block">Error</span>
+                        <div class="row justify-content-sm-center">
+                            <button type="submit" class="btn btn-success col-auto">Pair</button>
                         </div>
-                    </div>
-                    <div class="row justify-content-sm-center">
-                        <button type="submit" class="btn btn-success col-auto">Pair</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

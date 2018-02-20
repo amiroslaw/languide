@@ -4,21 +4,23 @@
     <meta charset="UTF-8"/>
     <title>Error Page</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"
-          th:href="@{/webjars/bootstrap/4.0.0-beta.2/css/bootstrap.min.css}">
+          th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.min.css}">
 
     <script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
-            crossorigin="anonymous" th:src="@{/webjars/bootstrap/4.0.0-beta.2/js/bootstrap.min.js}">
+            crossorigin="anonymous" th:src="@{/webjars/bootstrap/4.0.0/js/bootstrap.min.js}">
     </script>
 </head>
 <body>
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <h1>Something went wrong</h1>
+            <div class="alert alert-warning" role="alert">
+                <strong>Warning!</strong> Something went wrong :/
+            </div>
             <!--/*@thymesVar id="exception" type="xyz.miroslaw.languide.exception.NotFoundException"*/-->
             <!--<p th:text="${exception.getMessage()}"></p>-->
         </div>
