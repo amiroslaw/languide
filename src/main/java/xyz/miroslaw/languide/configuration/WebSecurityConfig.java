@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -14,22 +15,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/resources/", "/webjars/", "/assets/").permitAll()
-                .antMatchers("/", "/home").permitAll()
+                .antMatchers("/resources/**", "/webjars/**", "/assets/**").permitAll()
+                .antMatchers("/index", "/home", "/", "/register").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin().loginPage("/user/login")
-//                    .defaultSuccessUrl("/").failureUrl()
-                .permitAll()
-                .and()
-                .logout()
-                .permitAll();
+                .and().formLogin().loginPage("/login")
+                    .defaultSuccessUrl("/index").failureUrl("/login?error").permitAll()
+//                .and().rememberMe().rememberMeCookieName("my-remember-me-cookie").tokenRepository(persistentTokenRepository()).tokenValiditySeconds(24 * 60 * 60)
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").deleteCookies("my-remember-me-cookie").permitAll();
+//                .and().logout().permitAll();
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
+                .withUser("user").password("pass").roles("USER");
     }
 }

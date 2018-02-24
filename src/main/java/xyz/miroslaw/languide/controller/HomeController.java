@@ -12,14 +12,19 @@ public class HomeController {
 
 
 
-    @GetMapping({"/", ""})
+    @GetMapping({"/", "", "/index"})
     public String getHomePage(Model model) {
         ArticleCommand articleCommand = new ArticleCommand();
         model.addAttribute("articleCommand", articleCommand);
         return "index";
     }
     @GetMapping("/login")
-    public String getLoginPage(Model model) {
+    public String getLoginPage() {
         return "/user/login";
+    }
+
+    @GetMapping("/register")
+    public String getRegisterPage() {
+        return "/user/registerform";
     }
 }

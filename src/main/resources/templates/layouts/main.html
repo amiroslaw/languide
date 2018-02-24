@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4">
 <head>
     <title>Languide</title>
     <th:block th:fragment="head">
@@ -60,7 +61,14 @@
                 </ul>
                 <span class="navbar-text ">
                     Welcome <span sec:authentication="name">Guest</span> |
-                    <a sec:authorize="!isAuthenticated()" th:href="@{/login}"> Login</a>
+                    <span sec:authorize="isAnonymous()" >
+                        <a th:href="@{/login}" class="btn btn-sm btn-outline-success">Log in</a> |
+                        <a th:href="@{/register}" class="btn btn-sm btn-outline-info">Sign up</a>
+                    </span>
+                    <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="d-inline">
+                        <input type="submit" value="Sign Out" class="btn btn-sm btn-outline-warning"/>
+                    </form>
+                    <!--Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>-->
                 </span>
             </div>
         </nav>
