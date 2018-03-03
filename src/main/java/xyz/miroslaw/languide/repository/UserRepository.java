@@ -4,5 +4,8 @@ import org.springframework.data.repository.CrudRepository;
 import xyz.miroslaw.languide.model.User;
 
 
-interface  UserRepository extends CrudRepository<User, Long>{
+public interface  UserRepository extends CrudRepository<User, Long>{
+    User findByName(String name);
+    User findByEmail(String email);
+
 }

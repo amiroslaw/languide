@@ -11,7 +11,6 @@ import xyz.miroslaw.languide.command.ArticleCommand;
 public class HomeController {
 
 
-
     @GetMapping({"/", "", "/index"})
     public String getHomePage(Model model) {
         ArticleCommand articleCommand = new ArticleCommand();
@@ -23,8 +22,8 @@ public class HomeController {
         return "/user/login";
     }
 
-    @GetMapping("/register")
-    public String getRegisterPage() {
-        return "/user/registerform";
-    }
+//    @GetMapping("/register")
+//    public String getRegisterPage() {
+//        return "/user/registerform";
+//    }
 }

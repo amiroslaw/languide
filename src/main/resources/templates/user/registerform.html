@@ -19,13 +19,27 @@
 </head>
 <body>
 <div class="container">
-    <form class="form-horizontal" role="form" method="POST" action="/register">
+    <!--/*@thymesVar id="user" type="xyz.miroslaw.languide.model.User"*/-->
+    <form class="form-horizontal" role="form" method="POST" action="/register" th:action="@{/register}" th:object="${user}" >
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <h2>Register New User</h2>
                 <hr>
             </div>
         </div>
+        <!--<div class="row">-->
+        <!--<div class="col-md-6 offset-md-3">-->
+        <!--<div class="form-group">-->
+        <!--<div class="input-group mb-2 mr-sm-2 mb-sm-0">-->
+        <!--<div class="input-group-prepend">-->
+        <!--</div>-->
+        <!--<div class="input-group-text" style="width: 2.6rem"><i class="fa fa-at"></i></div>-->
+        <!--<input type="text" name="email" class="form-control" id="email"-->
+        <!--placeholder="you@example.com" required autofocus>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="form-group">
@@ -33,25 +47,13 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text" style="width: 2.6rem"><i class="fa fa-user"></i></div>
                         </div>
-                        <input type="text" name="name" class="form-control" id="name"
+                        <input type="text" name="name" class="form-control" id="name" th:field="*{name}"
                                placeholder="John Doe" required autofocus>
                     </div>
                 </div>
             </div>
         </div>
-        <!--<div class="row">-->
-            <!--<div class="col-md-6 offset-md-3">-->
-                <!--<div class="form-group">-->
-                    <!--<div class="input-group mb-2 mr-sm-2 mb-sm-0">-->
-                        <!--<div class="input-group-prepend">-->
-                        <!--</div>-->
-                        <!--<div class="input-group-text" style="width: 2.6rem"><i class="fa fa-at"></i></div>-->
-                        <!--<input type="text" name="email" class="form-control" id="email"-->
-                               <!--placeholder="you@example.com" required autofocus>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="form-group has-danger">
@@ -59,27 +61,27 @@
                         <div class="input-group-prepend">
                             <div class="input-group-text" style="width: 2.6rem"><i class="fa fa-key"></i></div>
                         </div>
-                        <input type="password" name="password" class="form-control" id="password"
+                        <input type="password" name="password" class="form-control" id="password" th:field="*{password}"
                                placeholder="Password" required>
                     </div>
                 </div>
             </div>
 
         </div>
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="form-group">
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text" style="width: 2.6rem">
-                                <i class="fa fa-repeat"></i>
-                            </div>
-                        </div>
-                        <input type="password" name="password-confirmation" class="form-control"
-                               id="password-confirm" placeholder="Confirm Password" required>
-                    </div>
-                </div>
-            </div>
+        <!--<div class="row">-->
+            <!--<div class="col-md-6 offset-md-3">-->
+                <!--<div class="form-group">-->
+                    <!--<div class="input-group mb-2 mr-sm-2 mb-sm-0">-->
+                        <!--<div class="input-group-prepend">-->
+                            <!--<div class="input-group-text" style="width: 2.6rem">-->
+                                <!--<i class="fa fa-repeat"></i>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<input type="password" name="password-confirmation" class="form-control"-->
+                               <!--id="password-confirm" placeholder="Confirm Password" required>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
         </div>
         <div class="row">
             <div class="col-md-6 offset-md-3">
@@ -94,5 +96,10 @@
             <!--</div>-->
         </div>
     </form>
+<div th:if="${param.success}">
+    <div class="alert alert-info">
+        You've successfully registered to our awesome app!
+    </div>
+</div>
 </div>
 </body>
