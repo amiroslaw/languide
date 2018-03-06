@@ -12,6 +12,7 @@ import xyz.miroslaw.languide.model.User;
 import xyz.miroslaw.languide.service.UserService;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/register")
@@ -20,6 +21,7 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
+    //todo is needed?
     @ModelAttribute("user")
     public User userRegistrationDto() {
         return new User();
@@ -32,19 +34,17 @@ public class RegistrationController {
 
     @PostMapping
     public String registerUserAccount(@ModelAttribute("user") @Valid User user,
-                                      BindingResult result){
-
-        User existing = userService.findByName(user.getName());
-        if (existing != null){
-            result.rejectValue("email", null, "There is already an account registered with that email");
+                                      BindingResult result) {
+        Optional<User> existing = userService.findByName(user.getName());
+        if (existing.isPresent()) {
+            result.rejectValue("name", null, "There is already an account registered with that name");
         }
-
-        if (result.hasErrors()){
-            return "registration";
+        if (result.hasErrors()) {
+            return "/user/registerform";
         }
-
         userService.createUser(user);
-        return "redirect:/register?success";
+        return "/user/login";
+//            return "redirect:/register?success";
     }
 
 }

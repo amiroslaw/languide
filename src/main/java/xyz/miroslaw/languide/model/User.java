@@ -3,6 +3,8 @@ package xyz.miroslaw.languide.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
@@ -11,7 +13,10 @@ public class User {
     @Id
     @GeneratedValue
     private Long id;
+    @NotNull
     private String name;
+    @NotNull
+    @Size(min=3)
     private String password;
     private String email;
     private String role;
