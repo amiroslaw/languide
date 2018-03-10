@@ -34,8 +34,8 @@ public class LanguideApplication {
         @Override
         public void run(ApplicationArguments args) {
             User user = new User("arek", "gracz", "ROLE_USER");
-//            userRepository.save(user);
             userService.createUser(user);
+
         }
 
     }

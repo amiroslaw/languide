@@ -21,9 +21,8 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
-    //todo is needed?
     @ModelAttribute("user")
-    public User userRegistrationDto() {
+    public User userModel() {
         return new User();
     }
 
@@ -33,7 +32,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String registerUserAccount(@ModelAttribute("user") @Valid User user,
+    public String registerUserAccount(@ModelAttribute @Valid User user,
                                       BindingResult result) {
         Optional<User> existing = userService.findByName(user.getName());
         if (existing.isPresent()) {

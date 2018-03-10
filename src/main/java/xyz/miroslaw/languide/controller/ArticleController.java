@@ -25,18 +25,30 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
+    @ModelAttribute("articleCommand")
+    public ArticleCommand articleCommandModel() {
+        return new ArticleCommand();
+    }
 
     @PostMapping("/user/{userId}/article")
     @ResponseStatus(HttpStatus.CREATED)
-    public String pair(@Valid @ModelAttribute("articleCommand") ArticleCommand articleCommand, Model model, BindingResult bindingResult, @PathVariable int userId) {
+    public String pair(@ModelAttribute @Valid ArticleCommand articleCommand, Model model, BindingResult bindingResult, @PathVariable Long userId) {
         if (bindingResult.hasErrors()) {
+            //todo never true
+            log.error("with error");
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
-            return "index";
+            return "/index";
         }
         //todo add parameter and direct to view or articleform
         Article article = articleService.createArticle(articleCommand);
         model.addAttribute("article", article);
+        log.error("without error");
         return "/article/view";
+    }
+
+    @GetMapping("/articles")
+    public String showArticles() {
+        return "article";
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -52,11 +64,5 @@ public class ArticleController {
         modelAndView.addObject("exception", exception);
 
         return modelAndView;
-    }
-
-    @GetMapping("/articles")
-    public String showArticles() {
-
-        return "article";
     }
 }
