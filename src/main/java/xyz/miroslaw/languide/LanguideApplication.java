@@ -6,10 +6,14 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
+import xyz.miroslaw.languide.model.Role;
 import xyz.miroslaw.languide.model.User;
 import xyz.miroslaw.languide.repository.ArticleRepository;
 import xyz.miroslaw.languide.repository.UserRepository;
 import xyz.miroslaw.languide.service.UserService;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 @SpringBootApplication
 public class LanguideApplication {
@@ -33,7 +37,8 @@ public class LanguideApplication {
 
         @Override
         public void run(ApplicationArguments args) {
-            User user = new User("arek", "gracz", "ROLE_USER");
+            Collection<Role> roleUser = Arrays.asList(new Role("ROLE_USER"));
+            User user = new User("arek", "gracz", roleUser);
             userService.createUser(user);
 
         }

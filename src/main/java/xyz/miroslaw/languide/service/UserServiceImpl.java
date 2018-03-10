@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import xyz.miroslaw.languide.exception.NotFoundException;
+import xyz.miroslaw.languide.model.Role;
 import xyz.miroslaw.languide.model.User;
 import xyz.miroslaw.languide.repository.UserRepository;
 
@@ -15,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -75,18 +77,20 @@ public class UserServiceImpl implements UserService {
         }
         return new org.springframework.security.core.userdetails.User(user.getName(),
                 user.getPassword(),
-                mapRolesToAuthorities(user.getRole()));
+                mapRolesToAuthorities(user.getRoles()));
     }
 
     @Override
     public User createUser(User user) {
         user.setName(user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("ROLE_USER");
+        user.setRoles(Arrays.asList(new Role("ROLE_USER")));
         return userRepository.save(user);
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(String role) {
-        return Arrays.asList(new SimpleGrantedAuthority(role));
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
     }
 }
