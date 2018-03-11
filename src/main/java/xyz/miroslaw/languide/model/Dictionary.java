@@ -3,6 +3,7 @@ package xyz.miroslaw.languide.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
@@ -11,20 +12,23 @@ public class Dictionary {
     @Id
     @GeneratedValue
     private Long id;
+    @NotNull
+    private boolean isPublic;
     @ElementCollection
-    @MapKeyColumn(name="ORIGINAL")
-    @Column(name="TRANSLATED")
-    private Map<String,String> words;
+    @MapKeyColumn(name = "ORIGINAL")
+    @Column(name = "TRANSLATED")
+    private Map<String, String> words;
     @OneToOne
     private User user;
 
-    Dictionary(){}
-    public Dictionary(Map<String, String> words) {
-        this.words = words;
+    //todo add name
+    Dictionary() {
     }
 
-    public Dictionary(Map<String, String> words, User user) {
+    public Dictionary(Map<String, String> words, boolean isPublic, User user) {
         this.words = words;
+        this.isPublic = isPublic;
         this.user = user;
     }
+
 }

@@ -34,15 +34,20 @@ public class ArticleController {
     @ResponseStatus(HttpStatus.CREATED)
     public String pair(@ModelAttribute @Valid ArticleCommand articleCommand, Model model, BindingResult bindingResult, @PathVariable Long userId) {
         if (bindingResult.hasErrors()) {
-            //todo never true
+            //todo never true maybe delete
             log.error("with error");
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             return "/index";
         }
+        boolean areArticleFieldsEmpty = articleCommand.getFirstLanguage().isEmpty() || articleCommand.getSecondLanguage().isEmpty();
+        if (areArticleFieldsEmpty){
+            bindingResult.rejectValue("firstLanguage", null, "Please fill text");
+            return "/index";
+        }
         //todo add parameter and direct to view or articleform
+        // convert but don't save
         Article article = articleService.createArticle(articleCommand);
         model.addAttribute("article", article);
-        log.error("without error");
         return "/article/view";
     }
 

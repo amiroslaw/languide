@@ -4,23 +4,24 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import xyz.miroslaw.languide.command.ArticleCommand;
 
 @Slf4j
 @Controller
 public class HomeController {
-
-
+    
     @GetMapping({"/", "", "/index"})
     public String getHomePage(Model model) {
         ArticleCommand articleCommand = new ArticleCommand();
         model.addAttribute("articleCommand", articleCommand);
         return "index";
     }
+
     @GetMapping("/login")
     public String getLoginPage() {
         return "/user/login";
     }
+
+
 
 }

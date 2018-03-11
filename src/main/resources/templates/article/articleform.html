@@ -21,7 +21,8 @@
 <div th:insert="~{layouts/main :: content}"></div>
 <div class="container">
     <section>
-        <form>
+        <!--/*@thymesVar id="article" type="xyz.miroslaw.languide.model.Article"*/-->
+        <form th:object="${article}">
             <div class="row">
                 <div class="col-md-4">
                     <div class="card">
@@ -51,8 +52,8 @@
                         </div>
                     </div>
                 </div>
-                <!--/*@thymesVar id="article" type="xyz.miroslaw.languide.model.Article"*/-->
-                <div class="col-8" th:object="${article}">
+
+                <div class="col-8" >
                     <div class="card">
                         <div class="card-header bg-primary text-light text-center">
                             Article

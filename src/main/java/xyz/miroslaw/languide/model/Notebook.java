@@ -15,16 +15,21 @@ public class Notebook {
     @NotNull
     private String title;
     private String description;
+    @NotNull
+    private boolean isPublic;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "notebook")
     private Set<Article> articles;
     @ManyToOne
     private User user;
 
-    public Notebook(String description) {
-        this.description = description;
+    // i don't know if empty constructor is needed
+    public Notebook(String title, Boolean isPublic) {
+        this.title = title;
+        this.isPublic = isPublic;
     }
 
-    public Notebook(String description, Set<Article> articles) {
+    public Notebook(String title, Boolean isPublic, String description, Set<Article> articles) {
+        this(title, isPublic);
         this.description = description;
         this.articles = articles;
     }
