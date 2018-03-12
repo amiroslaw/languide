@@ -28,4 +28,5 @@ public class ArticleCommand {
         this.creationDate = creationDate;
         this.notebook = notebook;
     }
+
 }

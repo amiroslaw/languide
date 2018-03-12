@@ -41,32 +41,32 @@ public class HomeControllerTest {
                 .andExpect(view().name("index"));
     }
 
-    @Test
-    public void pair_shouldShowArticle() throws Exception {
-        when(service.createArticle(any(ArticleCommand.class))).thenReturn(any(Article.class));
-
-        mockMvc.perform(post("").contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("firstLanguage", "egg")
-                .param("secondLanguage", "jajko"))
-                .andExpect(status().isCreated())
-                .andExpect(view().name("article"));
-
-        verify(service, times(1)).createArticle(any(ArticleCommand.class));
-    }
-
-    @Test
-    public void pair_shouldFailValidation() throws Exception {
-        when(service.createArticle(any(ArticleCommand.class))).thenReturn(any(Article.class));
-
-        mockMvc.perform(post("").contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                    .param("firstLanguage", "egg")
-                .param("secondLanguage", ""))
-                .andExpect(status().isBadRequest())
-        ;
-//                .andExpect(model().attributeExists("article"))
-//                .andExpect(view().name("index"));
-
-    }
+//    @Test
+//    public void pair_shouldShowArticle() throws Exception {
+//        when(service.createArticle(any(ArticleCommand.class))).thenReturn(any(Article.class));
+//
+//        mockMvc.perform(post("").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+//                .param("firstLanguage", "egg")
+//                .param("secondLanguage", "jajko"))
+//                .andExpect(status().isCreated())
+//                .andExpect(view().name("article"));
+//
+//        verify(service, times(1)).createArticle(any(ArticleCommand.class));
+//    }
+//
+//    @Test
+//    public void pair_shouldFailValidation() throws Exception {
+//        when(service.createArticle(any(ArticleCommand.class))).thenReturn(any(Article.class));
+//
+//        mockMvc.perform(post("").contentType(MediaType.APPLICATION_FORM_URLENCODED)
+////                    .param("firstLanguage", "egg")
+//                .param("secondLanguage", ""))
+//                .andExpect(status().isBadRequest())
+//        ;
+////                .andExpect(model().attributeExists("article"))
+////                .andExpect(view().name("index"));
+//
+//    }
 
     @Test
     public void getArticles() throws Exception {

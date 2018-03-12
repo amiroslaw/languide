@@ -8,10 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import xyz.miroslaw.languide.command.ArticleCommand;
 import xyz.miroslaw.languide.exception.NotFoundException;
 import xyz.miroslaw.languide.model.Article;
 import xyz.miroslaw.languide.service.ArticleService;
+import xyz.miroslaw.languide.util.ConverterUtil;
 
 import javax.validation.Valid;
 
@@ -30,9 +32,9 @@ public class ArticleController {
         return new ArticleCommand();
     }
 
-    @PostMapping("/user/{userId}/article")
+    @PostMapping("/article")
     @ResponseStatus(HttpStatus.CREATED)
-    public String pair(@ModelAttribute @Valid ArticleCommand articleCommand, Model model, BindingResult bindingResult, @PathVariable Long userId) {
+    public String pair(@ModelAttribute @Valid ArticleCommand articleCommand, Model model, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             //todo never true maybe delete
             log.error("with error");
@@ -49,6 +51,13 @@ public class ArticleController {
         Article article = articleService.createArticle(articleCommand);
         model.addAttribute("article", article);
         return "/article/view";
+    }
+
+    @GetMapping("/articleform/{articleId}")
+    public String showArticleForm(@PathVariable long articleId, Model model) {
+        log.debug("article id" + articleId);
+        model.addAttribute("id", articleId);
+        return "/article/articleform";
     }
 
     @GetMapping("/articles")

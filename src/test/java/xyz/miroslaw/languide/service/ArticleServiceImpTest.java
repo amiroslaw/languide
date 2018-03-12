@@ -75,14 +75,14 @@ public class ArticleServiceImpTest {
         verify(repository, times(1)).delete(any(Article.class));
     }
 
-    @Test
-    public void createArticle_shouldCreateArticle() throws Exception {
-        when(repository.save(any(Article.class))).thenReturn(UtilTest.ARTICLE);
-
-        service.createArticle(UtilTest.ARTICLE_COMMAND);
-
-        verify(repository, times(1)).save(any());
-    }
+//    @Test
+//    public void createArticle_shouldCreateArticle() throws Exception {
+//        when(repository.save(any(Article.class))).thenReturn(UtilTest.ARTICLE);
+//
+//        service.createArticle(UtilTest.ARTICLE_COMMAND);
+//
+//        verify(repository, times(1)).save(any());
+//    }
 
     @Test
     public void updateArticle_shouldUpdateArticle() throws Exception {
@@ -104,19 +104,19 @@ public class ArticleServiceImpTest {
         verify(repository, times(1)).save(any(Article.class));
     }
 
-    @Test
-    public void convertToList_shouldConvertCorrectly() throws Exception {
-        final String LANGUAGE_TEXT = "Aliquam a dignissim urna -at lacinia turpis. Aliquam erat volutpat? Vivamus tempor magna vel libero aliquet? Suscipit semper at lacinia a.";
-        final List<String> SPLIT_TEXT = Arrays.asList(
-                "Aliquam a dignissim urna ",
-                "-at lacinia turpis. ",
-                "Aliquam erat volutpat? ",
-                "Vivamus tempor magna vel libero aliquet? ",
-                "Suscipit semper at lacinia a.");
-
-        List<String> result = service.convertToList(LANGUAGE_TEXT);
-
-        assertThat(result).isEqualTo(SPLIT_TEXT)
-                .hasSize(5);
-    }
+//    @Test
+//    public void convertToList_shouldConvertCorrectly() throws Exception {
+//        final String LANGUAGE_TEXT = "Aliquam a dignissim urna -at lacinia turpis. Aliquam erat volutpat? Vivamus tempor magna vel libero aliquet? Suscipit semper at lacinia a.";
+//        final List<String> SPLIT_TEXT = Arrays.asList(
+//                "Aliquam a dignissim urna ",
+//                "-at lacinia turpis. ",
+//                "Aliquam erat volutpat? ",
+//                "Vivamus tempor magna vel libero aliquet? ",
+//                "Suscipit semper at lacinia a.");
+//
+//        List<String> result = service.convertToList(LANGUAGE_TEXT);
+//
+//        assertThat(result).isEqualTo(SPLIT_TEXT)
+//                .hasSize(5);
+//    }
 }

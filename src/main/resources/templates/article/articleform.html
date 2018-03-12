@@ -22,9 +22,11 @@
 <div class="container">
     <section>
         <!--/*@thymesVar id="article" type="xyz.miroslaw.languide.model.Article"*/-->
-        <form th:object="${article}">
+        <!--<form th:object="${article}">-->
+        <form>
             <div class="row">
                 <div class="col-md-4">
+                    <span th:text="${id}">article id</span>
                     <div class="card">
                         <div class="card-header bg-primary text-light text-center">
                             Description

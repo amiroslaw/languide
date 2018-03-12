@@ -30,7 +30,7 @@
                 </div>
                 <div class="card-body">
                     <!--/*@thymesVar id="articleCommand" type="xyz.miroslaw.languide.command.ArticleCommand"*/-->
-                    <form th:object="${articleCommand}" th:action="@{/user/99/article}"  method="POST">
+                    <form th:object="${articleCommand}" th:action="@{/article}"  method="POST">
                         <div class="row ">
                             <div class="col form-group"
                                  th:classappend="${#fields.hasErrors('firstLanguage')}? 'has-error'">
