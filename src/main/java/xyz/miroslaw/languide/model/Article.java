@@ -1,13 +1,18 @@
 package xyz.miroslaw.languide.model;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Data
+
+@Getter
+@Setter
+@EqualsAndHashCode(exclude="notebook")
 @Entity
 public class Article {
 

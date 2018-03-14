@@ -43,6 +43,7 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     public void updateArticle(Long id) {
+        //todo change cos no sense
         articleRepository.save(getIfExist(id));
     }
 
@@ -55,30 +56,8 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public Article createArticle(ArticleCommand command) {
-        //will I have notebook object?
-        Article article = convertToArticle(command);
+    public Article createArticle(Article article) {
         return articleRepository.save(article);
     }
 
-    private Article convertToArticle(ArticleCommand command) {
-        if (command == null) return null;
-        Article article = new Article();
-        article.setId(command.getId());
-        article.setTitle(command.getTitle());
-        article.setCreationDate(command.getCreationDate());
-        article.setTag(command.getTag());
-        article.setNotebook(command.getNotebook());
-        article.setFirstLanguage(convertToList(command.getFirstLanguage()));
-        article.setSecondLanguage(convertToList(command.getSecondLanguage()));
-
-        return article;
-    }
-
-    List<String> convertToList(@NotBlank String lang) {
-        return Stream.of(lang)
-                .map(e -> e.split("(?<=\\.\\s)|(?<=\\?\\s)|(?<=!\\s)|(?=-)"))
-                .flatMap(Arrays::stream)
-                .collect(Collectors.toList());
-    }
 }

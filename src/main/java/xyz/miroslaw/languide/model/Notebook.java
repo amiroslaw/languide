@@ -1,36 +1,43 @@
 package xyz.miroslaw.languide.model;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(exclude="user")
 @Entity
 public class Notebook {
 
     @Id
+    @GeneratedValue
     private Long id;
-    @NotNull
     private String title;
     private String description;
     @NotNull
     private boolean isPublic;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "notebook")
     private Set<Article> articles;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // i don't know if empty constructor is needed
+    public Notebook(){}
     public Notebook(String title, Boolean isPublic) {
         this.title = title;
         this.isPublic = isPublic;
     }
 
-    public Notebook(String title, Boolean isPublic, String description, Set<Article> articles) {
+    public Notebook(String title, Boolean isPublic, String description, Set<Article> articles, User user) {
         this(title, isPublic);
         this.description = description;
         this.articles = articles;
+        this.user = user;
     }
+
 }

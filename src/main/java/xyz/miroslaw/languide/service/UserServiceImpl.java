@@ -37,13 +37,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findByName(String name) {
-        return Optional.ofNullable(userRepository.findByName(name));
+        return userRepository.findByName(name);
     }
 
 
     @Override
     public Optional<User> findByEmail(String email) {
-        return Optional.ofNullable(userRepository.findByEmail(email));
+        return userRepository.findByEmail(email);
     }
 
     @Override
@@ -70,22 +70,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        User user = userRepository.findByName(name);
-        if (user == null) {
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
-        return new org.springframework.security.core.userdetails.User(user.getName(),
-                user.getPassword(),
-                mapRolesToAuthorities(user.getRoles()));
-    }
-
-    @Override
     public User createUser(User user) {
         user.setName(user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setNotebooks(user.getNotebooks());
         user.setRoles(Arrays.asList(new Role("ROLE_USER")));
         return userRepository.save(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findByName(name);
+        if (!user.isPresent()) {
+            throw new UsernameNotFoundException("Invalid username or password.");
+        }
+        return new org.springframework.security.core.userdetails.User(user.get().getName(),
+                user.get().getPassword(),
+                mapRolesToAuthorities(user.get().getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {

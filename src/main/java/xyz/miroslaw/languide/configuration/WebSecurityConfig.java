@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import xyz.miroslaw.languide.service.UserService;
 
-import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity

@@ -1,14 +1,17 @@
 package xyz.miroslaw.languide.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class User {
     @Id
@@ -28,8 +31,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Set<Notebook> notebooks;
+    @OneToMany(cascade = CascadeType.ALL,  fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<Notebook> notebooks = new HashSet<>();
     @OneToOne(cascade = CascadeType.ALL)
     private Dictionary dictionary;
 
@@ -45,4 +48,5 @@ public class User {
         this.notebooks = notebooks;
         this.dictionary = dictionary;
     }
+
 }

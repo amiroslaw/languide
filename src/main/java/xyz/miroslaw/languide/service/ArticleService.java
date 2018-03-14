@@ -10,5 +10,5 @@ public interface ArticleService {
     Article findById(Long id);
     void deleteById(Long id);
     void updateArticle(Long id);
-    Article createArticle(ArticleCommand articleCommand);
+    Article createArticle(Article article);
 }

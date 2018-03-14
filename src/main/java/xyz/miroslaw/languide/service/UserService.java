@@ -12,10 +12,7 @@ public interface UserService extends UserDetailsService {
     Optional<User> findByEmail(String email);
     Optional<User> findByName(String email);
     User createUser(User user);
-
     List<User> findUsers();
-
     void deleteById(Long id);
-
     void updateUser(Long id);
 }

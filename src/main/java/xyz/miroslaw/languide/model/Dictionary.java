@@ -1,12 +1,16 @@
 package xyz.miroslaw.languide.model;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(exclude="user")
 @Entity
 public class Dictionary {
     @Id
@@ -21,10 +25,9 @@ public class Dictionary {
     @OneToOne
     private User user;
 
-    //todo add name
     Dictionary() {
     }
-
+    //todo add name
     public Dictionary(Map<String, String> words, boolean isPublic, User user) {
         this.words = words;
         this.isPublic = isPublic;
