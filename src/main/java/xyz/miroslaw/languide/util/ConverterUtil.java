@@ -4,6 +4,8 @@ import xyz.miroslaw.languide.command.ArticleCommand;
 import xyz.miroslaw.languide.model.Article;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,7 +17,7 @@ public class ConverterUtil {
         Article article = new Article();
         article.setId(command.getId());
         article.setTitle(command.getTitle());
-        article.setCreationDate(command.getCreationDate());
+        article.setCreationDate(Calendar.getInstance().getTime());
         article.setTag(command.getTag());
         article.setNotebook(command.getNotebook());
         article.setFirstLanguage(convertToList(command.getFirstLanguage()));

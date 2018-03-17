@@ -1,7 +1,9 @@
 package xyz.miroslaw.languide.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -21,12 +23,15 @@ public class Article {
     private Long id;
     private String title;
     @ElementCollection
+    @Column(columnDefinition = "TEXT")
     private List<String> firstLanguage;
+    @Column(columnDefinition = "TEXT")
     @ElementCollection
     private List<String> secondLanguage;
     private String tag;
     @CreatedDate
     private Date creationDate;
+    @JsonIgnore
     @ManyToOne
     private Notebook notebook;
 

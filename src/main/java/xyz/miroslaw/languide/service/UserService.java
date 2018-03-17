@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface UserService extends UserDetailsService {
 
     User findById(Long id);
-    Optional<User> findByEmail(String email);
+    User findByEmail(String email);
     Optional<User> findByName(String email);
     User createUser(User user);
     List<User> findUsers();

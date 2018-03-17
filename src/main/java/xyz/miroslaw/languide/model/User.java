@@ -21,6 +21,7 @@ public class User {
     private String name;
     @NotNull
     @Size(min=3)
+//    @Size(min=3, max=20)
     private String password;
     private String email;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

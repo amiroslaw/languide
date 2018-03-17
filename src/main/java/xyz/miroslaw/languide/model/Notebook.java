@@ -24,18 +24,19 @@ public class Notebook {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "notebook")
     private Set<Article> articles;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
     public Notebook(){}
-    public Notebook(String title, Boolean isPublic) {
+
+    public Notebook(String title, Boolean isPublic, String description) {
+        this.description = description;
         this.title = title;
         this.isPublic = isPublic;
     }
 
     public Notebook(String title, Boolean isPublic, String description, Set<Article> articles, User user) {
-        this(title, isPublic);
-        this.description = description;
+        this(title, isPublic, description);
         this.articles = articles;
         this.user = user;
     }

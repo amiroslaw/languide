@@ -26,24 +26,24 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-
     @Override
     public User findById(Long id) {
+        //todo check out Optional.of()
         return Optional.ofNullable(userRepository.findById(id))
                 .map(Optional::get)
                 .orElseThrow(() -> new NotFoundException("Not found. Id: " + id));
     }
-
 
     @Override
     public Optional<User> findByName(String name) {
         return userRepository.findByName(name);
     }
 
-
     @Override
-    public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public User findByEmail(String email) {
+        return Optional.ofNullable(userRepository.findByEmail(email))
+                .map(Optional::get)
+                .orElseThrow(() -> new NotFoundException("Not found: " + email));
     }
 
     @Override

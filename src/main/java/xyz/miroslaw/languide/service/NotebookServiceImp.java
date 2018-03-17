@@ -20,10 +20,15 @@ public class NotebookServiceImp implements NotebookService {
         return notebookRepository.findAll();
     }
     @Override
-    public Set<Notebook> findUserNotebooks(String userName) {
-        return notebookRepository.findAllByUserName(userName);
+//    public Set<Notebook> findUserNotebooks(String userName) {
+//        return notebookRepository.findAllByUserName(userName);
+//    }
+    public Set<Notebook> findUserNotebooks(Long id) {
+        return notebookRepository.findAllByUserId(id);
     }
 
+    @Override
+    public Optional<Notebook> findPublicNotebook() {return notebookRepository.findByUserNull();}
 
     @Override
     public Notebook findById(Long id) {

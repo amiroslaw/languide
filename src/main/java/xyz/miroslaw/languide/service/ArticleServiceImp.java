@@ -2,17 +2,12 @@ package xyz.miroslaw.languide.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xyz.miroslaw.languide.command.ArticleCommand;
 import xyz.miroslaw.languide.exception.NotFoundException;
 import xyz.miroslaw.languide.model.Article;
 import xyz.miroslaw.languide.repository.ArticleRepository;
 
-import javax.validation.constraints.NotBlank;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class ArticleServiceImp implements ArticleService {
@@ -34,6 +29,10 @@ public class ArticleServiceImp implements ArticleService {
         return Optional.ofNullable(articleRepository.findById(id))
                 .map(Optional::get)
                 .orElseThrow(() -> new NotFoundException("Not found. Id: " + id));
+    }
+    @Override
+    public List<Article> findArticlesByUserId(Long id){
+        return articleRepository.findArticlesByUserId(id);
     }
 
     @Override

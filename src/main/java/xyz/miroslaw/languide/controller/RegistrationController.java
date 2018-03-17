@@ -1,5 +1,6 @@
 package xyz.miroslaw.languide.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import xyz.miroslaw.languide.service.UserService;
 import javax.validation.Valid;
 import java.util.Optional;
 
+@Slf4j
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {
@@ -43,7 +45,6 @@ public class RegistrationController {
         }
         userService.createUser(user);
         return "/user/login";
-//            return "redirect:/register?success";
     }
 
 }
