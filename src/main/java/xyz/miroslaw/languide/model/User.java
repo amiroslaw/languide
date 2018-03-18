@@ -1,7 +1,6 @@
 package xyz.miroslaw.languide.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,6 +11,9 @@ import java.util.Set;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class User {
     @Id
@@ -32,22 +34,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
+    @Singular
     @OneToMany(cascade = CascadeType.ALL,  fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Notebook> notebooks = new HashSet<>();
     @OneToOne(cascade = CascadeType.ALL)
     private Dictionary dictionary;
-
-    public User(){}
-    public User(String name, String password, Collection<Role> roles) {
-        this.name = name;
-        this.password = password;
-        this.roles = roles;
-    }
-
-    public User(String name, String password, String role, Set<Notebook> notebooks, Dictionary dictionary, Collection<Role> roles) {
-        this(name, password, roles);
-        this.notebooks = notebooks;
-        this.dictionary = dictionary;
-    }
 
 }

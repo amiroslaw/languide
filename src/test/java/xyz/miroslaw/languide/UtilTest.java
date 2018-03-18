@@ -14,7 +14,12 @@ public class UtilTest {
     public static final Date date1 = Date.valueOf(localDate);
     public static final List<String> LANG_TEXT1 = Arrays.asList("Take a one egg");
     public static final List<String> LANG_TEXT2 = Arrays.asList("Weź jedno jajko");
-    public  static final Article ARTICLE = new Article("cooking", LANG_TEXT1, LANG_TEXT2, "Cooking", date1, null);
+    public  static final Article ARTICLE = Article.builder().title("cooking")
+            .firstLanguage(LANG_TEXT1)
+            .secondLanguage(LANG_TEXT2)
+            .tag("cooking")
+            .creationDate(date1)
+            .isPublic(true).build();
     public  static final ArticleCommand ARTICLE_COMMAND = new ArticleCommand("cooking", "Take a one egg", "Weź jedno jajko",  "Cooking", date1, null);
 
     public static String asJsonString(final Object obj) {

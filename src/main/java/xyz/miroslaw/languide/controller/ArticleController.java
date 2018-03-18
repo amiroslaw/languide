@@ -102,22 +102,23 @@ public class ArticleController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/user_articles")
     public String showUserArticles(Model model) {
-//        model.addAttribute("userId", getLoggedUser().ifPresent(this::get()));
-        getLoggedUser().ifPresent(e -> model.addAttribute("userId", e.getId()));
-        model.addAttribute("articles", articleService.findArticles());
+        getLoggedUserId().ifPresent(e -> {
+            model.addAttribute("articles", articleService.findArticlesByUserId(e));
+            model.addAttribute("userId", e);
+        });
         return "article/userarticles";
     }
 
     private HashSet<Notebook> getUserNotebooks() {
-        if (getLoggedUser().isPresent()) {
-            return (HashSet<Notebook>) notebookService.findUserNotebooks(getLoggedUser().get().getId());
+        if (getLoggedUserId().isPresent()) {
+            return (HashSet<Notebook>) notebookService.findUserNotebooks(getLoggedUserId().get());
         }
         return null;
     }
 
-    private Optional<User> getLoggedUser() {
+    private Optional<Long> getLoggedUserId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return userService.findByName(auth.getName());
+        return userService.findByName(auth.getName()).map(User::getId);
     }
 
     private Article attachFieldsToArticle(Article article, long articleId) {
