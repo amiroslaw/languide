@@ -1,28 +1,30 @@
 package xyz.miroslaw.languide.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import xyz.miroslaw.languide.exception.NotFoundException;
+import xyz.miroslaw.languide.model.Notebook;
 import xyz.miroslaw.languide.model.Role;
 import xyz.miroslaw.languide.model.User;
 import xyz.miroslaw.languide.repository.UserRepository;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private NotebookService notebookService;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -76,6 +78,23 @@ public class UserServiceImpl implements UserService {
         user.setNotebooks(user.getNotebooks());
         user.setRoles(Arrays.asList(new Role("ROLE_USER")));
         return userRepository.save(user);
+    }
+
+    @Override
+    public  HashSet<Notebook> getUserNotebooks() {
+        if (getLoggedUser().isPresent()) {
+            return (HashSet<Notebook>) notebookService.findUserNotebooks(getLoggedUser().get().getId());
+        }
+        return null;
+    }
+    @Override
+    public Optional<User> getLoggedUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth instanceof AnonymousAuthenticationToken || auth == null) {
+            return Optional.empty();
+        } else {
+            return  findByName(auth.getName());
+        }
     }
 
     @Override

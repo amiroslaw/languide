@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,29 +12,21 @@ import org.springframework.web.servlet.ModelAndView;
 import xyz.miroslaw.languide.command.ArticleCommand;
 import xyz.miroslaw.languide.exception.NotFoundException;
 import xyz.miroslaw.languide.model.Article;
-import xyz.miroslaw.languide.model.Notebook;
-import xyz.miroslaw.languide.model.User;
 import xyz.miroslaw.languide.service.ArticleService;
-import xyz.miroslaw.languide.service.NotebookService;
 import xyz.miroslaw.languide.service.UserService;
 import xyz.miroslaw.languide.util.ConverterUtil;
 
 import javax.validation.Valid;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Optional;
 
 @Slf4j
 @Controller
 public class ArticleController {
     private ArticleService articleService;
-    private NotebookService notebookService;
     private UserService userService;
 
     @Autowired
-    public ArticleController(ArticleService articleService, NotebookService notebookService, UserService userService) {
+    public ArticleController(ArticleService articleService, UserService userService) {
         this.articleService = articleService;
-        this.notebookService = notebookService;
         this.userService = userService;
     }
 
@@ -49,7 +39,7 @@ public class ArticleController {
     @ResponseStatus(HttpStatus.CREATED)
     public String pair(@ModelAttribute @Valid ArticleCommand articleCommand, Model model, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            //todo never true maybe delete
+            //todo never true maybe I should delete
             log.error("with error");
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             return "/index";
@@ -62,7 +52,7 @@ public class ArticleController {
         Article article = ConverterUtil.convertToArticle(articleCommand);
         article = articleService.createArticle(article);
 
-        model.addAttribute("notebooks", getUserNotebooks());
+        model.addAttribute("notebooks", userService.getUserNotebooks());
         model.addAttribute("article", article);
         return "/article/pair";
     }
@@ -74,8 +64,7 @@ public class ArticleController {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             return "/articleform";
         }
-        Article oldArticle = attachFieldsToArticle(article, articleId);
-        articleService.createArticle(oldArticle);
+        articleService.updateArticleDescription(article, articleId);
         return "/index";
     }
 
@@ -102,32 +91,11 @@ public class ArticleController {
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/user_articles")
     public String showUserArticles(Model model) {
-        getLoggedUserId().ifPresent(e -> {
-            model.addAttribute("articles", articleService.findArticlesByUserId(e));
+        userService.getLoggedUser().ifPresent(e -> {
+            model.addAttribute("articles", articleService.findArticlesByUserId(e.getId()));
             model.addAttribute("userId", e);
         });
         return "article/userarticles";
-    }
-
-    private HashSet<Notebook> getUserNotebooks() {
-        if (getLoggedUserId().isPresent()) {
-            return (HashSet<Notebook>) notebookService.findUserNotebooks(getLoggedUserId().get());
-        }
-        return null;
-    }
-
-    private Optional<Long> getLoggedUserId() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return userService.findByName(auth.getName()).map(User::getId);
-    }
-
-    private Article attachFieldsToArticle(Article article, long articleId) {
-        Article oldArticle = articleService.findById(articleId);
-        oldArticle.setTitle(article.getTitle());
-        oldArticle.setTag(article.getTag());
-        oldArticle.setCreationDate(Calendar.getInstance().getTime());
-        oldArticle.setNotebook(article.getNotebook());
-        return oldArticle;
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

@@ -47,17 +47,25 @@ public class LanguideApplication {
 
             Date date = Calendar.getInstance().getTime();
             Collection<Role> roleUser = Arrays.asList(new Role("ROLE_USER"));
-            User user = User.builder().name("arek").password("gracz").roles(roleUser).build();
+            User user = User.builder().name("qwer").password("qwer").roles(roleUser).build();
             user = userService.createUser(user);
+            User user2 = User.builder().name("user").password("user").roles(roleUser).build();
+            user2 = userService.createUser(user2);
 
-            Notebook publicNotebook = Notebook.builder().title("public").isPublic(true).description("public notebook for no register users").build();
+            Notebook publicNotebook = Notebook.builder().title("public").description("public notebook for no register users").user(user2).build();
             notebookService.createNotebook(publicNotebook);
 
-            Notebook notebook = Notebook.builder().title("DB notebook").isPublic(true).description("first notebook for testing").user(user).build();
-            Notebook notebook2 = Notebook.builder().title("DB notebook2").isPublic(true).description("second notebook for testing")
+            Notebook notebook = Notebook.builder().title("DB notebook").description("first notebook for testing").user(user).build();
+            Notebook notebook2 = Notebook.builder().title("DB notebook2").description("second notebook for testing")
                     .user(user).build();
             notebookService.createNotebook(notebook);
             notebookService.createNotebook(notebook2);
+
+            Notebook notebookTest = Notebook.builder().title("test").description("first notebook for testing").user(user2).build();
+            Notebook notebookTest2 = Notebook.builder().title("test private").description("first notebook for testing").user(user2).build();
+            notebookService.createNotebook(notebookTest);
+            notebookService.createNotebook(notebookTest2);
+
             Article article1 = Article.builder().title("DB article1")
                     .firstLanguage(Arrays.asList("a", "b")).secondLanguage(Arrays.asList("c", "d"))
                     .tag("tag1")
@@ -74,10 +82,6 @@ public class LanguideApplication {
                     .build();
             articleService.createArticle(article1);
             articleService.createArticle(article2);
-
-            Notebook notebookTest = Notebook.builder().title("DB notebook").isPublic(true).description("first notebook for testing").user(user).article(article1).build();
-            Notebook notebookTest2 = Notebook.builder().title("DB notebook").isPublic(true).description("first notebook for testing").user(user).articles(Arrays.asList(article1, article2)).build();
-//            Article.builder().title().firstLanguage(Arrays.asList("ac", "bc")).secondLanguage(Arrays.asList("cc", "dc")).tag().creationDate(date).isPublic(true).notebook(notebook).build();
 
         }
 

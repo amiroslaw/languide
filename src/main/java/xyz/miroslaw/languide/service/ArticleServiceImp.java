@@ -6,6 +6,7 @@ import xyz.miroslaw.languide.exception.NotFoundException;
 import xyz.miroslaw.languide.model.Article;
 import xyz.miroslaw.languide.repository.ArticleRepository;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,6 +58,16 @@ public class ArticleServiceImp implements ArticleService {
     @Override
     public Article createArticle(Article article) {
         return articleRepository.save(article);
+    }
+
+    @Override
+    public void updateArticleDescription(Article article, long articleId) {
+        Article oldArticle = findById(articleId);
+        oldArticle.setTitle(article.getTitle());
+        oldArticle.setTag(article.getTag());
+        oldArticle.setCreationDate(Calendar.getInstance().getTime());
+        oldArticle.setNotebook(article.getNotebook());
+        createArticle(oldArticle);
     }
 
 }

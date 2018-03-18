@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.miroslaw.languide.exception.NotFoundException;
 import xyz.miroslaw.languide.model.Notebook;
+import xyz.miroslaw.languide.model.User;
 import xyz.miroslaw.languide.repository.NotebookRepository;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -14,21 +16,8 @@ public class NotebookServiceImp implements NotebookService {
 
     @Autowired
     private NotebookRepository notebookRepository;
-
-    @Override
-    public Iterable<Notebook> findAllNotebooks() {
-        return notebookRepository.findAll();
-    }
-    @Override
-//    public Set<Notebook> findUserNotebooks(String userName) {
-//        return notebookRepository.findAllByUserName(userName);
-//    }
-    public Set<Notebook> findUserNotebooks(Long id) {
-        return notebookRepository.findAllByUserId(id);
-    }
-
-    @Override
-    public Optional<Notebook> findPublicNotebook() {return notebookRepository.findByUserNull();}
+    @Autowired
+    private UserService userService;
 
     @Override
     public Notebook findById(Long id) {
@@ -49,6 +38,24 @@ public class NotebookServiceImp implements NotebookService {
 
     @Override
     public Notebook createNotebook(Notebook notebook) {
-     return  notebookRepository.save(notebook);
+        userService.getLoggedUser().ifPresent(e -> notebook.setUser(e));
+        return notebookRepository.save(notebook);
     }
+    @Override
+    public Set<Notebook> findUserNotebooks() {
+        Optional<Long> id = userService.getLoggedUser().map(User::getId);
+        if (id.isPresent()) {
+            return findUserNotebooks(id.get());
+        } else{
+            return new HashSet<>();
+        }
+    }
+    @Override
+    public Set<Notebook> findUserNotebooks(Long id) {
+        return notebookRepository.findAllByUserId(id);
+    }
+    //    }
+    //        return notebookRepository.findAllByUserName(userName);
+    //    public Set<Notebook> findUserNotebooks(String userName) {
+    //    @Override
 }

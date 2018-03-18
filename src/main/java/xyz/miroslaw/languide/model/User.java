@@ -22,8 +22,8 @@ public class User {
     @NotNull
     private String name;
     @NotNull
-    @Size(min=3)
-//    @Size(min=3, max=20)
+//    @Size(min=3)
+    @Size(min = 3, max = 70, message = "Password should contain {min} to {max} letters")
     private String password;
     private String email;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

@@ -3,6 +3,7 @@ package xyz.miroslaw.languide.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
@@ -18,10 +19,9 @@ public class Notebook {
     @Id
     @GeneratedValue
     private Long id;
+    @NotBlank
     private String title;
     private String description;
-    @NotNull
-    private boolean isPublic;
     @Singular
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "notebook")
     private Set<Article> articles;

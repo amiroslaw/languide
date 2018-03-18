@@ -10,14 +10,14 @@ import xyz.miroslaw.languide.command.ArticleCommand;
 public class HomeController {
     
     @GetMapping({"/", "", "/index"})
-    public String getHomePage(Model model) {
+    public String showHomePage(Model model) {
         ArticleCommand articleCommand = new ArticleCommand();
         model.addAttribute("articleCommand", articleCommand);
         return "index";
     }
 
     @GetMapping("/login")
-    public String getLoginPage() {
+    public String showLoginPage() {
         return "/user/login";
     }
 

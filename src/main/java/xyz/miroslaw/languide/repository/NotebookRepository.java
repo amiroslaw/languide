@@ -9,5 +9,4 @@ import java.util.Set;
 public interface NotebookRepository extends CrudRepository<Notebook, Long> {
     Set<Notebook> findAllByUserName(String userName);
     Set<Notebook> findAllByUserId(Long id);
-    Optional<Notebook> findByUserNull();
 }

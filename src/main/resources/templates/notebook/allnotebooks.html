@@ -28,16 +28,19 @@
                 <thead class="thead-dark">
                     <th>No.</th>
                     <th>ID</th>
-                    <th>Date</th>
-                    <th>View</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </thead>
                 <tbody>
-                    <tr th:each="article :${articles}">
-                        <td th:text="${articleStat.index + 1}">Order</td>
-                        <td th:text="${article.id}">remove later</td>
-                        <td th:text="${#calendars.format(article.creationDate,'dd/M/yyyy hh:mm')}">Date</td>
-                        <td> <a href="#" th:href="@{/user/0/article/} + ${article.id}">View </a></td>
-                        <!--<td> <a href="#" th:href="@{/user} + ${sec:authentication='name'}" th:text="">View </a></td>-->
+                    <tr th:each="notebook :${notebooks}">
+                        <td th:text="${notebookStat.index + 1}">Order</td>
+                        <td th:text="${notebook.id}">remove later</td>
+                        <td th:text="${notebook.title}">title</td>
+                        <td th:text="${notebook.description}">description</td>
+                        <td> <a href="#" th:href="|/notebook/${notebook.id}/update|">Edit</a></td>
+                        <td> <a href="#" th:href="|/notebook/${notebook.id}/delete|">Delete</a></td>
                     </tr>
                 </tbody>
             </table>

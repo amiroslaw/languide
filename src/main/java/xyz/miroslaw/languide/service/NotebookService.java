@@ -6,11 +6,8 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface NotebookService {
-
-    Iterable<Notebook> findAllNotebooks();
-//    Set<Notebook> findUserNotebooks(String userName);
+    Set<Notebook> findUserNotebooks();
     Set<Notebook> findUserNotebooks(Long id);
-    Optional<Notebook> findPublicNotebook();
     Notebook findById(Long id);
     void deleteById(Long id);
     Notebook createNotebook(Notebook notebook);
