@@ -41,13 +41,12 @@
                         <td th:text="${articleStat.index + 1}">No.</td>
                         <td th:text="${article.id}">remove later</td>
                         <td th:text="${article.title}">Title</td>
-                        <!--<td th:text="${article.getNotebook().getTitle()}">Notebook</td>-->
                         <td th:text="${article.notebook.title}">Notebook</td>
                         <td th:text="${article.tag}">Tag</td>
                         <td th:text="${#calendars.format(article.creationDate,'dd/M/yyyy hh:mm')}">Date</td>
-                        <td> <a href="#" th:href="|/user/${userId}/article/${article.id}|">View</a></td>
+                        <td> <a href="#" th:href="|/article/${article.id}|">View</a></td>
                         <td> <a href="#" th:href="|/user/${userId}/article/${article.id}/edit|">Edit</a></td>
-                        <td> <a href="#" th:href="|/user/${userId}/article/${article.id}/delete|">Delete</a></td>
+                        <td> <a href="#" th:href="|/article/${article.id}/delete|">Delete</a></td>
                     </tr>
                 </tbody>
             </table>

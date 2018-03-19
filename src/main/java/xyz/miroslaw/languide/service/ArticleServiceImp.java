@@ -9,6 +9,7 @@ import xyz.miroslaw.languide.repository.ArticleRepository;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleServiceImp implements ArticleService {
@@ -21,8 +22,9 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public List<Article> findArticles() {
-        return (List<Article>) articleRepository.findAll();
+    public List<Article> findPublicArticles() {
+        List<Article> allArticles = (List<Article>) articleRepository.findAll();
+        return allArticles.stream().filter(article -> !article.isHidden()).collect(Collectors.toList());
     }
 
     @Override
@@ -65,6 +67,7 @@ public class ArticleServiceImp implements ArticleService {
         Article oldArticle = findById(articleId);
         oldArticle.setTitle(article.getTitle());
         oldArticle.setTag(article.getTag());
+        oldArticle.setHidden(article.isHidden());
         oldArticle.setCreationDate(Calendar.getInstance().getTime());
         oldArticle.setNotebook(article.getNotebook());
         createArticle(oldArticle);

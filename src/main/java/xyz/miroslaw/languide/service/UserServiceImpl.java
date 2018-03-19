@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
         if (getLoggedUser().isPresent()) {
             return (HashSet<Notebook>) notebookService.findUserNotebooks(getLoggedUser().get().getId());
         }
-        return null;
+        return new HashSet<>();
     }
     @Override
     public Optional<User> getLoggedUser() {

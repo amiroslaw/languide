@@ -51,6 +51,8 @@ public class LanguideApplication {
             user = userService.createUser(user);
             User user2 = User.builder().name("user").password("user").roles(roleUser).build();
             user2 = userService.createUser(user2);
+            User userEmpty = User.builder().name("empty").password("empty").roles(roleUser).build();
+            userService.createUser(userEmpty);
 
             Notebook publicNotebook = Notebook.builder().title("public").description("public notebook for no register users").user(user2).build();
             notebookService.createNotebook(publicNotebook);
@@ -70,18 +72,26 @@ public class LanguideApplication {
                     .firstLanguage(Arrays.asList("a", "b")).secondLanguage(Arrays.asList("c", "d"))
                     .tag("tag1")
                     .creationDate(date)
-                    .isPublic(true)
+                    .hidden(false)
                     .notebook(notebook)
                     .build();
             Article article2 = Article.builder().title("DB article2")
                     .firstLanguage(Arrays.asList("ac", "bc")).secondLanguage(Arrays.asList("cc", "dc"))
                     .tag("tag2")
                     .creationDate(date)
-                    .isPublic(true)
+                    .hidden(false)
+                    .notebook(notebook)
+                    .build();
+            Article articlePrivate = Article.builder().title("DB article private")
+                    .firstLanguage(Arrays.asList("ac", "bc")).secondLanguage(Arrays.asList("cc", "dc"))
+                    .tag("tag2")
+                    .creationDate(date)
+                    .hidden(true)
                     .notebook(notebook)
                     .build();
             articleService.createArticle(article1);
             articleService.createArticle(article2);
+            articleService.createArticle(articlePrivate);
 
         }
 

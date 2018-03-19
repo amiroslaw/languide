@@ -3,7 +3,6 @@ package xyz.miroslaw.languide.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -49,6 +48,7 @@ public class ArticleController {
             bindingResult.rejectValue("firstLanguage", null, "Please fill text");
             return "/index";
         }
+
         Article article = ConverterUtil.convertToArticle(articleCommand);
         article = articleService.createArticle(article);
 
@@ -62,7 +62,7 @@ public class ArticleController {
     public String saveArticle(@ModelAttribute Article article, @PathVariable long articleId, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
-            return "/articleform";
+            return "/articleform/" + articleId;
         }
         articleService.updateArticleDescription(article, articleId);
         return "/index";
@@ -70,32 +70,36 @@ public class ArticleController {
 
     @GetMapping("/articleform/{articleId}")
     public String showArticleForm(@PathVariable long articleId, Model model) {
-        log.warn("article id" + articleId);
         Article article = articleService.findById(articleId);
         model.addAttribute("article", article);
         return "/article/articleform";
     }
 
-    @GetMapping("/all_articles")
-    public String showAllArticles(Model model) {
-        model.addAttribute("articles", articleService.findArticles());
-        return "article/allarticles";
-    }
-
-    @GetMapping("/user/{userId}/article/{articleId}")
-    public String showArticle(@PathVariable("userId") long userId, @PathVariable("articleId") long articleId, Model model) {
+    @GetMapping("/article/{articleId}")
+    public String showArticle(@PathVariable("articleId") long articleId, Model model) {
         model.addAttribute("article", articleService.findById(articleId));
         return "article/view";
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/all_articles")
+    public String showAllArticles(Model model) {
+        model.addAttribute("articles", articleService.findPublicArticles());
+        return "article/allarticles";
+    }
+
     @GetMapping("/user_articles")
     public String showUserArticles(Model model) {
         userService.getLoggedUser().ifPresent(e -> {
             model.addAttribute("articles", articleService.findArticlesByUserId(e.getId()));
-            model.addAttribute("userId", e);
+            model.addAttribute("userId", e.getId());
         });
         return "article/userarticles";
+    }
+
+    @GetMapping("/article/{articleId}/delete")
+    public String deleteById(@PathVariable long articleId){
+        articleService.deleteById(articleId);
+        return "redirect:/user_articles";
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

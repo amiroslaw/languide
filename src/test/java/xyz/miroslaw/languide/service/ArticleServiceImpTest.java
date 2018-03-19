@@ -32,7 +32,7 @@ public class ArticleServiceImpTest {
 
     @Test
     public void findArticles() throws Exception {
-        //TODO findArticles in service imp test
+        //TODO findPublicArticles in service imp test
     }
 
     @Test

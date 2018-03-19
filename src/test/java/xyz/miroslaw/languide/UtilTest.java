@@ -19,7 +19,7 @@ public class UtilTest {
             .secondLanguage(LANG_TEXT2)
             .tag("cooking")
             .creationDate(date1)
-            .isPublic(true).build();
+            .hidden(false).build();
     public  static final ArticleCommand ARTICLE_COMMAND = new ArticleCommand("cooking", "Take a one egg", "Weź jedno jajko",  "Cooking", date1, null);
 
     public static String asJsonString(final Object obj) {

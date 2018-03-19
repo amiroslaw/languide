@@ -8,7 +8,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
 @Getter
 @Setter
 @EqualsAndHashCode(exclude="notebook")
@@ -33,7 +32,7 @@ public class Article {
     private String tag;
     @CreatedDate
     private Date creationDate;
-    private boolean isPublic;
+    private boolean hidden;
     @JsonIgnore
     @ManyToOne
     private Notebook notebook;

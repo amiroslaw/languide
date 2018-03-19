@@ -5,7 +5,7 @@ import xyz.miroslaw.languide.model.Article;
 import java.util.List;
 
 public interface ArticleService {
-    List<Article> findArticles();
+    List<Article> findPublicArticles();
     Article findById(Long id);
     List<Article> findArticlesByUserId(Long id);
     void deleteById(Long id);

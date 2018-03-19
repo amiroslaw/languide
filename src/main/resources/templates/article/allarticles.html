@@ -36,7 +36,7 @@
                         <td th:text="${articleStat.index + 1}">Order</td>
                         <td th:text="${article.id}">remove later</td>
                         <td th:text="${#calendars.format(article.creationDate,'dd/M/yyyy hh:mm')}">Date</td>
-                        <td> <a href="#" th:href="@{/user/0/article/} + ${article.id}">View </a></td>
+                        <td> <a href="#" th:href="@{|/article/${article.id}|}">View </a></td>
                         <!--<td> <a href="#" th:href="@{/user} + ${sec:authentication='name'}" th:text="">View </a></td>-->
                     </tr>
                 </tbody>
