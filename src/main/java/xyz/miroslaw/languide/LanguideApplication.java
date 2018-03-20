@@ -48,25 +48,25 @@ public class LanguideApplication {
             Date date = Calendar.getInstance().getTime();
             Collection<Role> roleUser = Arrays.asList(new Role("ROLE_USER"));
             User user = User.builder().name("qwer").password("qwer").roles(roleUser).build();
-            user = userService.createUser(user);
+            user = userService.createOrUpdateUser(user);
             User user2 = User.builder().name("user").password("user").roles(roleUser).build();
-            user2 = userService.createUser(user2);
+            user2 = userService.createOrUpdateUser(user2);
             User userEmpty = User.builder().name("empty").password("empty").roles(roleUser).build();
-            userService.createUser(userEmpty);
+            userService.createOrUpdateUser(userEmpty);
 
             Notebook publicNotebook = Notebook.builder().title("public").description("public notebook for no register users").user(user2).build();
-            notebookService.createNotebook(publicNotebook);
+            notebookService.createOrUpdateNotebook(publicNotebook);
 
             Notebook notebook = Notebook.builder().title("DB notebook").description("first notebook for testing").user(user).build();
             Notebook notebook2 = Notebook.builder().title("DB notebook2").description("second notebook for testing")
                     .user(user).build();
-            notebookService.createNotebook(notebook);
-            notebookService.createNotebook(notebook2);
+            notebookService.createOrUpdateNotebook(notebook);
+            notebookService.createOrUpdateNotebook(notebook2);
 
             Notebook notebookTest = Notebook.builder().title("test").description("first notebook for testing").user(user2).build();
             Notebook notebookTest2 = Notebook.builder().title("test private").description("first notebook for testing").user(user2).build();
-            notebookService.createNotebook(notebookTest);
-            notebookService.createNotebook(notebookTest2);
+            notebookService.createOrUpdateNotebook(notebookTest);
+            notebookService.createOrUpdateNotebook(notebookTest2);
 
             Article article1 = Article.builder().title("DB article1")
                     .firstLanguage(Arrays.asList("a", "b")).secondLanguage(Arrays.asList("c", "d"))
@@ -80,7 +80,7 @@ public class LanguideApplication {
                     .tag("tag2")
                     .creationDate(date)
                     .hidden(false)
-                    .notebook(notebook)
+                    .notebook(notebook2)
                     .build();
             Article articlePrivate = Article.builder().title("DB article private")
                     .firstLanguage(Arrays.asList("ac", "bc")).secondLanguage(Arrays.asList("cc", "dc"))
@@ -89,9 +89,9 @@ public class LanguideApplication {
                     .hidden(true)
                     .notebook(notebook)
                     .build();
-            articleService.createArticle(article1);
-            articleService.createArticle(article2);
-            articleService.createArticle(articlePrivate);
+            articleService.createOrUpdateArticle(article1);
+            articleService.createOrUpdateArticle(article2);
+            articleService.createOrUpdateArticle(articlePrivate);
 
         }
 

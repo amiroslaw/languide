@@ -36,7 +36,7 @@ public class DictionaryController {
 //            });
 //            return NOTEBOOK_NOTEBOOKFORM;
 //        }
-//        Notebook notebook = notebookService.createNotebook(notebookAttribute);
+//        Notebook notebook = notebookService.createOrUpdateNotebook(notebookAttribute);
 //        return "redirect:/notebook/allnotebooks";
 //    }
 //
@@ -54,7 +54,7 @@ public class DictionaryController {
 //
 //    @GetMapping("/notebook/{id}/update")
 //    // Long id or String id
-//    public String updateNotebook(@PathVariable Long id, Model model) {
+//    public String fillNotebookForm(@PathVariable Long id, Model model) {
 //        model.addAttribute("notebook", notebookService.findById(id));
 //        return NOTEBOOK_NOTEBOOKFORM;
 //    }

@@ -23,7 +23,6 @@
     <section>
         <div class="row">
             <div class="col-md-4 mx-auto">
-                <!--<span th:text="${id}">article id</span>-->
                 <div class="card">
                     <div class="card-header bg-primary text-light text-center">
                         Description
@@ -31,6 +30,7 @@
                     <div class="card-body">
                         <!--/*@thymesVar id="article" type="xyz.miroslaw.languide.model.Notebook"*/-->
                         <form th:object="${notebook}" action="#" th:action="@{/notebook}" method="post">
+                            <input type="hidden" th:field="*{id}"/>
                             <div class="form-group">
                                 <label for="title">Title</label>
                                 <input type="text" class="form-control" id="title" placeholder="Enter title"

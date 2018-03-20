@@ -1,5 +1,6 @@
 package xyz.miroslaw.languide.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.miroslaw.languide.exception.NotFoundException;
@@ -10,7 +11,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Service
 public class ArticleServiceImp implements ArticleService {
 
@@ -25,6 +26,11 @@ public class ArticleServiceImp implements ArticleService {
     public List<Article> findPublicArticles() {
         List<Article> allArticles = (List<Article>) articleRepository.findAll();
         return allArticles.stream().filter(article -> !article.isHidden()).collect(Collectors.toList());
+    }
+    @Override
+    public List<Article> findNotebookArticles(final Long id) {
+        List<Article> allArticles = (List<Article>) articleRepository.findAll();
+        return allArticles.stream().filter(article -> article.getNotebook().getId() == id).collect(Collectors.toList());
     }
 
     @Override
@@ -43,12 +49,6 @@ public class ArticleServiceImp implements ArticleService {
         articleRepository.delete(getIfExist(id));
     }
 
-    @Override
-    public void updateArticle(Long id) {
-        //todo change cos no sense
-        articleRepository.save(getIfExist(id));
-    }
-
     private Article getIfExist(Long id) {
         Optional<Article> article = articleRepository.findById(id);
         if (!article.isPresent()) {
@@ -58,7 +58,7 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public Article createArticle(Article article) {
+    public Article createOrUpdateArticle(Article article) {
         return articleRepository.save(article);
     }
 
@@ -70,7 +70,7 @@ public class ArticleServiceImp implements ArticleService {
         oldArticle.setHidden(article.isHidden());
         oldArticle.setCreationDate(Calendar.getInstance().getTime());
         oldArticle.setNotebook(article.getNotebook());
-        createArticle(oldArticle);
+       createOrUpdateArticle(oldArticle);
     }
 
 }

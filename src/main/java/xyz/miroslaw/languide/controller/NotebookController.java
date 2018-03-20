@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import xyz.miroslaw.languide.command.ArticleCommand;
 import xyz.miroslaw.languide.model.Notebook;
 import xyz.miroslaw.languide.service.NotebookService;
 
@@ -48,13 +47,12 @@ public class NotebookController {
             });
             return NOTEBOOK_NOTEBOOKFORM;
         }
-        Notebook notebook = notebookService.createNotebook(notebookAttribute);
+        notebookService.createOrUpdateNotebook(notebookAttribute);
         return "redirect:/notebooks";
     }
 
     @GetMapping("/notebook/{id}/update")
-    // Long id or String id
-    public String updateNotebook(@PathVariable Long id, Model model) {
+    public String fillNotebookForm(@PathVariable Long id, Model model) {
         model.addAttribute("notebook", notebookService.findById(id));
         return NOTEBOOK_NOTEBOOKFORM;
     }
@@ -62,6 +60,6 @@ public class NotebookController {
     @GetMapping("notebook/{id}/delete")
     public String deleteById(@PathVariable Long id){
         notebookService.deleteById(id);
-        return "redirect:/";
+        return "redirect:/notebooks";
     }
 }

@@ -79,7 +79,7 @@ public class ArticleServiceImpTest {
 //    public void createArticle_shouldCreateArticle() throws Exception {
 //        when(repository.save(any(Article.class))).thenReturn(UtilTest.ARTICLE);
 //
-//        service.createArticle(UtilTest.ARTICLE_COMMAND);
+//        service.createOrUpdateArticle(UtilTest.ARTICLE_COMMAND);
 //
 //        verify(repository, times(1)).save(any());
 //    }
@@ -89,7 +89,7 @@ public class ArticleServiceImpTest {
         when(repository.findById(anyLong())).thenReturn(java.util.Optional.ofNullable(UtilTest.ARTICLE));
         when(repository.save(any(Article.class))).thenReturn(UtilTest.ARTICLE);
 
-        service.updateArticle(anyLong());
+//        service.updateArticle(anyLong());
 
         verify(repository, times(1)).save(any(Article.class));
     }
@@ -99,7 +99,7 @@ public class ArticleServiceImpTest {
         when(repository.findById(anyLong())).thenReturn(Optional.empty());
         when(repository.save(any(Article.class))).thenReturn(UtilTest.ARTICLE);
 
-        service.updateArticle(anyLong());
+//        service.updateArticle(anyLong());
 
         verify(repository, times(1)).save(any(Article.class));
     }

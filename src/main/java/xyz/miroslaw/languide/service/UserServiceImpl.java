@@ -58,11 +58,6 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(getIfExist(id));
     }
 
-    @Override
-    public void updateUser(Long id) {
-        userRepository.delete(getIfExist(id));
-    }
-
     private User getIfExist(Long id) {
         Optional<User> article = userRepository.findById(id);
         if (!article.isPresent()) {
@@ -72,7 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(User user) {
+    public User createOrUpdateUser(User user) {
         user.setName(user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setNotebooks(user.getNotebooks());

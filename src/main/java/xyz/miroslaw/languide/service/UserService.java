@@ -13,10 +13,9 @@ public interface UserService extends UserDetailsService {
     User findById(Long id);
     User findByEmail(String email);
     Optional<User> findByName(String email);
-    User createUser(User user);
+    User createOrUpdateUser(User user);
     List<User> findUsers();
     void deleteById(Long id);
-    void updateUser(Long id);
 
     HashSet<Notebook> getUserNotebooks();
     Optional<User> getLoggedUser();

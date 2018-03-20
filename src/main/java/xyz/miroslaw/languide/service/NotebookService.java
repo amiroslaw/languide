@@ -10,5 +10,5 @@ public interface NotebookService {
     Set<Notebook> findUserNotebooks(Long id);
     Notebook findById(Long id);
     void deleteById(Long id);
-    Notebook createNotebook(Notebook notebook);
+    Notebook createOrUpdateNotebook(Notebook notebook);
 }

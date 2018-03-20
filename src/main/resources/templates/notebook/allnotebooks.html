@@ -30,6 +30,7 @@
                     <th>ID</th>
                     <th>Title</th>
                     <th>Description</th>
+                    <th>View articles</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </thead>
@@ -39,6 +40,7 @@
                         <td th:text="${notebook.id}">remove later</td>
                         <td th:text="${notebook.title}">title</td>
                         <td th:text="${notebook.description}">description</td>
+                        <td> <a href="#" th:href="@{/user_articles(id=${notebook.id})}">View</a></td>
                         <td> <a href="#" th:href="|/notebook/${notebook.id}/update|">Edit</a></td>
                         <td> <a href="#" th:href="|/notebook/${notebook.id}/delete|">Delete</a></td>
                     </tr>

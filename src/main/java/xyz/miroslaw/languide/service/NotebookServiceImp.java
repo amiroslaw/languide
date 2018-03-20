@@ -37,7 +37,7 @@ public class NotebookServiceImp implements NotebookService {
     }
 
     @Override
-    public Notebook createNotebook(Notebook notebook) {
+    public Notebook createOrUpdateNotebook(Notebook notebook) {
         userService.getLoggedUser().ifPresent(e -> notebook.setUser(e));
         return notebookRepository.save(notebook);
     }
@@ -54,8 +54,5 @@ public class NotebookServiceImp implements NotebookService {
     public Set<Notebook> findUserNotebooks(Long id) {
         return notebookRepository.findAllByUserId(id);
     }
-    //    }
-    //        return notebookRepository.findAllByUserName(userName);
-    //    public Set<Notebook> findUserNotebooks(String userName) {
-    //    @Override
+
 }

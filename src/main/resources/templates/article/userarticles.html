@@ -46,7 +46,9 @@
                         <td th:text="${#calendars.format(article.creationDate,'dd/M/yyyy hh:mm')}">Date</td>
                         <td> <a href="#" th:href="|/article/${article.id}|">View</a></td>
                         <td> <a href="#" th:href="|/user/${userId}/article/${article.id}/edit|">Edit</a></td>
-                        <td> <a href="#" th:href="|/article/${article.id}/delete|">Delete</a></td>
+                        <!--<td th:if="${#request.getParameter('id')} &gt; 0">tak 8</td>-->
+                        <td th:if="${#request.getParameter('id')} &gt; 0"> <a href="#" th:href="@{/article/{aricleId}/delete(aricleId = ${article.id}, id=${article.notebook.id})}">Delete</a></td>
+                        <td th:if="${#request.getParameter('id')} == 0"> <a href="#" th:href="@{/article/{aricleId}/delete(aricleId = ${article.id}, id=0)}">Delete</a></td>
                     </tr>
                 </tbody>
             </table>

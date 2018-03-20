@@ -6,11 +6,10 @@ import java.util.List;
 
 public interface ArticleService {
     List<Article> findPublicArticles();
+    List<Article> findNotebookArticles(Long id);
     Article findById(Long id);
     List<Article> findArticlesByUserId(Long id);
     void deleteById(Long id);
-    void updateArticle(Long id);
-    Article createArticle(Article article);
-
+    Article createOrUpdateArticle(Article article);
     void updateArticleDescription(Article article, long articleId);
 }

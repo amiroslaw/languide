@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import xyz.miroslaw.languide.command.ArticleCommand;
 import xyz.miroslaw.languide.exception.NotFoundException;
 import xyz.miroslaw.languide.model.Article;
@@ -48,24 +49,25 @@ public class ArticleController {
             bindingResult.rejectValue("firstLanguage", null, "Please fill text");
             return "/index";
         }
-
         Article article = ConverterUtil.convertToArticle(articleCommand);
-        article = articleService.createArticle(article);
-
+        article = articleService.createOrUpdateArticle(article);
         model.addAttribute("notebooks", userService.getUserNotebooks());
         model.addAttribute("article", article);
         return "/article/pair";
     }
 
-    @PostMapping("/articleform/{articleId}")
+    @PostMapping("/articledescription/{articleId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public String saveArticle(@ModelAttribute Article article, @PathVariable long articleId, BindingResult bindingResult) {
+    public String saveArticle(@ModelAttribute Article article, @PathVariable long articleId, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
-            return "/articleform/" + articleId;
+            return "articledescription/" + articleId;
         }
+        log.error("art id " + articleId);
         articleService.updateArticleDescription(article, articleId);
-        return "/index";
+        return "index";
+//        redirectAttrs.addAttribute("articleId", articleId).addFlashAttribute("message", "Account created!");
+//        return "redirect:/article/" + articleId;
     }
 
     @GetMapping("/articleform/{articleId}")
@@ -83,23 +85,30 @@ public class ArticleController {
 
     @GetMapping("/all_articles")
     public String showAllArticles(Model model) {
-        model.addAttribute("articles", articleService.findPublicArticles());
+            model.addAttribute("articles", articleService.findPublicArticles());
         return "article/allarticles";
     }
 
     @GetMapping("/user_articles")
-    public String showUserArticles(Model model) {
-        userService.getLoggedUser().ifPresent(e -> {
-            model.addAttribute("articles", articleService.findArticlesByUserId(e.getId()));
-            model.addAttribute("userId", e.getId());
-        });
+    public String showUserArticles(@RequestParam("id") long id, Model model) {
+        if (id == 0) {
+            userService.getLoggedUser().ifPresent(e -> {
+                model.addAttribute("articles", articleService.findArticlesByUserId(e.getId()));
+                model.addAttribute("userId", e.getId());
+            });
+        } else {
+            model.addAttribute("articles", articleService.findNotebookArticles(id));
+        }
         return "article/userarticles";
     }
 
     @GetMapping("/article/{articleId}/delete")
-    public String deleteById(@PathVariable long articleId){
+    public String deleteById(@RequestParam("id") long id, @PathVariable long articleId) {
         articleService.deleteById(articleId);
-        return "redirect:/user_articles";
+        if(id == 0){
+            return "redirect:/user_articles?id="+id;
+        }
+        return "redirect:/user_articles?id=0";
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
