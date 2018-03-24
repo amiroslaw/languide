@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import xyz.miroslaw.languide.command.ArticleCommand;
 import xyz.miroslaw.languide.exception.NotFoundException;
 import xyz.miroslaw.languide.model.Article;
+import xyz.miroslaw.languide.model.Translation;
 import xyz.miroslaw.languide.service.ArticleService;
 import xyz.miroslaw.languide.service.UserService;
 import xyz.miroslaw.languide.util.ConverterUtil;
@@ -80,6 +81,7 @@ public class ArticleController {
     @GetMapping("/article/{articleId}")
     public String showArticle(@PathVariable("articleId") long articleId, Model model) {
         model.addAttribute("article", articleService.findById(articleId));
+        model.addAttribute("translation", new Translation());
         return "article/view";
     }
 

@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import xyz.miroslaw.languide.exception.NotFoundException;
+import xyz.miroslaw.languide.model.Dictionary;
 import xyz.miroslaw.languide.model.Notebook;
 import xyz.miroslaw.languide.model.Role;
 import xyz.miroslaw.languide.model.User;
@@ -30,7 +31,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-        //todo check out Optional.of()
         return Optional.ofNullable(userRepository.findById(id))
                 .map(Optional::get)
                 .orElseThrow(() -> new NotFoundException("Not found. Id: " + id));
@@ -67,11 +67,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createOrUpdateUser(User user) {
+    public User createUser(User user) {
         user.setName(user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setNotebooks(user.getNotebooks());
         user.setRoles(Arrays.asList(new Role("ROLE_USER")));
+        user.setDictionary(new Dictionary());
         return userRepository.save(user);
     }
 

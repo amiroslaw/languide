@@ -1,9 +1,12 @@
 package xyz.miroslaw.languide.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -18,12 +21,10 @@ public class Dictionary {
     @GeneratedValue
     private Long id;
     @NotNull
-    private boolean isPublic;
-    @ElementCollection
-    @MapKeyColumn(name = "ORIGINAL")
-    @Column(name = "TRANSLATED")
-    @Singular
-    private Map<String, String> words;
+    private boolean hidden;
+    @JsonIgnore
+    @OneToMany(mappedBy = "dictionary")
+    private List<Translation> translations;
     @OneToOne
     private User user;
 

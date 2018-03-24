@@ -4,32 +4,29 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import xyz.miroslaw.languide.model.Notebook;
-import xyz.miroslaw.languide.service.NotebookService;
+import xyz.miroslaw.languide.service.DictionaryService;
 
-import javax.validation.Valid;
 
 @Slf4j
 @Controller
 public class DictionaryController {
 
+    private DictionaryService dictionaryService;
     @Autowired
-    private NotebookService notebookService;
-
-    public DictionaryController(NotebookService notebookService) {
-        this.notebookService = notebookService;
+    public DictionaryController(DictionaryService dictionaryService) {
+        this.dictionaryService = dictionaryService;
     }
 
-
+    @GetMapping("/dictionary")
+    public String showTranslations(Model model) {
+        model.addAttribute("translations", dictionaryService.findUserTranslations());
+        return "dictionary/alltranslations";
+    }
 
     //todo multidictionary
 //    @PostMapping("/notebook")
-//    public String saveOrUpdateNotebook(@Valid @ModelAttribute Notebook notebookAttribute, BindingResult bindingResult) {
+//    public String saveOrUpdateNotebook(@Valid @ModelAttribute Translation notebookAttribute, BindingResult bindingResult) {
 //        if(bindingResult.hasErrors()){
 //            bindingResult.getAllErrors().forEach(objectError -> {
 //                log.debug(objectError.toString());

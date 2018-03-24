@@ -18,10 +18,9 @@ import javax.validation.Valid;
 @Controller
 public class NotebookController {
 
+    private NotebookService notebookService;
     private static final String NOTEBOOK_NOTEBOOKFORM = "notebook/notebookform";
     @Autowired
-    private NotebookService notebookService;
-
     public NotebookController(NotebookService notebookService) {
         this.notebookService = notebookService;
     }

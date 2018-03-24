@@ -21,7 +21,7 @@ public class ConverterUtil {
         article.setNotebook(command.getNotebook());
         article.setFirstLanguage(convertToList(command.getFirstLanguage()));
         article.setSecondLanguage(convertToList(command.getSecondLanguage()));
-
+        
         return article;
     }
 

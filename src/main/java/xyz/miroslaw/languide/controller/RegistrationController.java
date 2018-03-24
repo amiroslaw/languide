@@ -43,7 +43,7 @@ public class RegistrationController {
         if (result.hasErrors()) {
             return "/user/registerform";
         }
-        userService.createOrUpdateUser(user);
+        userService.createUser(user);
         return "/user/login";
     }
 

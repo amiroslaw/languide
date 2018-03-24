@@ -1,23 +1,18 @@
 package xyz.miroslaw.languide;
 
+import org.omg.IOP.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
-import xyz.miroslaw.languide.model.Article;
-import xyz.miroslaw.languide.model.Notebook;
-import xyz.miroslaw.languide.model.Role;
-import xyz.miroslaw.languide.model.User;
-import xyz.miroslaw.languide.service.ArticleService;
-import xyz.miroslaw.languide.service.NotebookService;
-import xyz.miroslaw.languide.service.UserService;
+import xyz.miroslaw.languide.model.*;
+import xyz.miroslaw.languide.model.Dictionary;
+import xyz.miroslaw.languide.repository.TranslationRepository;
+import xyz.miroslaw.languide.service.*;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 @SpringBootApplication
 public class LanguideApplication {
@@ -31,12 +26,18 @@ public class LanguideApplication {
         private ArticleService articleService;
         private UserService userService;
         private NotebookService notebookService;
+        private DictionaryService dictionaryService;
+        private TranslationService translationService;
+        @Autowired
+        TranslationRepository translationRepository;
 
         @Autowired
-        public DataLoader(NotebookService notebookService, UserService userService, ArticleService articleService) {
+        DataLoader(TranslationService translationService, NotebookService notebookService, UserService userService, ArticleService articleService, DictionaryService dictionaryService) {
             this.notebookService = notebookService;
+            this.translationService = translationService;
             this.articleService = articleService;
             this.userService = userService;
+            this.dictionaryService = dictionaryService;
         }
 
         @Override
@@ -45,14 +46,23 @@ public class LanguideApplication {
 //            Set<Notebook> notebooksSet = new HashSet<>();
 //            notebooksSet.add(notebook);
 
+            Translation translation = Translation.builder().source("W końcu mam akt zgonu mojego ojca. Moja siostra była na tyle uprzejma, że wysłała jej zdjęcie, a ona prześle jej kopię pocztą. Myślałem, że urodził się w Hammond w stanie Indiana w jedynym szpitalu w okolicy.")
+                    .source("Jednak certyfikat mówi, że urodził się w Illinois, po drugiej stronie granicy państwowej, więc musiało to być porody domowe. Wprowadziłem zmianę w drzewie genealogicznym, aby zachować dokładność.")
+                    .articleTranslation("I finally have a death certificate of my father. My sister was kind enough to email a photo of it and she will send a copy of it through the mail. I thought he was born in Hammond, Indiana, in the only hospital in the area.")
+                    .articleTranslation("However, the certificate says he was born in Illinois, just across the state border so it must have been a home birth. I made the change in the family tree to keep it accurate.")
+                    .build();
+            translationRepository.save(translation);
+            Dictionary dictionary = Dictionary.builder().build();
+
             Date date = Calendar.getInstance().getTime();
             Collection<Role> roleUser = Arrays.asList(new Role("ROLE_USER"));
-            User user = User.builder().name("qwer").password("qwer").roles(roleUser).build();
-            user = userService.createOrUpdateUser(user);
+            User user = User.builder().name("qwer").password("qwer").roles(roleUser).dictionary(dictionary).build();
+            user = userService.createUser(user);
+
             User user2 = User.builder().name("user").password("user").roles(roleUser).build();
-            user2 = userService.createOrUpdateUser(user2);
+            user2 = userService.createUser(user2);
             User userEmpty = User.builder().name("empty").password("empty").roles(roleUser).build();
-            userService.createOrUpdateUser(userEmpty);
+            userService.createUser(userEmpty);
 
             Notebook publicNotebook = Notebook.builder().title("public").description("public notebook for no register users").user(user2).build();
             notebookService.createOrUpdateNotebook(publicNotebook);

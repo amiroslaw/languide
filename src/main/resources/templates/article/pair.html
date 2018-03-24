@@ -21,6 +21,7 @@
     <script type="text/javascript" th:inline="javascript">
         $(document).ready(function () {
             /*<![CDATA[*/
+            $('[data-toggle="tooltip"]').tooltip()
             var article = [[${article}]];
             var lang1 = article.firstLanguage;
             var lang2 = article.secondLanguage;
@@ -37,11 +38,13 @@
                 if (lang2[i] === undefined) {
                     lang2[i] = '<span class="badge badge-warning">Empty</span>'
                 }
-                $('table#article').append('<tr><td>' + lang1[i] + '</td><td>' + lang2[i] + '</td></tr>');
+                $('table#article').append('<tr><td data-toggle="tooltip" data-placement="left" title="Right click to remove cell">' + lang1[i] + '</td><td data-toggle="tooltip" data-placement="right" title="Right click to remove cell">' + lang2[i] + '</td></tr>');
             }
             /*]]>*/
         });
     </script>
+    <script type="text/javascript" th:src="@{/js/script.js}"></script>
+
 </head>
 <body>
 <div class="container">
@@ -77,8 +80,8 @@
                                            th:field="*{tag}">
                                 </div>
                                 <div class="form-group" >
-                                    <label for="hidden">Visible for others</label>
-                                    <input th:type="checkbox" th:field="*{hidden}" th:name="hidden" id="hidden" th:checked="true" checked>
+                                    <label for="hidden">Hidden for others</label>
+                                    <input th:type="checkbox" th:field="*{hidden}" th:name="hidden" id="hidden">
                                 </div>
                                 <div class="form-group">
                                     <label>Notebook</label>

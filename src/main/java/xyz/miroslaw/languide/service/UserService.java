@@ -13,7 +13,7 @@ public interface UserService extends UserDetailsService {
     User findById(Long id);
     User findByEmail(String email);
     Optional<User> findByName(String email);
-    User createOrUpdateUser(User user);
+    User createUser(User user);
     List<User> findUsers();
     void deleteById(Long id);
 
