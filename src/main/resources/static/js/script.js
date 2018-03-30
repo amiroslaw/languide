@@ -1,4 +1,33 @@
 $(document).ready(function () {
+
+    //popover
+    $('body').on('mouseover', 'td', function () {
+        let td = this;
+        $(this).popover({
+            placement: 'bottom',
+            container: td,
+            // title: "Right click to remove cell",
+            // trigger: 'click',
+            trigger: 'hover',
+            delay: {"show": 100, "hide": 800},
+            html: true,
+            content: function () {
+                return $('#popover-content').html();
+            }
+        });
+    // .click(function(e) {
+    //         e.preventDefault();
+    });
+    $('body').on('click', '.pop-Add', function () {
+        $(this).closest('tr').after('<tr><td>new</td><td>new</td></tr>');
+    });
+    $('body').on('click', '.pop-remove-row', function () {
+        $(this).closest('tr').remove();
+    });
+    $('body').on('click', '.pop-remove-cell', function () {
+        // $(this).closest('tr').before('<tr><td>new</td><td>new</td></tr>');
+    });
+    // delete cell
     document.oncontextmenu = function() {return false;};
     const columnItems = [];
     let parity;

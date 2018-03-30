@@ -32,9 +32,12 @@
                     <th>Notebook</th>
                     <th>Tag</th>
                     <th>Date</th>
-                    <th>View</th>
-                    <th>Update</th>
-                    <th>Delete</th>
+                    <th data-toggle="tooltip"
+                        data-placement="top" title="View"><i class="fas fa-eye" ></i></th>
+                    <th data-toggle="tooltip"
+                        data-placement="top" title="Edit"><i class="fas fa-pencil-alt"></i></th>
+                    <th data-toggle="tooltip"
+                        data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></th>
                 </thead>
                 <tbody>
                     <tr th:each="article :${articles}">
@@ -44,11 +47,11 @@
                         <td th:text="${article.notebook.title}">Notebook</td>
                         <td><a href="#" th:href="@{/tag/id}" th:text="${article.tag}">Tag</a></td>
                         <td th:text="${#calendars.format(article.creationDate,'dd/M/yyyy hh:mm')}">Date</td>
-                        <td> <a href="#" th:href="|/article/${article.id}|">View</a></td>
-                        <td> <a href="#" th:href="|/user/${userId}/article/${article.id}/edit|">Edit</a></td>
+                        <td> <a href="#" th:href="|/article/${article.id}|"><i class="fas fa-eye"></i></a></td>
+                        <td> <a href="#" th:href="|/article/${article.id}/edit|"><i class="fas fa-pencil-alt"></i></a></td>
                         <!--<td th:if="${#request.getParameter('id')} &gt; 0">tak 8</td>-->
-                        <td th:if="${#request.getParameter('id')} &gt; 0"> <a href="#" th:href="@{/article/{aricleId}/delete(aricleId = ${article.id}, id=${article.notebook.id})}">Delete</a></td>
-                        <td th:if="${#request.getParameter('id')} == 0"> <a href="#" th:href="@{/article/{aricleId}/delete(aricleId = ${article.id}, id=0)}">Delete</a></td>
+                        <td th:if="${#request.getParameter('id')} &gt; 0"> <a href="#" th:href="@{/article/{aricleId}/delete(aricleId = ${article.id}, id=${article.notebook.id})}"><i class="fas fa-trash-alt"></i></a></td>
+                        <td th:if="${#request.getParameter('id')} == 0"> <a href="#" th:href="@{/article/{aricleId}/delete(aricleId = ${article.id}, id=0)}"><i class="fas fa-trash-alt"></i></a></td>
                     </tr>
                 </tbody>
             </table>

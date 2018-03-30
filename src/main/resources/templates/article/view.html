@@ -18,10 +18,10 @@
                 integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
                 crossorigin="anonymous"></script>
     </th:block>
+    <script type="text/javascript" th:src="@{/js/script.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         $(document).ready(function () {
             /*<![CDATA[*/
-            $('[data-toggle="tooltip"]').tooltip()
             var article = [[${article}]];
             var lang1 = article.firstLanguage;
             var lang2 = article.secondLanguage;
@@ -38,16 +38,43 @@
                 if (lang2[i] === undefined) {
                     lang2[i] = '<span class="badge badge-warning">Empty</span>'
                 }
-                $('table#article').append('<tr><td data-toggle="tooltip" data-placement="left" title="Right click to remove cell">' + lang1[i] + '</td><td data-toggle="tooltip" data-placement="right" title="Right click to remove cell">' + lang2[i] + '</td></tr>');
+                $('table#article').append('<tr><td>' + lang1[i] + '</td><td>' + lang2[i] + '</td></tr>');
             }
             /*]]>*/
+
+            // select word for dictionary
+            function getSelectionText() {
+                var text = "";
+                if (window.getSelection) {
+                    text = window.getSelection().toString();
+                } else if (document.selection && document.selection.type != "Control") {
+                    text = document.selection.createRange().text;
+                }
+                return text;
+            }
+
+            // document.onmouseup = document.onkeyup = document.onselectionchange = function() {
+            $('td:even').bind('mouseup', 'keyup', function (e) {
+                let input = document.getElementById("source");
+                if (input != null) input.value = getSelectionText();
+            });
+            $('td:odd').bind('mouseup', 'keyup', function (e) {
+                let input = document.getElementById("articleTranslation");
+                if (input != null) input.value = getSelectionText();
+
+            });
+
         });
     </script>
-    <script type="text/javascript" th:src="@{/js/script.js}"></script>
 </head>
 <body>
 <div class="container">
     <div th:insert="~{layouts/main :: content}"></div>
+    <div id="popover-content" class="invisible">
+        <button class="pop-Add">Add row below</button>
+        <button class="pop-remove-row">Remove row</button>
+        <button class="pop-remove-cell">Remove cell</button>
+    </div>
     <div class="row">
         <div class="col-lg-3">
             <div class="sticky-top sticky-articleform" sec:authorize="isAuthenticated()">

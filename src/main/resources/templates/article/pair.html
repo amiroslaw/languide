@@ -21,16 +21,10 @@
     <script type="text/javascript" th:inline="javascript">
         $(document).ready(function () {
             /*<![CDATA[*/
-            $('[data-toggle="tooltip"]').tooltip()
             var article = [[${article}]];
             var lang1 = article.firstLanguage;
             var lang2 = article.secondLanguage;
-            var length;
-            if (lang1.length > lang2.length) {
-                length = lang1.length;
-            } else {
-                length = lang2.length;
-            }
+            var length = Math.max(lang1.length, lang2.length);
             for (var i = 0; i < length; i++) {
                 if (lang1[i] === undefined) {
                     lang1[i] = '<span class="badge badge-warning">Empty</span>'
@@ -85,7 +79,6 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Notebook</label>
-                                    <!--<select class="form-control" name="notebook" th:field="*{notebook}">-->
                                     <select class="form-control" name="notebook">
                                         <option th:each="notebookEach : ${notebooks}"
                                                 th:value="${notebookEach.id}"

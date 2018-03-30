@@ -48,7 +48,7 @@
                     <label class="sr-only" for="login">Login</label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-prepend">
-                            <div class="input-group-text" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                            <div class="input-group-text" style="width: 2.6rem"><i class="fas fa-user"></i></div>
                         </div>
                         <input type="text" name="username" class="form-control" id="login"
                                placeholder="Login" required autofocus>
@@ -62,7 +62,7 @@
                     <label class="sr-only" for="password">Password</label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-prepend">
-                            <div class="input-group-text" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                            <div class="input-group-text" style="width: 2.6rem"><i class="fas fa-key"></i></div>
                         </div>
                         <input type="password" name="password" class="form-control" id="password"
                                placeholder="Password" required>
@@ -84,9 +84,9 @@
         <!--</div>-->
         <div class="row" style="padding-top: 1rem">
             <div class="col-md-6 offset-md-3">
-                <button type="submit" class="btn btn-success"><i class="fa fa-sign-in"></i> Login</button>
+                <button type="submit" class="btn btn-success"><i class="fas fa-sign-in"></i> Login</button>
                 <!--<a class="btn btn-link" href="/password/reset">Forgot Your Password?</a>-->
-                <span class="text-danger ml-4" th:if="${param.error}"><i class="fa fa-close"></i>   Invalid username and/or password.</span>
+                <span class="text-danger ml-4" th:if="${param.error}"><i class="fas fa-window-close"></i>   Invalid username and/or password.</span>
             </div>
         </div>
     </form>

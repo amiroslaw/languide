@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,6 +18,7 @@ import xyz.miroslaw.languide.service.ArticleService;
 import xyz.miroslaw.languide.service.UserService;
 import xyz.miroslaw.languide.util.ConverterUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Slf4j
@@ -64,17 +66,31 @@ public class ArticleController {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             return "articledescription/" + articleId;
         }
-        log.error("art id " + articleId);
         articleService.updateArticleDescription(article, articleId);
         return "index";
 //        redirectAttrs.addAttribute("articleId", articleId).addFlashAttribute("message", "Account created!");
 //        return "redirect:/article/" + articleId;
     }
+    @PostMapping("/article/{articleId}/update")
+    @ResponseStatus(HttpStatus.CREATED)
+    public String updateArticle(@RequestBody Article article, @PathVariable long articleId, BindingResult bindingResult, @RequestParam("notebook") long notebookId) {
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
+            return "article/" + articleId + "/edit";
 
-    @GetMapping("/articleform/{articleId}")
+        }
+        articleService.updateArticle(article, articleId, notebookId);
+        System.out.println(article.toString());
+        System.out.println("notebookId "+ notebookId);
+        return "index";
+//        redirectAttrs.addAttribute("articleId", articleId).addFlashAttribute("message", "Account created!");
+//        return "redirect:/article/" + articleId;
+    }
+    @GetMapping("/article/{articleId}/edit")
     public String showArticleForm(@PathVariable long articleId, Model model) {
         Article article = articleService.findById(articleId);
         model.addAttribute("article", article);
+        model.addAttribute("notebooks", userService.getUserNotebooks());
         return "/article/articleform";
     }
 

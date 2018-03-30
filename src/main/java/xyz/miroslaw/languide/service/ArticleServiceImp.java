@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import xyz.miroslaw.languide.exception.NotFoundException;
 import xyz.miroslaw.languide.model.Article;
 import xyz.miroslaw.languide.repository.ArticleRepository;
+import xyz.miroslaw.languide.repository.NotebookRepository;
 
 import java.util.Calendar;
 import java.util.List;
@@ -16,9 +17,11 @@ import java.util.stream.Collectors;
 public class ArticleServiceImp implements ArticleService {
 
     private ArticleRepository articleRepository;
+    private NotebookService notebookService;
 
     @Autowired
-    public ArticleServiceImp(ArticleRepository articleRepository) {
+    public ArticleServiceImp(ArticleRepository articleRepository, NotebookService notebookService) {
+        this.notebookService = notebookService;
         this.articleRepository = articleRepository;
     }
 
@@ -70,6 +73,18 @@ public class ArticleServiceImp implements ArticleService {
         oldArticle.setHidden(article.isHidden());
         oldArticle.setCreationDate(Calendar.getInstance().getTime());
         oldArticle.setNotebook(article.getNotebook());
+       createOrUpdateArticle(oldArticle);
+    }
+@Override
+    public void updateArticle(Article article, long articleId, long notebookId) {
+        Article oldArticle = findById(articleId);
+        oldArticle.setTitle(article.getTitle());
+        oldArticle.setTag(article.getTag());
+        oldArticle.setHidden(article.isHidden());
+        oldArticle.setFirstLanguage(article.getFirstLanguage());
+        oldArticle.setSecondLanguage(article.getSecondLanguage());
+        oldArticle.setCreationDate(article.getCreationDate());
+        oldArticle.setNotebook(notebookService.findById(notebookId));
        createOrUpdateArticle(oldArticle);
     }
 

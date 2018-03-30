@@ -12,4 +12,5 @@ public interface ArticleService {
     void deleteById(Long id);
     Article createOrUpdateArticle(Article article);
     void updateArticleDescription(Article article, long articleId);
+    void updateArticle(Article article, long articleId, long notebookId);
 }

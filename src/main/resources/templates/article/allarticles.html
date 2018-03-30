@@ -18,6 +18,7 @@
                 integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
                 crossorigin="anonymous"></script>
     </th:block>
+
 </head>
 <body>
 <div class="container">
@@ -31,7 +32,8 @@
                     <th>Title</th>
                     <th>Tag</th>
                     <th>Date</th>
-                    <th>View</th>
+                    <th data-toggle="tooltip"
+                        data-placement="top" title="View"><i class="fas fa-eye" ></i></th>
                 </thead>
                 <tbody>
                     <tr th:each="article :${articles}">
@@ -41,7 +43,7 @@
                         <td th:if="${article.title} == null" colspan="2">Anonymous article</td>
                         <td th:if="${article.tag} != null"><a href="#" th:href="@{/tag/id}" th:text="${article.tag}">Tag</a></td>
                         <td th:text="${#calendars.format(article.creationDate,'dd/M/yyyy hh:mm')}">Date</td>
-                        <td> <a href="#" th:href="@{|/article/${article.id}|}">View </a></td>
+                        <td> <a href="#" th:href="@{|/article/${article.id}|}"><i class="fas fa-eye"></i></a></td>
                         <!--<td> <a href="#" th:href="@{/user} + ${sec:authentication='name'}" th:text="">View </a></td>-->
                     </tr>
                 </tbody>

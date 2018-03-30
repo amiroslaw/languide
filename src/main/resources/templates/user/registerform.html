@@ -46,13 +46,13 @@
                 <div class="form-group">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-prepend">
-                            <div class="input-group-text" style="width: 2.6rem"><i class="fa fa-user"></i></div>
+                            <div class="input-group-text" style="width: 2.6rem"><i class="fas fa-user"></i></div>
                         </div>
                         <input type="text" name="name" class="form-control" id="name" th:field="*{name}"
                                placeholder="John Doe" required autofocus>
                     </div>
                     <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                           class="form-text text-danger">Password should has at least 6 characters
+                           class="form-text text-danger"><i class="fas fa-window-close"></i>  Password should has at least 6 characters
                     </small>
                 </div>
             </div>
@@ -61,13 +61,13 @@
                 <div class="form-group has-danger">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-prepend">
-                            <div class="input-group-text" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+                            <div class="input-group-text" style="width: 2.6rem"><i class="fas fa-key"></i></div>
                         </div>
                         <input type="password" name="password" class="form-control" id="password" th:field="*{password}"
                                placeholder="Password" required>
                     </div>
                     <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-                           class="form-text text-danger">Password should has at least 6 characters
+                           class="form-text text-danger"><i class="fas fa-window-close"></i>  Password should has at least 6 characters
                     </small>
                 </div>
             </div>
@@ -77,7 +77,7 @@
 
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <button type="submit" class="btn btn-success"><i class="fa fa-user-plus"></i> Register</button>
+                <button type="submit" class="btn btn-success"><i class="fas fa-user-plus"></i> Register</button>
             </div>
             <!--<div class="col-md-3">-->
                 <!--<div class="form-control-feedback">-->
