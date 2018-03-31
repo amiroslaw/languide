@@ -28,12 +28,8 @@
             for (var i = 0; i < length; i++) {
                 $('table#article').append('<tr><td >' + lang1[i] + '</td><td>' + lang2[i] + '</td></tr>');
             }
-            // todo get language json add description and post
+
             $('table').tableEditor();
-            // $('#json').on('click', function() {
-            //     // get and post json
-            //     console.log('Table #1 JSON:', $('table').tableEditor('json'));
-            // })
 
             function transpose(array) {
                 return array.reduce((prev, next) => next.map((item, i) => (prev[i] || []).concat(next[i])), []);
@@ -76,16 +72,24 @@
     </script>
 </head>
 <body>
-<div th:insert="~{layouts/main :: content}"></div>
 <div class="container">
+    <div th:insert="~{layouts/main :: content}"></div>
+
     <section>
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            To edit cell or see more options click on a cell. By right click you can remove a cell.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <!--/*@thymesVar id="article" type="xyz.miroslaw.languide.model.Article"*/-->
         <form th:object="${article}">
             <!--<form th:object="${article}" action="/articleform" th:action="@{|/article/${article.id}/update|}" method="post">-->
             <input type="hidden" id="id" th:field="*{id}"/>
             <div class="row">
-                <div class="col-md-4">
-                    <div class="card">
+                <div class="col-md-3 ">
+                    <div class="sticky-top sticky-articleform mb-3">
+                    <div class="card ">
                         <div class="card-header bg-primary text-light text-center">
                             Description
                         </div>
@@ -93,7 +97,7 @@
                             <div class="form-group">
                                 <label for="title">Title</label>
                                 <input type="text" class="form-control" id="title" placeholder="Enter title"
-                                       th:field="*{title}">
+                                       th:field="*{title}" required>
                             </div>
                             <div class="form-group">
                                 <label for="tag">Tag</label>
@@ -117,6 +121,7 @@
                             <button id="submit" class="btn btn-success">Submit</button>
                         </div>
                     </div>
+                    </div>
                 </div>
                 <div class="col-lg-9">
                     <table id="article" class="table table-striped table-bordered table-hover table-primary">
@@ -129,6 +134,11 @@
             </div>
         </form>
     </section>
+    <li id="popover-content" class="invisible">
+        <a href="#"><ul class="pop-Add">Add row below</ul></a>
+        <a href="#"><ul class="pop-remove-row">Remove row</ul></a>
+        <!--<a href="#"><ul class="pop-remove-cell">Remove cell</ul></a>-->
+    </li>
 </div>
 </body>
 </html>

@@ -26,13 +26,8 @@
             var lang2 = article.secondLanguage;
             var length = Math.max(lang1.length, lang2.length);
             for (var i = 0; i < length; i++) {
-                if (lang1[i] === undefined) {
-                    lang1[i] = '<span class="badge badge-warning">Empty</span>'
-                }
-                if (lang2[i] === undefined) {
-                    lang2[i] = '<span class="badge badge-warning">Empty</span>'
-                }
-                $('table#article').append('<tr><td data-toggle="tooltip" data-placement="left" title="Right click to remove cell">' + lang1[i] + '</td><td data-toggle="tooltip" data-placement="right" title="Right click to remove cell">' + lang2[i] + '</td></tr>');
+                $('table#article').append('<tr><td >' + lang1[i] + '</td><td>' + lang2[i] + '</td></tr>');
+
             }
             /*]]>*/
         });
@@ -43,9 +38,15 @@
 <body>
 <div class="container">
     <div th:insert="~{layouts/main :: content}"></div>
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        To see more options click on a cell. By right click you can remove a cell.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     <div class="row">
         <div class="col-lg-3">
-            <div class="sticky-top sticky-articleform">
+            <div class="sticky-top sticky-articleform mb-3">
                 <p sec:authorize="isAnonymous()">If you want to save your article, please create your account in <a
                         href="/user/registerform.html" th:href="@{/register}">registration site.</a></p>
                 <!--/*@thymesVar id="article" type="xyz.miroslaw.languide.model.Article"*/-->
@@ -66,7 +67,7 @@
                                            th:field="*{title}" required>
                                 </div>
                                 <small th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
-                                       class="form-text text-danger">Password should not be empty
+                                       class="form-text text-danger"> should not be empty
                                 </small>
                                 <div class="form-group">
                                     <label for="tag">Tag</label>
@@ -102,6 +103,11 @@
             </table>
         </div>
     </div>
+    <li id="popover-content" class="invisible">
+        <a href="#"><ul class="pop-Add">Add row below</ul></a>
+        <a href="#"><ul class="pop-remove-row">Remove row</ul></a>
+        <!--<a href="#"><ul class="pop-remove-cell">Remove cell</ul></a>-->
+    </li>
 </div>
 </body>
 </html>

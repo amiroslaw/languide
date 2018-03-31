@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,7 +17,6 @@ import xyz.miroslaw.languide.service.ArticleService;
 import xyz.miroslaw.languide.service.UserService;
 import xyz.miroslaw.languide.util.ConverterUtil;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Slf4j
@@ -45,7 +43,7 @@ public class ArticleController {
             //todo never true maybe I should delete
             log.error("with error");
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
-            return "/index";
+            return "/article/pair";
         }
         boolean areArticleFieldsEmpty = articleCommand.getFirstLanguage().isEmpty() || articleCommand.getSecondLanguage().isEmpty();
         if (areArticleFieldsEmpty) {
@@ -61,28 +59,26 @@ public class ArticleController {
 
     @PostMapping("/articledescription/{articleId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public String saveArticle(@ModelAttribute Article article, @PathVariable long articleId, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
+    public String saveArticle(@Valid @ModelAttribute Article article, @PathVariable long articleId, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
-            return "articledescription/" + articleId;
+            return "article/pair";
         }
         articleService.updateArticleDescription(article, articleId);
         return "index";
+        //todo redirect
 //        redirectAttrs.addAttribute("articleId", articleId).addFlashAttribute("message", "Account created!");
 //        return "redirect:/article/" + articleId;
+//        user_articles?id=0
     }
     @PostMapping("/article/{articleId}/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public String updateArticle(@RequestBody Article article, @PathVariable long articleId, BindingResult bindingResult, @RequestParam("notebook") long notebookId) {
-        if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
-            return "article/" + articleId + "/edit";
-
-        }
+    public String updateArticle(@RequestBody Article article, @PathVariable long articleId, @RequestParam("notebook") long notebookId) {
         articleService.updateArticle(article, articleId, notebookId);
         System.out.println(article.toString());
         System.out.println("notebookId "+ notebookId);
         return "index";
+//        return new ModelAndView("index.html");
 //        redirectAttrs.addAttribute("articleId", articleId).addFlashAttribute("message", "Account created!");
 //        return "redirect:/article/" + articleId;
     }

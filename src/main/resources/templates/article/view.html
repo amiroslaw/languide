@@ -25,19 +25,8 @@
             var article = [[${article}]];
             var lang1 = article.firstLanguage;
             var lang2 = article.secondLanguage;
-            var length;
-            if (lang1.length > lang2.length) {
-                length = lang1.length;
-            } else {
-                length = lang2.length;
-            }
+            var length = Math.max(lang1.length, lang2.length);
             for (var i = 0; i < length; i++) {
-                if (lang1[i] === undefined) {
-                    lang1[i] = '<span class="badge badge-warning">Empty</span>'
-                }
-                if (lang2[i] === undefined) {
-                    lang2[i] = '<span class="badge badge-warning">Empty</span>'
-                }
                 $('table#article').append('<tr><td>' + lang1[i] + '</td><td>' + lang2[i] + '</td></tr>');
             }
             /*]]>*/
@@ -70,12 +59,21 @@
 <body>
 <div class="container">
     <div th:insert="~{layouts/main :: content}"></div>
-    <div id="popover-content" class="invisible">
-        <button class="pop-Add">Add row below</button>
-        <button class="pop-remove-row">Remove row</button>
-        <button class="pop-remove-cell">Remove cell</button>
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        To see more options click on a cell. By right click you can remove a cell. Highlight text to copy it into input.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="row">
+        <div class="col-lg-9">
+            <table id="article" class="table table-striped table-bordered table-hover table-primary">
+                <tr class="thead-dark">
+                    <th>First language</th>
+                    <th>Second language</th>
+                </tr>
+            </table>
+        </div>
         <div class="col-lg-3">
             <div class="sticky-top sticky-articleform" sec:authorize="isAuthenticated()">
                 <!--/*@thymesVar id="user" type="xyz.miroslaw.languide.model.Translation"*/-->
@@ -105,15 +103,13 @@
                 </form>
             </div>
         </div>
-        <div class="col-lg-9">
-            <table id="article" class="table table-striped table-bordered table-hover table-primary">
-                <tr class="thead-dark">
-                    <th>First language</th>
-                    <th>Second language</th>
-                </tr>
-            </table>
-        </div>
     </div>
+    <ul id="popover-content" class="invisible">
+        <a href="#"><li class="pop-Add">Add row below</li></a>
+        <a href="#"><li class="pop-remove-row">Remove row</li></a>
+        <!--<a href="#"><ul class="pop-remove-cell">Remove cell</ul></a>-->
+    </ul>
 </div>
+
 </body>
 </html>

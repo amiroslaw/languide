@@ -2,14 +2,14 @@ $(document).ready(function () {
 
     //popover
     $('body').on('mouseover', 'td', function () {
-        let td = this;
+        let tr = $(this).parent();
         $(this).popover({
             placement: 'bottom',
-            container: td,
+            container: tr,
             // title: "Right click to remove cell",
-            // trigger: 'click',
-            trigger: 'hover',
-            delay: {"show": 100, "hide": 800},
+            trigger: 'click',
+            // trigger: 'hover',
+            // delay: {"show": 100, "hide": 900},
             html: true,
             content: function () {
                 return $('#popover-content').html();
@@ -25,7 +25,7 @@ $(document).ready(function () {
         $(this).closest('tr').remove();
     });
     $('body').on('click', '.pop-remove-cell', function () {
-        // $(this).closest('tr').before('<tr><td>new</td><td>new</td></tr>');
+        // change let tr = $(this).parent(); to let tr = $(this);
     });
     // delete cell
     document.oncontextmenu = function() {return false;};

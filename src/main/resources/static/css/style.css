@@ -1,6 +1,13 @@
-.sticky-articleform {
-    margin-top: 50%;
-    padding-top: 50%;
+@media (min-width: 1024px) {
+    .sticky-articleform {
+        margin-top: 50%;
+        padding-top: 50%;
+    }
+}
+
+.popover-body  li {
+    list-style-type: none;
+    margin: 0px;
 }
 
 /*================ table editor */
