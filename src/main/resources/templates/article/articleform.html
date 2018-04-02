@@ -21,12 +21,15 @@
     <script type="text/javascript" th:inline="javascript">
         $(document).ready(function () {
             /*<![CDATA[*/
-            var article = [[${article}]];
-            var lang1 = article.firstLanguage;
-            var lang2 = article.secondLanguage;
-            var length = Math.max(lang1.length, lang2.length);
-            for (var i = 0; i < length; i++) {
-                $('table#article').append('<tr><td >' + lang1[i] + '</td><td>' + lang2[i] + '</td></tr>');
+            const article = [[${article}]];
+            const lang1 = article.firstLanguage;
+            const lang2 = article.secondLanguage;
+            const length = Math.max(lang1.length, lang2.length);
+            let table = $('table#article');
+            for (let i = 0; i < length; i++) {
+                if (lang1[i] === undefined) lang1[i] = '';
+                if (lang2[i] === undefined) lang2[i] = '';
+                table.append('<tr><td >' + lang1[i] + '</td><td>' + lang2[i] + '</td></tr>');
             }
 
             $('table').tableEditor();
@@ -51,6 +54,7 @@
                 data["secondLanguage"] = tableData[1];
 
                 console.log("lang " + tableData);
+                $('.success-msg').show(0);
 
                 $.ajax({
                     type: "POST",
@@ -130,15 +134,19 @@
                             <th>Second language</th>
                         </tr>
                     </table>
+                    <div class="alert alert-success success-msg" style="display: none;" role="alert">
+                        <strong>Well done!</strong> Table was updated.
+                    </div>
                 </div>
             </div>
         </form>
     </section>
-    <li id="popover-content" class="invisible">
-        <a href="#"><ul class="pop-Add">Add row below</ul></a>
-        <a href="#"><ul class="pop-remove-row">Remove row</ul></a>
-        <!--<a href="#"><ul class="pop-remove-cell">Remove cell</ul></a>-->
-    </li>
+    <ul id="popover-content" class="d-none">
+        <li class="pop-Add"><a href="#">Add row below</a></li>
+        <li class="pop-remove-row"><a href="#">Remove row</a></li>
+        <!--<ul class="pop-remove-cell"><a href="#">Remove cell</a></ul>-->
+    </ul>
+
 </div>
 </body>
 </html>

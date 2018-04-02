@@ -8,6 +8,7 @@ import xyz.miroslaw.languide.model.Article;
 import xyz.miroslaw.languide.repository.ArticleRepository;
 import xyz.miroslaw.languide.repository.NotebookRepository;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -28,11 +29,13 @@ public class ArticleServiceImp implements ArticleService {
     @Override
     public List<Article> findPublicArticles() {
         List<Article> allArticles = (List<Article>) articleRepository.findAll();
+        if(allArticles.isEmpty()) return new ArrayList<>();
         return allArticles.stream().filter(article -> !article.isHidden()).collect(Collectors.toList());
     }
     @Override
     public List<Article> findNotebookArticles(final Long id) {
         List<Article> allArticles = (List<Article>) articleRepository.findAll();
+        if(allArticles.isEmpty()) return new ArrayList<>();
         return allArticles.stream().filter(article -> article.getNotebook().getId() == id).collect(Collectors.toList());
     }
 

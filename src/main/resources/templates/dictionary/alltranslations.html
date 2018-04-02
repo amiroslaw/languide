@@ -26,6 +26,7 @@
         <div class="col-lg-8 offset-lg-2">
             <table id="article" class="table table-striped table-bordered table-hover table-primary">
                 <thead class="thead-dark">
+                <tr>
                     <th>No.</th>
                     <th>ID</th>
                     <th>Source</th>
@@ -36,6 +37,7 @@
                         <!--data-placement="top" title="Edit"><i class="fas fa-pencil-alt"></i></th>-->
                     <th data-toggle="tooltip"
                         data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></th>
+                </tr>
                 </thead>
                 <tbody>
                     <tr th:each="translation :${translations}">

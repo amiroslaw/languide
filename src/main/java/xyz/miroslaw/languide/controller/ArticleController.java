@@ -75,8 +75,6 @@ public class ArticleController {
     @ResponseStatus(HttpStatus.CREATED)
     public String updateArticle(@RequestBody Article article, @PathVariable long articleId, @RequestParam("notebook") long notebookId) {
         articleService.updateArticle(article, articleId, notebookId);
-        System.out.println(article.toString());
-        System.out.println("notebookId "+ notebookId);
         return "index";
 //        return new ModelAndView("index.html");
 //        redirectAttrs.addAttribute("articleId", articleId).addFlashAttribute("message", "Account created!");
