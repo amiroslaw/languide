@@ -31,6 +31,7 @@
                     <th>ID</th>
                     <th>Source</th>
                     <th>Translation</th>
+                    <th>Audio</th>
                     <th data-toggle="tooltip"
                         data-placement="top" title="View"><i class="fas fa-eye" ></i></th>
                     <!--<th data-toggle="tooltip"-->
@@ -45,12 +46,22 @@
                         <td th:text="${translation.id}">remove later</td>
                         <td th:text="${translation.source}">Source</td>
                         <td th:text="${translation.articleTranslation}">Translation</td>
+                        <th> <audio th:id="player+${translation.id}">
+                            <!--<source src="horse.ogg" type="audio/ogg">-->
+                            <!--<source th:src="@{translation.audioURL}" type="audio/mpeg">-->
+                            <source src="http://api.wordnik.com/v4/audioFile.mp3/00890a6c8e6058544e02c9e75ea140f287d0ea6d79403b073dd489fad05a46d4" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                            <a href="#" th:onclick="|document.getElementById('player${translation.id}').play()|"> <i class="fas fa-volume-up"></i></a>
+                            <!--<i class="fas fa-volume-off"></i>-->
+                        </th>
                         <!--<td> <a href="#" th:href="@{/user} + ${sec:authentication='name'}" th:text=""><i class="fas fa-eye"></i> </a></td>-->
                         <td> <a href="#" th:href="@{|/translation/${translation.id}/update|}"><i class="fas fa-pencil-alt"></i></a></td>
                         <td> <a href="#" th:href="@{|/translation/${translation.id}/delete|}"><i class="fas fa-trash-alt"></i></a></td>
                     </tr>
                 </tbody>
             </table>
+
         </div>
     </div>
 </div>

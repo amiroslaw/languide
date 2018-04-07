@@ -38,16 +38,9 @@ public class ArticleController {
 
     @PostMapping("/article")
     @ResponseStatus(HttpStatus.CREATED)
-    public String pair(@ModelAttribute @Valid ArticleCommand articleCommand, Model model, BindingResult bindingResult) {
+    public String pair(@ModelAttribute @Valid ArticleCommand articleCommand, BindingResult bindingResult, Model model ) {
         if (bindingResult.hasErrors()) {
-            //todo never true maybe I should delete
-            log.error("with error");
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
-            return "/article/pair";
-        }
-        boolean areArticleFieldsEmpty = articleCommand.getFirstLanguage().isEmpty() || articleCommand.getSecondLanguage().isEmpty();
-        if (areArticleFieldsEmpty) {
-            bindingResult.rejectValue("firstLanguage", null, "Please fill text");
             return "/index";
         }
         Article article = ConverterUtil.convertToArticle(articleCommand);
@@ -59,7 +52,7 @@ public class ArticleController {
 
     @PostMapping("/articledescription/{articleId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public String saveArticle(@Valid @ModelAttribute Article article, @PathVariable long articleId, BindingResult bindingResult, RedirectAttributes redirectAttrs) {
+    public String saveArticle(@Valid @ModelAttribute Article article, BindingResult bindingResult, @PathVariable long articleId, RedirectAttributes redirectAttrs) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             return "article/pair";

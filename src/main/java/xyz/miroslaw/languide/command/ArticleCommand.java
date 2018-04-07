@@ -10,9 +10,9 @@ import java.util.Date;
 public class ArticleCommand {
     private Long id;
     private String title;
-//    @NotBlank
+    @NotBlank
     private String firstLanguage;
-//    @NotBlank
+    @NotBlank
     private String secondLanguage;
     private String tag;
     private Date creationDate;

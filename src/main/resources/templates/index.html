@@ -39,7 +39,7 @@
                                 <textarea type="textarea" id="firstLanguage" class="form-control" style="height: 500px"
                                           th:field="*{firstLanguage}"></textarea>
                                 <span th:if="${#fields.hasErrors('firstLanguage')}" th:errors="*{firstLanguage}"
-                                      class="help-block">Error</span>
+                                      class="form-text text-danger">Error</span>
                             </div>
                             <div class="col form-group"
                                  th:classappend="${#fields.hasErrors('firstLanguage')}? 'has-error'">
@@ -47,7 +47,8 @@
                                 <textarea type="textarea" id="secondLanguage" class="form-control" style="height: 500px"
                                           th:field="*{secondLanguage}"></textarea>
                                 <span th:if="${#fields.hasErrors('secondLanguage')}" th:errors="*{secondLanguage}"
-                                      class="help-block">Error</span>
+                                      class="form-text text-danger">Error</span>
+                                </small>
                             </div>
                         </div>
                         <div class="row justify-content-sm-center">

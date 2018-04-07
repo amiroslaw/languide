@@ -25,18 +25,16 @@ public class TranslationController {
     @PostMapping("/translation")
     public String saveOrUpdateTranslation(@Valid @ModelAttribute Translation translation, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(objectError -> {
-                log.debug(objectError.toString());
-            });
+            bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             return TRANSLATION_FORM;
         }
         translationService.createOrUpdateTranslation(translation);
         return "redirect:/dictionary";
     }
     @PostMapping("/translation/{articleId}")
-    public String saveTranslation(@Valid @ModelAttribute Translation translation, BindingResult bindingResult, @PathVariable Long articleId) {
+    public void saveTranslation(@Valid @ModelAttribute Translation translation, @PathVariable Long articleId) {
         translationService.createOrUpdateTranslation(translation);
-        return "redirect:/article/" + articleId;
+//        return "redirect:/article/" + articleId;
     }
 
     @GetMapping("/translation")
