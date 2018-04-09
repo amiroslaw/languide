@@ -44,7 +44,9 @@
                     <td th:text="${article.id}">remove later</td>
                     <td th:if="${article.title} != null" th:text="${article.title}">Title</td>
                     <td th:if="${article.title} == null" colspan="2">Anonymous article</td>
-                    <td><a href="#" th:href="@{/tag/id}" th:text="${article.tag}">Tag</a></td>
+                    <td th:if="${article.title} != null"><span th:text="${article.tag}">Tag</span></td>
+                    <!--//todo add link-->
+                    <!--<td th:if="${article.title} != null"><a href="#" th:href="@{/tag/id}" th:text="${article.tag}">Tag</a></td>-->
                     <td th:text="${#calendars.format(article.creationDate,'dd/M/yyyy hh:mm')}">Date</td>
                     <td><a href="#" th:href="@{|/article/${article.id}|}"><i class="fas fa-eye"></i></a></td>
                     <!--<td> <a href="#" th:href="@{/user} + ${sec:authentication='name'}" th:text="">View </a></td>-->

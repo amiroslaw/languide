@@ -18,14 +18,14 @@ public class DictionaryServiceImp implements DictionaryService {
     private UserService userService;
 
     @Autowired
-    public DictionaryServiceImp(DictionaryRepository dictionaryRepository, UserService userService){
+    public DictionaryServiceImp(DictionaryRepository dictionaryRepository, UserService userService) {
         this.dictionaryRepository = dictionaryRepository;
         this.userService = userService;
     }
 
     @Override
     public Dictionary findUserDictionary() {
-        final Dictionary dictionary = userService.getLoggedUser()
+        Dictionary dictionary = userService.getLoggedUser()
                 .map(User::getDictionary)
                 .orElseThrow(() -> new NotFoundException("Not found."));
         return Optional.ofNullable(dictionaryRepository.findById(dictionary.getId()))
@@ -35,7 +35,7 @@ public class DictionaryServiceImp implements DictionaryService {
 
     @Override
     public void saveTranslation(Translation translation) {
-        final Dictionary dictionary = findUserDictionary();
+        Dictionary dictionary = findUserDictionary();
         dictionary.getTranslations().add(translation);
         dictionaryRepository.save(dictionary);
     }

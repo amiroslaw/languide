@@ -4,18 +4,16 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude="user")
+@EqualsAndHashCode(exclude = "user")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class Notebook {
-
     @Id
     @GeneratedValue
     private Long id;
@@ -26,7 +24,6 @@ public class Notebook {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "notebook")
     private Set<Article> articles;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = true)
+    @JoinColumn(name = "user_id")
     private User user;
-
 }

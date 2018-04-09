@@ -5,7 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import xyz.miroslaw.languide.model.Translation;
 import xyz.miroslaw.languide.service.TranslationService;
 
@@ -17,6 +20,7 @@ public class TranslationController {
 
     private static final String TRANSLATION_FORM = "dictionary/translationform";
     private TranslationService translationService;
+
     @Autowired
     public TranslationController(TranslationService transactionService) {
         this.translationService = transactionService;
@@ -31,10 +35,11 @@ public class TranslationController {
         translationService.createOrUpdateTranslation(translation);
         return "redirect:/dictionary";
     }
+
     @PostMapping("/translation/{articleId}")
-    public void saveTranslation(@Valid @ModelAttribute Translation translation, @PathVariable Long articleId) {
+    public String saveTranslation(@Valid @ModelAttribute Translation translation, @PathVariable Long articleId) {
         translationService.createOrUpdateTranslation(translation);
-//        return "redirect:/article/" + articleId;
+        return "redirect:/article/" + articleId;
     }
 
     @GetMapping("/translation")
@@ -43,6 +48,7 @@ public class TranslationController {
         model.addAttribute("translation", translation);
         return TRANSLATION_FORM;
     }
+
     @GetMapping("/translation/{id}/update")
     public String fillTranslationForm(@PathVariable Long id, Model model) {
         model.addAttribute("translation", translationService.findById(id));

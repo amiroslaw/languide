@@ -5,13 +5,12 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude="notebook")
+@EqualsAndHashCode(exclude = "notebook")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

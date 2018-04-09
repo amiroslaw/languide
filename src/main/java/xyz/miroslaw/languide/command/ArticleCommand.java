@@ -1,10 +1,8 @@
 package xyz.miroslaw.languide.command;
-
-import lombok.Data;
-import xyz.miroslaw.languide.model.Notebook;
-
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import lombok.Data;
+import xyz.miroslaw.languide.model.Notebook;
 
 @Data
 public class ArticleCommand {

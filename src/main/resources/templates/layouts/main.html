@@ -50,10 +50,11 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="article">
                             <a class="dropdown-item" href="/index" th:href="@{/}">New article</a>
-                            <a class="dropdown-item" href="/user/id/articles" th:href="@{/user_articles(id=0)}" sec:authorize="hasRole('USER')">My list</a>
+                            <a class="dropdown-item" href="/user/id/articles" th:href="@{/articles(id=0)}" sec:authorize="hasRole('USER')">My list</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/articles" th:href="@{/all_articles}">All articles</a>
-                            <a class="dropdown-item" href="/tags" th:href="@{/tags}">Tags</a>
+                            <a class="dropdown-item" href="/articles" th:href="@{/articles/all}">All articles</a>
+                            <!--//todo add tag list-->
+                            <!--<a class="dropdown-item" href="/tags" th:href="@{/tags}">Tags</a>-->
                         </div>
                     </li>
                     <li class="nav-item dropdown" sec:authorize="hasRole('USER')">

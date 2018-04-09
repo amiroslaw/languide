@@ -18,8 +18,8 @@
     </th:block>
 </head>
 <body>
-<div th:insert="~{layouts/main :: content}"></div>
 <div class="container">
+    <div th:insert="~{layouts/main :: content}"></div>
     <section>
         <div class="row">
             <div class="col-md-4 mx-auto">
@@ -37,7 +37,7 @@
                                        th:field="*{title}" required autofocus>
                             </div>
                             <small th:if="${#fields.hasErrors('title')}" th:errors="*{title}"
-                                                 class="form-text text-danger"> should has some text
+                                   class="form-text text-danger"> should has some text
                             </small>
                             <div class="form-group">
                                 <label for="tag">Description</label>

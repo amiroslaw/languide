@@ -10,27 +10,26 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TranslationServiceImp implements TranslationService{
+public class TranslationServiceImp implements TranslationService {
 
     private TranslationRepository translationRepository;
     private DictionaryService dictionaryService;
 
     @Autowired
-    public TranslationServiceImp(TranslationRepository translationRepository, DictionaryService dictionaryService){
+    public TranslationServiceImp(TranslationRepository translationRepository, DictionaryService dictionaryService) {
         this.translationRepository = translationRepository;
         this.dictionaryService = dictionaryService;
     }
 
     @Override
-    public Translation findById(Long id) {
+    public Translation findById(final Long id) {
         return Optional.ofNullable(translationRepository.findById(id))
                 .map(Optional::get)
                 .orElseThrow(() -> new NotFoundException("Not found. Id: " + id));
-
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(final Long id) {
         Optional<Translation> article = translationRepository.findById(id);
         if (!article.isPresent()) {
             throw new NotFoundException("Not found. Id: " + id);
@@ -46,7 +45,7 @@ public class TranslationServiceImp implements TranslationService{
     }
 
     @Override
-    public List<Translation> findDictionaryTranslations(Long id) {
+    public List<Translation> findDictionaryTranslations(final Long id) {
         return translationRepository.findAllByDictionaryId(id);
     }
 }

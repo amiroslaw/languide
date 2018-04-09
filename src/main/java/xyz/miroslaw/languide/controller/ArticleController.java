@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import xyz.miroslaw.languide.command.ArticleCommand;
 import xyz.miroslaw.languide.exception.NotFoundException;
 import xyz.miroslaw.languide.model.Article;
@@ -38,7 +37,7 @@ public class ArticleController {
 
     @PostMapping("/article")
     @ResponseStatus(HttpStatus.CREATED)
-    public String pair(@ModelAttribute @Valid ArticleCommand articleCommand, BindingResult bindingResult, Model model ) {
+    public String pair(@ModelAttribute @Valid ArticleCommand articleCommand, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             return "/index";
@@ -50,29 +49,23 @@ public class ArticleController {
         return "/article/pair";
     }
 
-    @PostMapping("/articledescription/{articleId}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public String saveArticle(@Valid @ModelAttribute Article article, BindingResult bindingResult, @PathVariable long articleId, RedirectAttributes redirectAttrs) {
+    @PostMapping("/article/{articleId}/updatedescription")
+    public String updateArticleDescription(@Valid @ModelAttribute Article article, BindingResult bindingResult, @PathVariable long articleId) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
-            return "article/pair";
+            return "/article/pair";
         }
-        articleService.updateArticleDescription(article, articleId);
-        return "index";
-        //todo redirect
-//        redirectAttrs.addAttribute("articleId", articleId).addFlashAttribute("message", "Account created!");
-//        return "redirect:/article/" + articleId;
-//        user_articles?id=0
+        articleService.updateArticle(article, articleId);
+        return "redirect:/article/" + articleId;
     }
+
     @PostMapping("/article/{articleId}/update")
-    @ResponseStatus(HttpStatus.CREATED)
     public String updateArticle(@RequestBody Article article, @PathVariable long articleId, @RequestParam("notebook") long notebookId) {
         articleService.updateArticle(article, articleId, notebookId);
+        //todo redirect to /ariticles?id=0
         return "index";
-//        return new ModelAndView("index.html");
-//        redirectAttrs.addAttribute("articleId", articleId).addFlashAttribute("message", "Account created!");
-//        return "redirect:/article/" + articleId;
     }
+
     @GetMapping("/article/{articleId}/edit")
     public String showArticleForm(@PathVariable long articleId, Model model) {
         Article article = articleService.findById(articleId);
@@ -88,13 +81,13 @@ public class ArticleController {
         return "article/view";
     }
 
-    @GetMapping("/all_articles")
+    @GetMapping("/articles/all")
     public String showAllArticles(Model model) {
-            model.addAttribute("articles", articleService.findPublicArticles());
+        model.addAttribute("articles", articleService.findPublicArticles());
         return "article/allarticles";
     }
 
-    @GetMapping("/user_articles")
+    @GetMapping("/articles")
     public String showUserArticles(@RequestParam("id") long id, Model model) {
         if (id == 0) {
             userService.getLoggedUser().ifPresent(e -> {
@@ -110,10 +103,10 @@ public class ArticleController {
     @GetMapping("/article/{articleId}/delete")
     public String deleteById(@RequestParam("id") long id, @PathVariable long articleId) {
         articleService.deleteById(articleId);
-        if(id == 0){
-            return "redirect:/user_articles?id="+id;
+        if (id == 0) {
+            return "redirect:/articles?id=" + id;
         }
-        return "redirect:/user_articles?id=0";
+        return "redirect:/articles?id=0";
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

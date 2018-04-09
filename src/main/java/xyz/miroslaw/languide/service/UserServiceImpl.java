@@ -22,15 +22,19 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private NotebookService notebookService;
-    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    UserServiceImpl(UserRepository userRepository, NotebookService notebookService, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.notebookService = notebookService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Override
-    public User findById(Long id) {
+    public User findById(final Long id) {
         return Optional.ofNullable(userRepository.findById(id))
                 .map(Optional::get)
                 .orElseThrow(() -> new NotFoundException("Not found. Id: " + id));
@@ -54,11 +58,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(final Long id) {
         userRepository.delete(getIfExist(id));
     }
 
-    private User getIfExist(Long id) {
+    private User getIfExist(final Long id) {
         Optional<User> article = userRepository.findById(id);
         if (!article.isPresent()) {
             throw new NotFoundException("Not found. Id: " + id);
@@ -77,19 +81,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public  HashSet<Notebook> getUserNotebooks() {
+    public HashSet<Notebook> getUserNotebooks() {
         if (getLoggedUser().isPresent()) {
             return (HashSet<Notebook>) notebookService.findUserNotebooks(getLoggedUser().get().getId());
         }
         return new HashSet<>();
     }
+
     @Override
     public Optional<User> getLoggedUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth instanceof AnonymousAuthenticationToken || auth == null) {
             return Optional.empty();
         } else {
-            return  findByName(auth.getName());
+            return findByName(auth.getName());
         }
     }
 

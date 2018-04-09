@@ -13,6 +13,7 @@ import xyz.miroslaw.languide.service.DictionaryService;
 public class DictionaryController {
 
     private DictionaryService dictionaryService;
+
     @Autowired
     public DictionaryController(DictionaryService dictionaryService) {
         this.dictionaryService = dictionaryService;

@@ -20,13 +20,14 @@
 <body>
 <div class="container mt-5">
     <!--/*@thymesVar id="user" type="xyz.miroslaw.languide.model.User"*/-->
-    <form class="form-horizontal" role="form" method="POST" action="/register" th:action="@{/register}" th:object="${user}" >
-            <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <h2>Register New User</h2>
-                    <hr>
-                </div>
+    <form class="form-horizontal" role="form" method="POST" action="/register" th:action="@{/register}"
+          th:object="${user}">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h2>Register New User</h2>
+                <hr>
             </div>
+        </div>
 
         <!--<div class="row">-->
         <!--<div class="col-md-6 offset-md-3">-->
@@ -52,7 +53,8 @@
                                placeholder="John Doe" required autofocus>
                     </div>
                     <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                           class="form-text text-danger"><i class="fas fa-window-close"></i>  Password should has at least 6 characters
+                           class="form-text text-danger"><i class="fas fa-window-close"></i> Password should has at
+                        least 6 characters
                     </small>
                 </div>
             </div>
@@ -67,7 +69,8 @@
                                placeholder="Password" required>
                     </div>
                     <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-                           class="form-text text-danger"><i class="fas fa-window-close"></i>  Password should has at least 6 characters
+                           class="form-text text-danger"><i class="fas fa-window-close"></i> Password should has at
+                        least 6 characters
                     </small>
                 </div>
             </div>
@@ -80,16 +83,16 @@
                 <button type="submit" class="btn btn-success"><i class="fas fa-user-plus"></i> Register</button>
             </div>
             <!--<div class="col-md-3">-->
-                <!--<div class="form-control-feedback">-->
-                        <!--<span class="text-danger align-middle">-->
-                            <!--<i class="fa fa-close"> Example Error Message</i>-->
-                        <!--</span>-->
-                <!--</div>-->
+            <!--<div class="form-control-feedback">-->
+            <!--<span class="text-danger align-middle">-->
+            <!--<i class="fa fa-close"> Example Error Message</i>-->
+            <!--</span>-->
+            <!--</div>-->
             <!--</div>-->
         </div>
     </form>
     <div class="row mt-5">
-        <div class="col-md-6 offset-md-3" >
+        <div class="col-md-6 offset-md-3">
             <div class="alert alert-info" th:if="${param.success}">
                 You've successfully registered to our awesome app!
                 <a href="/login" class="alert-link">Log in</a>

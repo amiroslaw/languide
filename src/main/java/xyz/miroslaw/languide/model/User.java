@@ -22,7 +22,6 @@ public class User {
     @NotNull
     private String name;
     @NotNull
-//    @Size(min=3)
     @Size(min = 3, max = 70, message = "Password should contain {min} to {max} letters")
     private String password;
     private String email;
@@ -35,7 +34,7 @@ public class User {
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
     @Singular
-    @OneToMany(cascade = CascadeType.ALL,  fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Notebook> notebooks = new HashSet<>();
     @OneToOne(cascade = CascadeType.ALL)
     private Dictionary dictionary;

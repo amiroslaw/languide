@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4">
+>
 <head>
     <title>Languide</title>
     <th:block th:replace="~{layouts/main :: head}">
@@ -30,12 +30,11 @@
                 </div>
                 <div class="card-body">
                     <!--/*@thymesVar id="articleCommand" type="xyz.miroslaw.languide.command.ArticleCommand"*/-->
-                    <form th:object="${articleCommand}" th:action="@{/article}"  method="POST">
+                    <form th:object="${articleCommand}" th:action="@{/article}" method="POST">
                         <div class="row ">
                             <div class="col form-group"
                                  th:classappend="${#fields.hasErrors('firstLanguage')}? 'has-error'">
-                                <label for="firstLanguage">Put text from first language <span
-                                        class="required">*</span></label>
+                                <label for="firstLanguage">* Put english text</label>
                                 <textarea type="textarea" id="firstLanguage" class="form-control" style="height: 500px"
                                           th:field="*{firstLanguage}"></textarea>
                                 <span th:if="${#fields.hasErrors('firstLanguage')}" th:errors="*{firstLanguage}"
@@ -43,7 +42,7 @@
                             </div>
                             <div class="col form-group"
                                  th:classappend="${#fields.hasErrors('firstLanguage')}? 'has-error'">
-                                <label for="secondLanguage">Put text from second language</label>
+                                <label for="secondLanguage">* Put translated text</label>
                                 <textarea type="textarea" id="secondLanguage" class="form-control" style="height: 500px"
                                           th:field="*{secondLanguage}"></textarea>
                                 <span th:if="${#fields.hasErrors('secondLanguage')}" th:errors="*{secondLanguage}"

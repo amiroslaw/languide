@@ -16,7 +16,6 @@ public interface UserService extends UserDetailsService {
     User createUser(User user);
     List<User> findUsers();
     void deleteById(Long id);
-
     HashSet<Notebook> getUserNotebooks();
     Optional<User> getLoggedUser();
 }

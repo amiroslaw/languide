@@ -11,7 +11,7 @@ public class HomeController {
     
     @GetMapping({"/", "", "/index"})
     public String showHomePage(Model model) {
-        ArticleCommand articleCommand = new ArticleCommand();
+        final ArticleCommand articleCommand = new ArticleCommand();
         model.addAttribute("articleCommand", articleCommand);
         return "index";
     }
@@ -20,7 +20,5 @@ public class HomeController {
     public String showLoginPage() {
         return "/user/login";
     }
-
-
 
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4">
+>
 <head>
     <title>Languide</title>
     <th:block th:replace="~{layouts/main :: head}">
@@ -24,32 +24,32 @@
     <div th:insert="~{layouts/main :: content}"></div>
     <div class="row">
         <div class="col-lg-4 mx-auto">
-                <!--/*@thymesVar id="user" type="xyz.miroslaw.languide.model.Translation"*/-->
-                <form th:object="${translation}" action="/translation"
-                      th:action="@{'/translation'}" method="post">
-                    <input type="hidden" th:field="*{id}"/>
-                    <div class="card">
-                        <div class="card-header bg-primary text-light text-center">
-                            Add word to dictionary
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="source">Source</label>
-                                <input type="text" class="form-control" id="source"
-                                       th:field="*{source}" required>
-                            </div>
-                            <small th:if="${#fields.hasErrors('source')}" th:errors="*{source}"
-                                   class="form-text text-danger">Password should not be empty
-                            </small>
-                            <div class="form-group">
-                                <label for="articleTranslation">Translation</label>
-                                <input type="text" class="form-control" id="articleTranslation"
-                                       th:field="*{articleTranslation}">
-                            </div>
-                            <button type="submit" class="btn btn-success mx-auto">Save</button>
-                        </div>
+            <!--/*@thymesVar id="user" type="xyz.miroslaw.languide.model.Translation"*/-->
+            <form th:object="${translation}" action="/translation"
+                  th:action="@{'/translation'}" method="post">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="card">
+                    <div class="card-header bg-primary text-light text-center">
+                        Add word to dictionary
                     </div>
-                </form>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="source">Source</label>
+                            <input type="text" class="form-control" id="source"
+                                   th:field="*{source}" required>
+                        </div>
+                        <small th:if="${#fields.hasErrors('source')}" th:errors="*{source}"
+                               class="form-text text-danger">Password should not be empty
+                        </small>
+                        <div class="form-group">
+                            <label for="articleTranslation">Translation</label>
+                            <input type="text" class="form-control" id="articleTranslation"
+                                   th:field="*{articleTranslation}">
+                        </div>
+                        <button type="submit" class="btn btn-success mx-auto">Save</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

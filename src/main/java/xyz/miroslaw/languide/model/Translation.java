@@ -22,7 +22,6 @@ public class Translation {
     private String articleTranslation;
     @ElementCollection
     private List<String> googleTranslation;
-//    private List<String> cambridgeTranslation;
     private String audioURL;
     @ManyToOne
     @JoinColumn(name = "dictionary_id")

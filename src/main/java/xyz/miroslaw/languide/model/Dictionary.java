@@ -5,13 +5,11 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude="user")
+@EqualsAndHashCode(exclude = "user")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,6 +25,4 @@ public class Dictionary {
     private List<Translation> translations;
     @OneToOne
     private User user;
-
-
 }

@@ -6,13 +6,10 @@ import org.springframework.stereotype.Service;
 import xyz.miroslaw.languide.exception.NotFoundException;
 import xyz.miroslaw.languide.model.Article;
 import xyz.miroslaw.languide.repository.ArticleRepository;
-import xyz.miroslaw.languide.repository.NotebookRepository;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 public class ArticleServiceImp implements ArticleService {
@@ -29,33 +26,37 @@ public class ArticleServiceImp implements ArticleService {
     @Override
     public List<Article> findPublicArticles() {
         List<Article> allArticles = (List<Article>) articleRepository.findAll();
-        if(allArticles.isEmpty()) return new ArrayList<>();
+        if (allArticles.isEmpty()) return new ArrayList<>();
         return allArticles.stream().filter(article -> !article.isHidden()).collect(Collectors.toList());
-    }
-    @Override
-    public List<Article> findNotebookArticles(final Long id) {
-        List<Article> allArticles = (List<Article>) articleRepository.findAll();
-        if(allArticles.isEmpty()) return new ArrayList<>();
-        return allArticles.stream().filter(article -> article.getNotebook().getId() == id).collect(Collectors.toList());
     }
 
     @Override
-    public Article findById(Long id) {
+    public List<Article> findNotebookArticles(final Long id) {
+        List<Article> allArticles = (ArrayList<Article>) articleRepository.findAll();
+        return allArticles.stream()
+                .filter(article -> article.getNotebook() != null)
+                .filter(article -> article.getNotebook().getId().equals(id))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Article findById(final Long id) {
         return Optional.ofNullable(articleRepository.findById(id))
                 .map(Optional::get)
                 .orElseThrow(() -> new NotFoundException("Not found. Id: " + id));
     }
+
     @Override
-    public List<Article> findArticlesByUserId(Long id){
+    public List<Article> findArticlesByUserId(final Long id) {
         return articleRepository.findArticlesByUserId(id);
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(final Long id) {
         articleRepository.delete(getIfExist(id));
     }
 
-    private Article getIfExist(Long id) {
+    private Article getIfExist(final Long id) {
         Optional<Article> article = articleRepository.findById(id);
         if (!article.isPresent()) {
             throw new NotFoundException("Not found. Id: " + id);
@@ -69,26 +70,29 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public void updateArticleDescription(Article article, long articleId) {
+    public void updateArticle(Article article, final long articleId) {
         Article oldArticle = findById(articleId);
-        oldArticle.setTitle(article.getTitle());
-        oldArticle.setTag(article.getTag());
-        oldArticle.setHidden(article.isHidden());
+        setValues(article, oldArticle);
         oldArticle.setCreationDate(Calendar.getInstance().getTime());
         oldArticle.setNotebook(article.getNotebook());
-       createOrUpdateArticle(oldArticle);
+        createOrUpdateArticle(oldArticle);
     }
-@Override
-    public void updateArticle(Article article, long articleId, long notebookId) {
+
+    @Override
+    public void updateArticle(Article article, final long articleId, final long notebookId) {
         Article oldArticle = findById(articleId);
-        oldArticle.setTitle(article.getTitle());
-        oldArticle.setTag(article.getTag());
-        oldArticle.setHidden(article.isHidden());
+        setValues(article, oldArticle);
         oldArticle.setFirstLanguage(article.getFirstLanguage());
         oldArticle.setSecondLanguage(article.getSecondLanguage());
         oldArticle.setCreationDate(article.getCreationDate());
         oldArticle.setNotebook(notebookService.findById(notebookId));
-       createOrUpdateArticle(oldArticle);
+        createOrUpdateArticle(oldArticle);
+    }
+
+    private void setValues(Article article, Article oldArticle) {
+        oldArticle.setTitle(article.getTitle());
+        oldArticle.setTag(article.getTag());
+        oldArticle.setHidden(article.isHidden());
     }
 
 }

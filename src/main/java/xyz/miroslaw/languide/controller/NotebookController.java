@@ -20,6 +20,7 @@ public class NotebookController {
 
     private NotebookService notebookService;
     private static final String NOTEBOOK_NOTEBOOKFORM = "notebook/notebookform";
+
     @Autowired
     public NotebookController(NotebookService notebookService) {
         this.notebookService = notebookService;
@@ -40,10 +41,8 @@ public class NotebookController {
 
     @PostMapping("/notebook")
     public String saveOrUpdateNotebook(@Valid @ModelAttribute Notebook notebookAttribute, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
-            bindingResult.getAllErrors().forEach(objectError -> {
-                log.warn(objectError.toString());
-            });
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(objectError -> log.warn(objectError.toString()));
             return NOTEBOOK_NOTEBOOKFORM;
         }
         notebookService.createOrUpdateNotebook(notebookAttribute);
@@ -57,7 +56,7 @@ public class NotebookController {
     }
 
     @GetMapping("notebook/{id}/delete")
-    public String deleteById(@PathVariable Long id){
+    public String deleteById(@PathVariable Long id) {
         notebookService.deleteById(id);
         return "redirect:/notebooks";
     }
