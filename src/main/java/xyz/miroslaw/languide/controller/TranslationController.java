@@ -2,6 +2,7 @@ package xyz.miroslaw.languide.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,39 +26,42 @@ public class TranslationController {
     public TranslationController(TranslationService transactionService) {
         this.translationService = transactionService;
     }
-
-    @PostMapping("/translation")
-    public String saveOrUpdateTranslation(@Valid @ModelAttribute Translation translation, BindingResult bindingResult) {
+    @PreAuthorize("#userName == authentication.name")
+    @PostMapping("/user/{userName}/translation")
+    public String saveOrUpdateTranslation(@PathVariable String userName, @Valid @ModelAttribute Translation translation, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             return TRANSLATION_FORM;
         }
         translationService.createOrUpdateTranslation(translation);
-        return "redirect:/dictionary";
+        return "redirect:/user/" + userName + "/dictionary";
     }
-
-    @PostMapping("/translation/{articleId}")
-    public String saveTranslation(@Valid @ModelAttribute Translation translation, @PathVariable Long articleId) {
+    @PreAuthorize("#userName == authentication.name")
+    @PostMapping("/user/{userName}/translation/{articleId}")
+    public String saveTranslation(@PathVariable String userName, @Valid @ModelAttribute Translation translation, @PathVariable Long articleId) {
         translationService.createOrUpdateTranslation(translation);
-        return "redirect:/article/" + articleId;
+        return "redirect:/user/" + userName + "/article/" + articleId;
     }
 
-    @GetMapping("/translation")
-    public String showNotebookForm(Model model) {
+    @PreAuthorize("#userName == authentication.name")
+    @GetMapping("/user/{userName}/translation")
+    public String showNotebookForm(@PathVariable String userName, Model model) {
         Translation translation = new Translation();
         model.addAttribute("translation", translation);
         return TRANSLATION_FORM;
     }
 
-    @GetMapping("/translation/{id}/update")
-    public String fillTranslationForm(@PathVariable Long id, Model model) {
+    @PreAuthorize("#userName == authentication.name")
+    @GetMapping("/user/{userName}/translation/{id}/update")
+    public String fillTranslationForm(@PathVariable String userName, @PathVariable Long id, Model model) {
         model.addAttribute("translation", translationService.findById(id));
         return TRANSLATION_FORM;
     }
 
-    @GetMapping("/translation/{id}/delete")
-    public String deleteTranslationById(@PathVariable Long id) {
+    @PreAuthorize("#userName == authentication.name")
+    @GetMapping("/user/{userName}/translation/{id}/delete")
+    public String deleteTranslationById(@PathVariable String userName, @PathVariable Long id) {
         translationService.deleteById(id);
-        return "redirect:/dictionary";
+        return "redirect:/user/" + userName + "/dictionary";
     }
 }

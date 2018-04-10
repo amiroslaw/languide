@@ -2,6 +2,7 @@ package xyz.miroslaw.languide.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,38 +27,44 @@ public class NotebookController {
         this.notebookService = notebookService;
     }
 
-    @GetMapping("/notebooks")
-    public String showNotebooks(Model model) {
+    @PreAuthorize("#userName == authentication.name")
+    @GetMapping("/user/{userName}/notebooks")
+    public String showNotebooks(@PathVariable String userName, Model model) {
         model.addAttribute("notebooks", notebookService.findUserNotebooks());
         return "notebook/allnotebooks";
     }
 
-    @GetMapping("/notebook")
-    public String showNotebookForm(Model model) {
+    @PreAuthorize("#userName == authentication.name")
+    @GetMapping("/user/{userName}/notebook")
+    public String showNotebookForm(@PathVariable String userName, Model model) {
         Notebook notebook = new Notebook();
         model.addAttribute("notebook", notebook);
         return NOTEBOOK_NOTEBOOKFORM;
     }
 
-    @PostMapping("/notebook")
-    public String saveOrUpdateNotebook(@Valid @ModelAttribute Notebook notebookAttribute, BindingResult bindingResult) {
+    @PreAuthorize("#userName == authentication.name")
+    @PostMapping("/user/{userName}/notebook")
+    public String saveOrUpdateNotebook(@PathVariable String userName, @Valid @ModelAttribute Notebook notebookAttribute, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.warn(objectError.toString()));
             return NOTEBOOK_NOTEBOOKFORM;
         }
         notebookService.createOrUpdateNotebook(notebookAttribute);
-        return "redirect:/notebooks";
+        return "redirect:/user/" + userName + "/notebooks";
     }
 
-    @GetMapping("/notebook/{id}/update")
-    public String fillNotebookForm(@PathVariable Long id, Model model) {
+    @PreAuthorize("#userName == authentication.name")
+    @GetMapping("/user/{userName}/notebook/{id}/update")
+    public String fillNotebookForm(@PathVariable String userName, @PathVariable Long id, Model model) {
         model.addAttribute("notebook", notebookService.findById(id));
         return NOTEBOOK_NOTEBOOKFORM;
     }
 
-    @GetMapping("notebook/{id}/delete")
-    public String deleteById(@PathVariable Long id) {
-        notebookService.deleteById(id);
-        return "redirect:/notebooks";
+    @PreAuthorize("#userName == authentication.name")
+    @GetMapping("/user/{userName}/notebook/{id}/delete")
+    public String deleteById(@PathVariable String userName, @PathVariable Long id) {
+        notebookService.deleteById(userName, id);
+        return "redirect:/user/" + userName + "/notebooks";
+
     }
 }

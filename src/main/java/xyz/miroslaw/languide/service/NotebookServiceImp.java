@@ -32,8 +32,8 @@ public class NotebookServiceImp implements NotebookService {
     }
 
     @Override
-    public void deleteById(final Long id) {
-        Optional<Notebook> article = notebookRepository.findById(id);
+    public void deleteById(String userName, final Long id) {
+        Optional<Notebook> article = notebookRepository.findAllByUserNameAndAndId(userName, id);
         if (!article.isPresent()) {
             throw new NotFoundException("Not found. Id: " + id);
         } else {

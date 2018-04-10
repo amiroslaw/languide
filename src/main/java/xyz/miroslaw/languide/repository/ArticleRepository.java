@@ -8,8 +8,8 @@ import xyz.miroslaw.languide.model.Article;
 import java.util.List;
 
 public interface ArticleRepository extends CrudRepository<Article, Long> {
-    String FIND_BY_ID_STATE = "SELECT * FROM ARTICLE a WHERE a.NOTEBOOK_ID  in (SELECT n.ID FROM NOTEBOOK n WHERE USER_ID = :id)";
+    String FIND_BY_USERID = "SELECT * FROM ARTICLE a WHERE a.NOTEBOOK_ID  in (SELECT n.ID FROM NOTEBOOK n WHERE USER_ID = :id)";
 
-    @Query(value = FIND_BY_ID_STATE, nativeQuery = true)
+    @Query(value = FIND_BY_USERID, nativeQuery = true)
     List<Article> findArticlesByUserId(@Param("id") Long id);
 }

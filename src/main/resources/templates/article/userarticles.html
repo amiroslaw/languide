@@ -54,10 +54,10 @@
                         <!--//todo add link-->
                         <!--<td><a href="#" th:href="@{/tag/id}" th:text="${article.tag}">Tag</a></td>-->
                         <td th:text="${#calendars.format(article.creationDate,'dd/M/yyyy hh:mm')}">Date</td>
-                        <td> <a href="#" th:href="|/article/${article.id}|"><i class="fas fa-eye"></i></a></td>
-                        <td> <a href="#" th:href="|/article/${article.id}/edit|"><i class="fas fa-pencil-alt"></i></a></td>
-                        <td th:if="${#request.getParameter('id')} &gt; 0"> <a href="#" th:href="@{/article/{aricleId}/delete(aricleId = ${article.id}, id=${article.notebook.id})}"><i class="fas fa-trash-alt"></i></a></td>
-                        <td th:if="${#request.getParameter('id')} == 0"> <a href="#" th:href="@{/article/{aricleId}/delete(aricleId = ${article.id}, id=0)}"><i class="fas fa-trash-alt"></i></a></td>
+                        <td> <a href="#" th:href="|/user/${#authentication.name}/article/${article.id}|"><i class="fas fa-eye"></i></a></td>
+                        <td> <a href="#" th:href="|/user/${#authentication.name}/article/${article.id}/edit|"><i class="fas fa-pencil-alt"></i></a></td>
+                        <td th:if="${#request.getParameter('id')} &gt; 0"> <a href="#" th:href="@{/user/{userName}/article/{aricleId}/delete(delete(userName = ${#authentication.name}, aricleId = ${article.id}, id=${article.notebook.id})}"><i class="fas fa-trash-alt"></i></a></td>
+                        <td th:if="${#request.getParameter('id')} == 0"> <a href="#" th:href="@{/user/{userName}/article/{aricleId}/delete(userName = ${#authentication.name}, aricleId = ${article.id}, id=0)}"><i class="fas fa-trash-alt"></i></a></td>
                     </tr>
                 </tbody>
             </table>

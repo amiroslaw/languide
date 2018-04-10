@@ -48,7 +48,7 @@
                     <!--//todo add link-->
                     <!--<td th:if="${article.title} != null"><a href="#" th:href="@{/tag/id}" th:text="${article.tag}">Tag</a></td>-->
                     <td th:text="${#calendars.format(article.creationDate,'dd/M/yyyy hh:mm')}">Date</td>
-                    <td><a href="#" th:href="@{|/article/${article.id}|}"><i class="fas fa-eye"></i></a></td>
+                    <td><a href="#" th:href="@{|/user/${#authentication.name}/article/${article.id}|}"><i class="fas fa-eye"></i></a></td>
                     <!--<td> <a href="#" th:href="@{/user} + ${sec:authentication='name'}" th:text="">View </a></td>-->
                 </tr>
                 </tbody>

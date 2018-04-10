@@ -3,6 +3,7 @@ package xyz.miroslaw.languide.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,9 +36,8 @@ public class ArticleController {
         return new ArticleCommand();
     }
 
-    @PostMapping("/article")
-    @ResponseStatus(HttpStatus.CREATED)
-    public String pair(@ModelAttribute @Valid ArticleCommand articleCommand, BindingResult bindingResult, Model model) {
+    @PostMapping("/user/{userName}/article")
+    public String pair(@PathVariable String userName, @ModelAttribute @Valid ArticleCommand articleCommand, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             return "/index";
@@ -48,34 +48,36 @@ public class ArticleController {
         model.addAttribute("article", article);
         return "/article/pair";
     }
-
-    @PostMapping("/article/{articleId}/updatedescription")
-    public String updateArticleDescription(@Valid @ModelAttribute Article article, BindingResult bindingResult, @PathVariable long articleId) {
+    @PreAuthorize("#userName == authentication.name")
+    @PostMapping("/user/{userName}/article/{articleId}/updatedescription")
+    public String updateArticleDescription(@PathVariable String userName, @Valid @ModelAttribute Article article, BindingResult bindingResult, @PathVariable long articleId) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             return "/article/pair";
         }
         articleService.updateArticle(article, articleId);
-        return "redirect:/article/" + articleId;
+        return "redirect:/user/" + userName + "/article/" + articleId;
     }
 
-    @PostMapping("/article/{articleId}/update")
-    public String updateArticle(@RequestBody Article article, @PathVariable long articleId, @RequestParam("notebook") long notebookId) {
+    @PreAuthorize("#userName == authentication.name")
+    @PostMapping("/user/{userName}/article/{articleId}/update")
+    public String updateArticle(@PathVariable String userName, @RequestBody Article article, @PathVariable long articleId, @RequestParam("notebook") long notebookId) {
         articleService.updateArticle(article, articleId, notebookId);
         //todo redirect to /ariticles?id=0
         return "index";
     }
 
-    @GetMapping("/article/{articleId}/edit")
-    public String showArticleForm(@PathVariable long articleId, Model model) {
+    @PreAuthorize("#userName == authentication.name")
+    @GetMapping("/user/{userName}/article/{articleId}/edit")
+    public String showArticleForm(@PathVariable String userName, @PathVariable long articleId, Model model) {
         Article article = articleService.findById(articleId);
         model.addAttribute("article", article);
         model.addAttribute("notebooks", userService.getUserNotebooks());
         return "/article/articleform";
     }
 
-    @GetMapping("/article/{articleId}")
-    public String showArticle(@PathVariable("articleId") long articleId, Model model) {
+    @GetMapping("/user/{userName}/article/{articleId}")
+    public String showArticle(@PathVariable String userName, @PathVariable("articleId") long articleId, Model model) {
         model.addAttribute("article", articleService.findById(articleId));
         model.addAttribute("translation", new Translation());
         return "article/view";
@@ -87,8 +89,9 @@ public class ArticleController {
         return "article/allarticles";
     }
 
-    @GetMapping("/articles")
-    public String showUserArticles(@RequestParam("id") long id, Model model) {
+    @PreAuthorize("#userName == authentication.name")
+    @GetMapping("/user/{userName}/articles")
+    public String showUserArticles(@PathVariable String userName, @RequestParam("id") long id, Model model) {
         if (id == 0) {
             userService.getLoggedUser().ifPresent(e -> {
                 model.addAttribute("articles", articleService.findArticlesByUserId(e.getId()));
@@ -100,13 +103,14 @@ public class ArticleController {
         return "article/userarticles";
     }
 
-    @GetMapping("/article/{articleId}/delete")
-    public String deleteById(@RequestParam("id") long id, @PathVariable long articleId) {
+    @PreAuthorize("#userName == authentication.name")
+    @GetMapping("/user/{userName}/article/{articleId}/delete")
+    public String deleteById(@PathVariable String userName, @RequestParam("id") long notebookId, @PathVariable long articleId) {
         articleService.deleteById(articleId);
-        if (id == 0) {
-            return "redirect:/articles?id=" + id;
+        if (notebookId == 0) {
+            return "redirect:/user/" + userName + "/articles?id=" + articleId;
         }
-        return "redirect:/articles?id=0";
+        return "redirect:/user/" + userName + "/articles?id=0";
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

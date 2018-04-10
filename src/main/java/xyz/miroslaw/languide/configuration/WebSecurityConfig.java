@@ -26,12 +26,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/resources/**", "/webjars/**", "/assets/**", "/console/**", "/css/**", "/js/**").permitAll()
-                .antMatchers("/index", "/home", "/", "/register", "/article", "/articles/all", "/article/*").permitAll()
+                .antMatchers("/index", "/home", "/", "/register", "/user/**/article/**", "/articles/all").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login")
                 .defaultSuccessUrl("/index").failureUrl("/login?error").permitAll()
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/").deleteCookies("my-remember-me-cookie").permitAll();
+                .logoutSuccessUrl("/").deleteCookies("my-remember-me-cookie").permitAll()
+                .and().exceptionHandling().accessDeniedPage("/403");
         //h2 database testing
         http.csrf().disable();
         http.headers().frameOptions().disable();
@@ -55,4 +56,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }
+
 }

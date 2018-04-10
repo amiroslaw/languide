@@ -50,7 +50,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="article">
                             <a class="dropdown-item" href="/index" th:href="@{/}">New article</a>
-                            <a class="dropdown-item" href="/user/id/articles" th:href="@{/articles(id=0)}" sec:authorize="hasRole('USER')">My list</a>
+                            <a class="dropdown-item" href="/user/id/articles" th:href="@{/user/{userName}/articles(userName = ${#authentication.name}, id=0)}" sec:authorize="hasRole('USER')">My list</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/articles" th:href="@{/articles/all}">All articles</a>
                             <!--//todo add tag list-->
@@ -63,8 +63,8 @@
                             Notebook
                         </a>
                         <div class="dropdown-menu" aria-labelledby="notebook">
-                            <a class="dropdown-item" href="/notebook"  th:href="@{/notebook}">New notebook</a>
-                            <a class="dropdown-item" href="/notebooks"  th:href="@{/notebooks}">List</a>
+                            <a class="dropdown-item" href="/notebook"  th:href="@{|/user/${#authentication.name}/notebook|}">New notebook</a>
+                            <a class="dropdown-item" href="/notebooks"  th:href="@{|/user/${#authentication.name}/notebooks|}">List</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown" sec:authorize="hasRole('USER')">
@@ -73,8 +73,8 @@
                             Dictionary
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dictionary">
-                            <a class="dropdown-item" href="/dictionary" th:href="@{/dictionary}">Dictionary </a>
-                            <a class="dropdown-item" href="/translation"  th:href="@{/translation}">New translation</a>
+                            <a class="dropdown-item" href="/dictionary" th:href="@{|/user/${#authentication.name}/dictionary|}">Dictionary </a>
+                            <a class="dropdown-item" href="/translation"  th:href="@{|/user/${#authentication.name}/translation|}">New translation</a>
                         </div>
                     </li>
                     <li class="nav-item" sec:authorize="isAuthenticated()">

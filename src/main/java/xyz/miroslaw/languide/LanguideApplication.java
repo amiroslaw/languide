@@ -64,17 +64,17 @@ public class LanguideApplication {
             User userEmpty = User.builder().name("empty").password("empty").roles(roleUser).build();
             userService.createUser(userEmpty);
 
-            Notebook publicNotebook = Notebook.builder().title("public").description("public notebook for no register users").user(user2).build();
+            Notebook publicNotebook = Notebook.builder().title("public").description("public notebook for no register user").user(user2).build();
             notebookService.createOrUpdateNotebook(publicNotebook);
 
-            Notebook notebook = Notebook.builder().title("DB notebook").description("first notebook for testing").user(user).build();
-            Notebook notebook2 = Notebook.builder().title("DB notebook2").description("second notebook for testing")
+            Notebook notebook = Notebook.builder().title("DB notebook").description("first notebook for user").user(user).build();
+            Notebook notebook2 = Notebook.builder().title("DB notebook2").description("second notebook for user")
                     .user(user).build();
             notebookService.createOrUpdateNotebook(notebook);
             notebookService.createOrUpdateNotebook(notebook2);
 
-            Notebook notebookTest = Notebook.builder().title("test").description("first notebook for testing").user(user2).build();
-            Notebook notebookTest2 = Notebook.builder().title("test private").description("first notebook for testing").user(user2).build();
+            Notebook notebookTest = Notebook.builder().title("test").description("first notebook for qwer").user(user2).build();
+            Notebook notebookTest2 = Notebook.builder().title("test private").description("second notebook for qwer").user(user2).build();
             notebookService.createOrUpdateNotebook(notebookTest);
             notebookService.createOrUpdateNotebook(notebookTest2);
 
