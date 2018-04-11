@@ -40,20 +40,20 @@ public class ArticleController {
     public String pair(@PathVariable String userName, @ModelAttribute @Valid ArticleCommand articleCommand, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
-            return "/index";
+            return "index";
         }
         Article article = ConverterUtil.convertToArticle(articleCommand);
         article = articleService.createOrUpdateArticle(article);
         model.addAttribute("notebooks", userService.getUserNotebooks());
         model.addAttribute("article", article);
-        return "/article/pair";
+        return "article/pair";
     }
     @PreAuthorize("#userName == authentication.name")
     @PostMapping("/user/{userName}/article/{articleId}/updatedescription")
     public String updateArticleDescription(@PathVariable String userName, @Valid @ModelAttribute Article article, BindingResult bindingResult, @PathVariable long articleId) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
-            return "/article/pair";
+            return "article/pair";
         }
         articleService.updateArticle(article, articleId);
         return "redirect:/user/" + userName + "/article/" + articleId;
@@ -73,7 +73,7 @@ public class ArticleController {
         Article article = articleService.findById(articleId);
         model.addAttribute("article", article);
         model.addAttribute("notebooks", userService.getUserNotebooks());
-        return "/article/articleform";
+        return "article/articleform";
     }
 
     @GetMapping("/user/{userName}/article/{articleId}")

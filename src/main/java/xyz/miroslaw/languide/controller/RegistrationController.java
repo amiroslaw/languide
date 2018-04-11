@@ -30,7 +30,7 @@ public class RegistrationController {
 
     @GetMapping
     public String showRegistrationForm() {
-        return "/user/registerform";
+        return "user/registerform";
     }
 
     @PostMapping
@@ -40,10 +40,10 @@ public class RegistrationController {
             result.rejectValue("name", null, "There is already an account registered with that name");
         }
         if (result.hasErrors()) {
-            return "/user/registerform";
+            return "user/registerform";
         }
         userService.createUser(user);
-        return "/user/login";
+        return "user/login";
     }
 
 }
