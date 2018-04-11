@@ -19,6 +19,7 @@
 </head>
 <body>
 <div class="container mt-5">
+    <div th:insert="~{layouts/main :: content}"></div>
     <!--/*@thymesVar id="user" type="xyz.miroslaw.languide.model.User"*/-->
     <form class="form-horizontal" role="form" method="POST" action="/register" th:action="@{/register}"
           th:object="${user}">
