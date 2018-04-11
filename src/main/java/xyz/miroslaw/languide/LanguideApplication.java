@@ -42,8 +42,13 @@ public class LanguideApplication {
 
         @Override
         public void run(ApplicationArguments args) {
+//            loadData();
 
-//            Set<Notebook> notebooksSet = new HashSet<>();
+
+        }
+
+        private void loadData() {
+            //            Set<Notebook> notebooksSet = new HashSet<>();
 //            notebooksSet.add(notebook);
 
             Translation translation = Translation.builder().source("W końcu mam akt zgonu mojego ojca. Moja siostra była na tyle uprzejma, że wysłała jej zdjęcie, a ona prześle jej kopię pocztą. Myślałem, że urodził się w Hammond w stanie Indiana w jedynym szpitalu w okolicy.")
@@ -102,7 +107,6 @@ public class LanguideApplication {
             articleService.createOrUpdateArticle(article1);
             articleService.createOrUpdateArticle(article2);
             articleService.createOrUpdateArticle(articlePrivate);
-
         }
 
     }
