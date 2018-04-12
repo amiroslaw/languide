@@ -3,6 +3,7 @@ $(document).ready(function () {
     //popover
     $('body').on('mouseover', 'td', function () {
         let tr = $(this).parent();
+        // let nextTd = tr.next().children().first();
         $(this).popover({
             placement: 'bottom',
             container: tr,

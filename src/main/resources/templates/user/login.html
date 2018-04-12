@@ -20,11 +20,11 @@
     </th:block>
 </head>
 <body>
-<div class="container mt-5">
+<div class="container-fluid mt-5">
     <div th:insert="~{layouts/main :: content}"></div>
     <form class="form-horizontal" role="form" method="POST" action="login" th:action="@{/login}">
         <div class="row">
-            <div class="col-md-6 offset-md-3">
+            <div class="col-md-6 offset-md-3 col-8 offset-2">
                 <h2>Please Login</h2>
                 <hr>
             </div>
@@ -44,7 +44,7 @@
         <!--</div>-->
         <!--</div>-->
         <div class="row">
-            <div class="col-md-6  offset-md-3">
+            <div class="col-md-6  offset-md-3 col-8 offset-2">
                 <div class="form-group has-danger">
                     <label class="sr-only" for="login">Login</label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6  offset-md-3">
+            <div class="col-md-6  offset-md-3 col-8 offset-2">
                 <div class="form-group">
                     <label class="sr-only" for="password">Password</label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
@@ -84,7 +84,7 @@
         <!--</div>-->
         <!--</div>-->
         <div class="row" style="padding-top: 1rem">
-            <div class="col-md-6 offset-md-3">
+            <div class="col-md-6 offset-md-3 col-8 offset-2">
                 <button type="submit" class="btn btn-success"><i class="fas fa-sign-in"></i> Login</button>
                 <!--<a class="btn btn-link" href="/password/reset">Forgot Your Password?</a>-->
                 <span class="text-danger ml-4" th:if="${param.error}"><i class="fas fa-window-close"></i>   Invalid username and/or password.</span>

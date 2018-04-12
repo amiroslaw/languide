@@ -18,13 +18,13 @@
     </th:block>
 </head>
 <body>
-<div class="container mt-5">
+<div class="container-fluid mt-5">
     <div th:insert="~{layouts/main :: content}"></div>
     <!--/*@thymesVar id="user" type="xyz.miroslaw.languide.model.User"*/-->
     <form class="form-horizontal" role="form" method="POST" action="/register" th:action="@{/register}"
           th:object="${user}">
         <div class="row">
-            <div class="col-md-6 offset-md-3">
+            <div class="col-md-6 offset-md-3 col-8 offset-2">
                 <h2>Register New User</h2>
                 <hr>
             </div>
@@ -44,7 +44,7 @@
         <!--</div>-->
         <!--</div>-->
         <div class="row">
-            <div class="col-md-6 offset-md-3">
+            <div class="col-md-6 offset-md-3 col-8 offset-2">
                 <div class="form-group">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-prepend">
@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6 offset-md-3">
+            <div class="col-md-6 offset-md-3 col-8 offset-2">
                 <div class="form-group has-danger">
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-prepend">
@@ -80,7 +80,7 @@
 
 
         <div class="row">
-            <div class="col-md-6 offset-md-3">
+            <div class="col-md-6 offset-md-3 col-8 offset-2">
                 <button type="submit" class="btn btn-success"><i class="fas fa-user-plus"></i> Register</button>
             </div>
             <!--<div class="col-md-3">-->
@@ -93,7 +93,7 @@
         </div>
     </form>
     <div class="row mt-5">
-        <div class="col-md-6 offset-md-3">
+        <div class="col-md-6 offset-md-3 col-8 offset-2">
             <div class="alert alert-info" th:if="${param.success}">
                 You've successfully registered to our awesome app!
                 <a href="/login" class="alert-link">Log in</a>

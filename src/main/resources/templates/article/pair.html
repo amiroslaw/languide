@@ -38,7 +38,7 @@
 
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <div th:insert="~{layouts/main :: content}"></div>
     <div class="alert alert-info alert-dismissible fade show" role="alert">
         To see more options click on a cell, second click will hide it. By right click you can remove a cell.
@@ -47,7 +47,7 @@
         </button>
     </div>
     <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-3 offset-lg-1">
             <div class="sticky-top sticky-articleform mb-3">
                 <p sec:authorize="isAnonymous()">If you want to save your article, please create your account in <a
                         href="/user/registerform.html" th:href="@{/register}">registration site.</a></p>
@@ -97,7 +97,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-9">
+        <div class="col-lg-7">
             <table id="article" class="table table-striped table-bordered table-hover table-primary">
                 <tr class="thead-dark">
                     <th>English</th>

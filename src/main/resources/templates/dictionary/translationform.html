@@ -20,10 +20,10 @@
     </th:block>
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <div th:insert="~{layouts/main :: content}"></div>
     <div class="row">
-        <div class="col-lg-4 mx-auto">
+        <div class="col-md-4 col-8 mx-auto">
             <!--/*@thymesVar id="user" type="xyz.miroslaw.languide.model.Translation"*/-->
             <form th:object="${translation}" action="/translation"
                   th:action="@{|/user/${#authentication.name}/translation|}" method="post">
