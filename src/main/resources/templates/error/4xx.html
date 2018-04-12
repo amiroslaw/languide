@@ -30,8 +30,9 @@
     <div th:insert="~{layouts/main :: content}"></div>
     <div class="row">
         <div class="col-md-6 offset-md-3">
+            <h2>[[${status}]] - [[${error}]]</h2>
             <div class="alert alert-warning" role="alert">
-                <strong>Warning!</strong> Access denied
+                <strong>Warning!</strong> [[${error}]]
             </div>
             <!--/*@thymesVar id="exception" type="xyz.miroslaw.languide.exception.NotFoundException"*/-->
             <!--<p th:text="${exception.getMessage()}"></p>-->

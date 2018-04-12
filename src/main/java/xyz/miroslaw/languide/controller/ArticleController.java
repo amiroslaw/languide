@@ -105,22 +105,12 @@ public class ArticleController {
 
     @PreAuthorize("#userName == authentication.name")
     @GetMapping("/user/{userName}/article/{articleId}/delete")
-    public String deleteById(@PathVariable String userName, @RequestParam("id") long notebookId, @PathVariable long articleId) {
+    public String deleteById(@PathVariable String userName, @PathVariable long articleId, @RequestParam("id") long notebookId) {
         articleService.deleteById(articleId);
+        //todo swap
         if (notebookId == 0) {
-            return "redirect:/user/" + userName + "/articles?id=" + articleId;
+            return "redirect:/user/" + userName + "/articles?id=0";
         }
-        return "redirect:/user/" + userName + "/articles?id=0";
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NotFoundException.class)
-    public ModelAndView handleNotFound(Exception exception) {
-        log.error("Handling not found exception");
-        log.error(exception.getMessage());
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("error");
-        modelAndView.addObject("exception", exception);
-        return modelAndView;
+        return "redirect:/user/" + userName + "/articles?id=" + notebookId;
     }
 }
