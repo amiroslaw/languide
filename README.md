@@ -1,4 +1,5 @@
 # Languide
+[Languide website](https://languide.herokuapp.com/)  
 The web application for learning foreign languages. The application easily compares the texts from two languages sentence by sentence. This note could have tags and can be saved in a notebook. You can create a dictionary from select words.  
 __Notice__: This app is in developer stage. 
 
