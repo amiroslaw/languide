@@ -19,7 +19,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class ArticleServiceImpTest {
-
+    @Mock
+    private NotebookService notebookService;
     @Mock
     private ArticleRepository repository;
     @InjectMocks
@@ -31,7 +32,7 @@ public class ArticleServiceImpTest {
     }
 
     @Test
-    public void findArticles() throws Exception {
+    public void findAllPublicArticles_() throws Exception {
         //TODO findPublicArticles in service imp test
     }
 
@@ -41,7 +42,7 @@ public class ArticleServiceImpTest {
 
         service.findById(anyLong());
 
-        assertThat(UtilTest.ARTICLE).isNotNull();
+        assertThat(UtilTest.ARTICLE).isNotNull().isEqualTo(UtilTest.ARTICLE);
         verify(repository, times(1)).findById(anyLong());
     }
 
@@ -63,6 +64,7 @@ public class ArticleServiceImpTest {
         service.deleteById(anyLong());
 
         verify(repository, times(1)).delete(any(Article.class));
+        assertThat(1).isEqualTo(1);
     }
 
     @Test(expected = NotFoundException.class)
@@ -75,14 +77,14 @@ public class ArticleServiceImpTest {
         verify(repository, times(1)).delete(any(Article.class));
     }
 
-//    @Test
-//    public void createArticle_shouldCreateArticle() throws Exception {
-//        when(repository.save(any(Article.class))).thenReturn(UtilTest.ARTICLE);
-//
+    @Test
+    public void createArticle_shouldCreateArticle() throws Exception {
+        when(repository.save(any(Article.class))).thenReturn(UtilTest.ARTICLE);
+
 //        service.createOrUpdateArticle(UtilTest.ARTICLE_COMMAND);
-//
-//        verify(repository, times(1)).save(any());
-//    }
+
+        verify(repository, times(1)).save(any());
+    }
 
     @Test
     public void updateArticle_shouldUpdateArticle() throws Exception {

@@ -34,11 +34,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/index").failureUrl("/login?error").permitAll()
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/").deleteCookies("my-remember-me-cookie").permitAll()
-                .and().exceptionHandling().accessDeniedPage("/403");
+                .and().exceptionHandling().accessDeniedPage("/403")
+                .and().headers().frameOptions().disable();
         //h2 database testing
         http.csrf().disable();
-//        http.headers().frameOptions().disable();
-
     }
 
     @Bean

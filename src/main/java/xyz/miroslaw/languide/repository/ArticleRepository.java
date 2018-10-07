@@ -12,4 +12,9 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 
     @Query(value = FIND_BY_USERID, nativeQuery = true)
     List<Article> findArticlesByUserId(@Param("id") Long id);
+
+    String FIND_BY_NOTEBOOK_ID = "SELECT * FROM ARTICLE WHERE NOTEBOOK_ID  = :id)";
+    @Query(value = FIND_BY_NOTEBOOK_ID, nativeQuery = true)
+    List<Article> findAllByNotebookId(@Param("id") Long id);
+    List<Article> findAllByHiddenFalse();
 }

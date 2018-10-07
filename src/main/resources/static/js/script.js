@@ -19,7 +19,7 @@ $(document).ready(function () {
         //         e.preventDefault();
     });
     $(document).on('click', '.pop-Add', function () {
-        $(this).closest('tr').after('<tr><td>new</td><td>new</td></tr>');
+        $(this).closest('tr').after('<tr><td></td><td></td></tr>');
     });
     $(document).on('click', '.pop-remove-row', function () {
         $(this).closest('tr').remove();

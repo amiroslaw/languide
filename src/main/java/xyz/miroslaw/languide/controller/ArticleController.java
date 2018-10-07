@@ -85,7 +85,7 @@ public class ArticleController {
 
     @GetMapping("/articles/all")
     public String showAllArticles(Model model) {
-        model.addAttribute("articles", articleService.findPublicArticles());
+        model.addAttribute("articles", articleService.findAllPublicArticles());
         return "article/allarticles";
     }
 
@@ -98,7 +98,7 @@ public class ArticleController {
                 model.addAttribute("userId", e.getId());
             });
         } else {
-            model.addAttribute("articles", articleService.findNotebookArticles(id));
+            model.addAttribute("articles", articleService.findAllArticlesByNotebookId(id));
         }
         return "article/userarticles";
     }

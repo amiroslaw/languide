@@ -27,7 +27,7 @@ public class ConverterUtil {
 
     static List<String> convertToList(String lang) {
         return Stream.of(lang)
-                .map(e -> e.split("(?<=\\.\\s)|(?<=\\?\\s)|(?<=!\\s)|(?=-)"))
+                .map(e -> e.split("(?<=\\.\\s)|(?<=\\?\\s)|(?<=!\\s)"))
                 .flatMap(Arrays::stream)
                 .collect(Collectors.toList());
     }

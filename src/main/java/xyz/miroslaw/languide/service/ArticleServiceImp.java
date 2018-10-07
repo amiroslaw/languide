@@ -24,19 +24,13 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public List<Article> findPublicArticles() {
-        List<Article> allArticles = (List<Article>) articleRepository.findAll();
-        if (allArticles.isEmpty()) return new ArrayList<>();
-        return allArticles.stream().filter(article -> !article.isHidden()).collect(Collectors.toList());
+    public List<Article> findAllPublicArticles() {
+        return articleRepository.findAllByHiddenFalse();
     }
 
     @Override
-    public List<Article> findNotebookArticles(final Long id) {
-        List<Article> allArticles = (ArrayList<Article>) articleRepository.findAll();
-        return allArticles.stream()
-                .filter(article -> article.getNotebook() != null)
-                .filter(article -> article.getNotebook().getId().equals(id))
-                .collect(Collectors.toList());
+    public List<Article> findAllArticlesByNotebookId(final Long notebookId) {
+        return articleRepository.findAllByNotebookId(notebookId);
     }
 
     @Override
@@ -47,8 +41,8 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public List<Article> findArticlesByUserId(final Long id) {
-        return articleRepository.findArticlesByUserId(id);
+    public List<Article> findArticlesByUserId(final Long UserId) {
+        return articleRepository.findArticlesByUserId(UserId);
     }
 
     @Override
@@ -56,10 +50,10 @@ public class ArticleServiceImp implements ArticleService {
         articleRepository.delete(getIfExist(id));
     }
 
-    private Article getIfExist(final Long id) {
-        Optional<Article> article = articleRepository.findById(id);
+    private Article getIfExist(final Long articleId) {
+        Optional<Article> article = articleRepository.findById(articleId);
         if (!article.isPresent()) {
-            throw new NotFoundException("Not found. Id: " + id);
+            throw new NotFoundException("Not found. Id: " + articleId);
         }
         return article.get();
     }

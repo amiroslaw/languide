@@ -42,9 +42,7 @@ public class LanguideApplication {
 
         @Override
         public void run(ApplicationArguments args) {
-//            loadData();
-
-
+            loadData();
         }
 
         private void loadData() {
