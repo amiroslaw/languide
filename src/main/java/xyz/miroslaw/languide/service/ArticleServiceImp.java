@@ -8,7 +8,6 @@ import xyz.miroslaw.languide.model.Article;
 import xyz.miroslaw.languide.repository.ArticleRepository;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -59,7 +58,7 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
-    public Article createOrUpdateArticle(Article article) {
+    public Article createArticle(Article article) {
         return articleRepository.save(article);
     }
 
@@ -69,7 +68,7 @@ public class ArticleServiceImp implements ArticleService {
         setValues(article, oldArticle);
         oldArticle.setCreationDate(Calendar.getInstance().getTime());
         oldArticle.setNotebook(article.getNotebook());
-        createOrUpdateArticle(oldArticle);
+        createArticle(oldArticle);
     }
 
     @Override
@@ -80,7 +79,7 @@ public class ArticleServiceImp implements ArticleService {
         oldArticle.setSecondLanguage(article.getSecondLanguage());
         oldArticle.setCreationDate(article.getCreationDate());
         oldArticle.setNotebook(notebookService.findById(notebookId));
-        createOrUpdateArticle(oldArticle);
+        createArticle(oldArticle);
     }
 
     private void setValues(Article article, Article oldArticle) {

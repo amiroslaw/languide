@@ -2,15 +2,12 @@ package xyz.miroslaw.languide.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import xyz.miroslaw.languide.command.ArticleCommand;
-import xyz.miroslaw.languide.exception.NotFoundException;
 import xyz.miroslaw.languide.model.Article;
 import xyz.miroslaw.languide.model.Translation;
 import xyz.miroslaw.languide.service.ArticleService;
@@ -43,7 +40,7 @@ public class ArticleController {
             return "index";
         }
         Article article = ConverterUtil.convertToArticle(articleCommand);
-        article = articleService.createOrUpdateArticle(article);
+        article = articleService.createArticle(article);
         model.addAttribute("notebooks", userService.getUserNotebooks());
         model.addAttribute("article", article);
         return "article/pair";

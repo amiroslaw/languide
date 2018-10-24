@@ -1,6 +1,5 @@
 package xyz.miroslaw.languide;
 
-import org.omg.IOP.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -27,18 +26,23 @@ public class LanguideApplication {
         private UserService userService;
         private NotebookService notebookService;
         private DictionaryService dictionaryService;
-        private TranslationService translationService;
         @Autowired
         TranslationRepository translationRepository;
 
         @Autowired
-        DataLoader(TranslationService translationService, NotebookService notebookService, UserService userService, ArticleService articleService, DictionaryService dictionaryService) {
+        DataLoader(NotebookService notebookService, UserService userService, ArticleService articleService, DictionaryService dictionaryService) {
             this.notebookService = notebookService;
-            this.translationService = translationService;
             this.articleService = articleService;
             this.userService = userService;
             this.dictionaryService = dictionaryService;
         }
+//        DataLoader(TranslationService translationService, NotebookService notebookService, UserService userService, ArticleService articleService, DictionaryService dictionaryService) {
+//            this.notebookService = notebookService;
+//            this.translationService = translationService;
+//            this.articleService = articleService;
+//            this.userService = userService;
+//            this.dictionaryService = dictionaryService;
+//        }
 
         @Override
         public void run(ApplicationArguments args) {
@@ -102,9 +106,9 @@ public class LanguideApplication {
                     .hidden(true)
                     .notebook(notebook)
                     .build();
-            articleService.createOrUpdateArticle(article1);
-            articleService.createOrUpdateArticle(article2);
-            articleService.createOrUpdateArticle(articlePrivate);
+            articleService.createArticle(article1);
+            articleService.createArticle(article2);
+            articleService.createArticle(articlePrivate);
         }
 
     }

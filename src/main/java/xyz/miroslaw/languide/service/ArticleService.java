@@ -10,7 +10,7 @@ public interface ArticleService {
     Article findById(Long id);
     List<Article> findArticlesByUserId(Long id);
     void deleteById(Long id);
-    Article createOrUpdateArticle(Article article);
+    Article createArticle(Article article);
     void updateArticle(Article article, long articleId);
     void updateArticle(Article article, long articleId, long notebookId);
 }
