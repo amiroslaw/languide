@@ -29,12 +29,12 @@ public class UtilTest {
             .hidden(false).build();
     public static final List<String> LANG_PLAYER1 = Arrays.asList("To remove the music player. Use Synaptic Package Manager or run command in terminal:");
     public static final List<String> LANG_PLAYER2 = Arrays.asList("Aby usunąć odtwarzacz muzyki. Użyj Synaptic Package Manager lub uruchom komendę w terminalu");
-    private static final User USER = User.builder()
+    public static final User USER = User.builder()
             .name("miro")
             .password("qwerty1")
             .email("miro@gmail.com")
             .build();
-    private static final Notebook NOTEBOOK = Notebook.builder()
+    public static final Notebook NOTEBOOK = Notebook.builder()
             .title("notebook")
             .description("first notebook")
             .user(USER)
