@@ -6,13 +6,14 @@ import xyz.miroslaw.languide.model.Article;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ConverterUtil {
 
     public static Article convertToArticle(ArticleCommand command) {
-        if (command == null) return null;
+        if (command == null) return new Article();
         Article article = new Article();
         article.setId(command.getId());
         article.setTitle(command.getTitle());

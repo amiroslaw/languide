@@ -30,6 +30,7 @@ public class UtilTest {
     public static final List<String> LANG_PLAYER1 = Arrays.asList("To remove the music player. Use Synaptic Package Manager or run command in terminal:");
     public static final List<String> LANG_PLAYER2 = Arrays.asList("Aby usunąć odtwarzacz muzyki. Użyj Synaptic Package Manager lub uruchom komendę w terminalu");
     public static final User USER = User.builder()
+            .id(1L)
             .name("miro")
             .password("qwerty1")
             .email("miro@gmail.com")

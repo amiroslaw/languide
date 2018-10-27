@@ -2,7 +2,6 @@ package xyz.miroslaw.languide.repository;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +10,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import xyz.miroslaw.languide.UtilTest;
-import xyz.miroslaw.languide.model.Article;
 import xyz.miroslaw.languide.model.Notebook;
 import xyz.miroslaw.languide.model.User;
 
-import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 
@@ -64,7 +60,7 @@ public class NotebookRepositoryTest {
         entityManager.persist(user);
         Long notebookID = (Long) entityManager.persistAndGetId(notebook);
 
-        Optional<Notebook> notebook = repository.findAllByUserNameAndAndId(userName, notebookID);
+        Optional<Notebook> notebook = repository.findByUserNameAndId(userName, notebookID);
 
         assertThat(notebook.get().getTitle()).isEqualTo("notebook");
         assertThat(notebook).isPresent();

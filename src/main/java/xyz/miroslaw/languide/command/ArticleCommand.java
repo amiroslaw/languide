@@ -1,6 +1,8 @@
 package xyz.miroslaw.languide.command;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+
+import lombok.Builder;
 import lombok.Data;
 import xyz.miroslaw.languide.model.Notebook;
 
@@ -18,7 +20,7 @@ public class ArticleCommand {
 
     public  ArticleCommand(){}
 
-    public ArticleCommand(String title, @NotBlank String firstLanguage, @NotBlank String secondLanguage, String tag, Date creationDate, Notebook notebook) {
+    public ArticleCommand(String title, String firstLanguage, String secondLanguage, String tag, Date creationDate, Notebook notebook) {
         this.title = title;
         this.firstLanguage = firstLanguage;
         this.secondLanguage = secondLanguage;

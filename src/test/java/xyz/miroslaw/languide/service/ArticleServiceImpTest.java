@@ -50,7 +50,7 @@ public class ArticleServiceImpTest {
 
     @Test
     public void findById_shouldFindArticle() throws Exception {
-        when(repository.findById(anyLong())).thenReturn(java.util.Optional.ofNullable(UtilTest.ARTICLE));
+        when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(UtilTest.ARTICLE));
 
         Article article = service.findById(anyLong());
 
@@ -80,7 +80,7 @@ public class ArticleServiceImpTest {
 
     @Test
     public void deleteById_shouldDelete() throws Exception {
-        when(repository.findById(anyLong())).thenReturn(java.util.Optional.ofNullable(UtilTest.ARTICLE));
+        when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(UtilTest.ARTICLE));
         doNothing().when(repository).delete(any(Article.class));
 
         service.deleteById(anyLong());
@@ -94,7 +94,7 @@ public class ArticleServiceImpTest {
         doNothing().when(repository).delete(any(Article.class));
 
         service.deleteById(anyLong());
-
+//
         verify(repository, times(1)).delete(any(Article.class));
     }
 

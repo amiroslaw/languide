@@ -32,12 +32,12 @@ public class NotebookServiceImp implements NotebookService {
     }
 
     @Override
-    public void deleteById(String userName, final Long id) {
-        Optional<Notebook> article = notebookRepository.findAllByUserNameAndAndId(userName, id);
-        if (!article.isPresent()) {
-            throw new NotFoundException("Not found. Id: " + id);
+    public void deleteById(String userName, final Long notebookID) {
+        Optional<Notebook> notebook = notebookRepository.findByUserNameAndId(userName, notebookID);
+        if (!notebook.isPresent()) {
+            throw new NotFoundException("Not found. Id: " + notebookID);
         } else {
-            notebookRepository.delete(article.get());
+            notebookRepository.delete(notebook.get());
         }
     }
 
@@ -53,7 +53,7 @@ public class NotebookServiceImp implements NotebookService {
         if (id.isPresent()) {
             return findUserNotebooks(id.get());
         } else {
-            return new HashSet<>();
+            return new HashSet<Notebook>();
         }
     }
 
