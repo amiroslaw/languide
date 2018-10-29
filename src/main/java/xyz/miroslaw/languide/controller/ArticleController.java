@@ -35,7 +35,7 @@ public class ArticleController {
     }
 
     @PostMapping("/user/{userName}/article")
-    public String pair(@PathVariable String userName, @ModelAttribute @Valid ArticleCommand articleCommand, BindingResult bindingResult, Model model) {
+    public String pair(@PathVariable String userName, @ModelAttribute @Valid ArticleCommand articleCommand,  Model model, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             return "index";
@@ -48,7 +48,7 @@ public class ArticleController {
     }
     @PreAuthorize("#userName == authentication.name")
     @PostMapping("/user/{userName}/article/{articleId}/updatedescription")
-    public String updateArticleDescription(@PathVariable String userName, @Valid @ModelAttribute Article article, BindingResult bindingResult, @PathVariable long articleId) {
+    public String updateArticleDescription(@PathVariable String userName, @Valid @ModelAttribute Article article, @PathVariable long articleId, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
             return "article/pair";
@@ -105,7 +105,6 @@ public class ArticleController {
     @GetMapping("/user/{userName}/article/{articleId}/delete")
     public String deleteById(@PathVariable String userName, @PathVariable long articleId, @RequestParam("id") long notebookId) {
         articleService.deleteById(articleId);
-        //todo swap
         if (notebookId == 0) {
             return "redirect:/user/" + userName + "/articles?id=0";
         }

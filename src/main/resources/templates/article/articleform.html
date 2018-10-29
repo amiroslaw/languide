@@ -21,7 +21,7 @@
     <script type="text/javascript" th:inline="javascript">
         $(document).ready(function () {
             /*<![CDATA[*/
-            const userName = [[${#authentication.name}]]
+            const userName = [[${#authentication.name}]];
             const article = [[${article}]];
             const lang1 = article.firstLanguage;
             const lang2 = article.secondLanguage;
@@ -42,11 +42,11 @@
             // Array.prototype.transpose = function()
             $("#submit").click(function (event) {
                 let id = $("#id").val();
-                var data = {}
+                var data = {};
                 data["id"] = id;
                 data["title"] = $("#title").val();
                 data["tag"] = $("#tag").val();
-                data["creationDate"] = [[${article.creationDate}]]
+                data["creationDate"] = [[${article.creationDate}]];
                 data["hidden"] = $("#hidden").prop('checked');
                 // data["hidden"] = ($('#hidden').is(":checked")) ? true : false;
                 let notebookId = $('select[name=notebook]').val();
