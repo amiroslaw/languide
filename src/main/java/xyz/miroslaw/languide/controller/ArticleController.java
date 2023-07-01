@@ -15,13 +15,16 @@ import xyz.miroslaw.languide.service.UserService;
 import xyz.miroslaw.languide.util.ConverterUtil;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Slf4j
 @Controller
 public class ArticleController {
-    private ArticleService articleService;
-    private UserService userService;
+    private final ArticleService articleService;
+    private final UserService userService;
+    private static final String ARTICLE = "article";
+    private static final String ARTICLES = "articles";
+    private static final String REDIRECT_USER = "redirect:/user/";
+
 
     @Autowired
     public ArticleController(ArticleService articleService, UserService userService) {
@@ -43,7 +46,7 @@ public class ArticleController {
         Article article = ConverterUtil.convertToArticle(articleCommand);
         article = articleService.createArticle(article);
         model.addAttribute("notebooks", userService.getUserNotebooks());
-        model.addAttribute("article", article);
+        model.addAttribute(ARTICLE, article);
         return "article/pair";
     }
     @PreAuthorize("#userName == authentication.name")
@@ -54,7 +57,7 @@ public class ArticleController {
             return "article/pair";
         }
         articleService.updateArticle(article, articleId);
-        return "redirect:/user/" + userName + "/article/" + articleId;
+        return REDIRECT_USER + userName + "/article/" + articleId;
     }
 
     @PreAuthorize("#userName == authentication.name")
@@ -69,21 +72,21 @@ public class ArticleController {
     @GetMapping("/user/{userName}/article/{articleId}/edit")
     public String showArticleForm(@PathVariable String userName, @PathVariable long articleId, Model model) {
         Article article = articleService.findById(articleId);
-        model.addAttribute("article", article);
+        model.addAttribute(ARTICLE, article);
         model.addAttribute("notebooks", userService.getUserNotebooks());
         return "article/articleform";
     }
 
     @GetMapping("/user/{userName}/article/{articleId}")
     public String showArticle(@PathVariable String userName, @PathVariable("articleId") long articleId, Model model) {
-        model.addAttribute("article", articleService.findById(articleId));
+        model.addAttribute(ARTICLE, articleService.findById(articleId));
         model.addAttribute("translation", new Translation());
         return "article/view";
     }
 
     @GetMapping("/articles/all")
     public String showAllArticles(Model model) {
-        model.addAttribute("articles", articleService.findAllPublicArticles());
+        model.addAttribute(ARTICLES, articleService.findAllPublicArticles());
         return "article/allarticles";
     }
 
@@ -92,11 +95,11 @@ public class ArticleController {
     public String showUserArticles(@PathVariable String userName, @RequestParam("id") long id, Model model) {
         if (id == 0) {
             userService.getLoggedUser().ifPresent(e -> {
-                model.addAttribute("articles", articleService.findArticlesByUserId(e.getId()));
+                model.addAttribute(ARTICLES, articleService.findArticlesByUserId(e.getId()));
                 model.addAttribute("userId", e.getId());
             });
         } else {
-            model.addAttribute("articles", articleService.findAllArticlesByNotebookId(id));
+            model.addAttribute(ARTICLES, articleService.findAllArticlesByNotebookId(id));
         }
         return "article/userarticles";
     }
@@ -106,8 +109,8 @@ public class ArticleController {
     public String deleteById(@PathVariable String userName, @PathVariable long articleId, @RequestParam("id") long notebookId) {
         articleService.deleteById(articleId);
         if (notebookId == 0) {
-            return "redirect:/user/" + userName + "/articles?id=0";
+            return REDIRECT_USER + userName + "/articles?id=0";
         }
-        return "redirect:/user/" + userName + "/articles?id=" + notebookId;
+        return REDIRECT_USER + userName + "/articles?id=" + notebookId;
     }
 }

@@ -7,13 +7,12 @@ import xyz.miroslaw.languide.model.Translation;
 import xyz.miroslaw.languide.repository.TranslationRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TranslationServiceImp implements TranslationService {
 
-    private TranslationRepository translationRepository;
-    private DictionaryService dictionaryService;
+    private final TranslationRepository translationRepository;
+    private final DictionaryService dictionaryService;
 
     @Autowired
     public TranslationServiceImp(TranslationRepository translationRepository, DictionaryService dictionaryService) {
@@ -23,19 +22,15 @@ public class TranslationServiceImp implements TranslationService {
 
     @Override
     public Translation findById(final Long id) {
-        return Optional.ofNullable(translationRepository.findById(id))
-                .map(Optional::get)
+        return translationRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Not found. Id: " + id));
     }
 
     @Override
     public void deleteById(final Long id) {
-        Optional<Translation> article = translationRepository.findById(id);
-        if (!article.isPresent()) {
-            throw new NotFoundException("Not found. Id: " + id);
-        } else {
-            translationRepository.delete(article.get());
-        }
+        final Translation translation = translationRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found. Id: " + id));
+        translationRepository.delete(translation);
     }
 
     @Override

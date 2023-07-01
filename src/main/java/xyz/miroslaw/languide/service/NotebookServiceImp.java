@@ -9,14 +9,13 @@ import xyz.miroslaw.languide.model.User;
 import xyz.miroslaw.languide.repository.NotebookRepository;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class NotebookServiceImp implements NotebookService {
 
-    private NotebookRepository notebookRepository;
-    private UserService userService;
+    private final NotebookRepository notebookRepository;
+    private final UserService userService;
 
     @Autowired
     NotebookServiceImp(NotebookRepository notebookRepository, @Lazy UserService userService) {
@@ -26,19 +25,15 @@ public class NotebookServiceImp implements NotebookService {
 
     @Override
     public Notebook findById(final Long id) {
-        return Optional.ofNullable(notebookRepository.findById(id))
-                .map(Optional::get)
+        return notebookRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Not found. Id: " + id));
     }
 
     @Override
     public void deleteById(String userName, final Long notebookID) {
-        Optional<Notebook> notebook = notebookRepository.findByUserNameAndId(userName, notebookID);
-        if (!notebook.isPresent()) {
-            throw new NotFoundException("Not found. Id: " + notebookID);
-        } else {
-            notebookRepository.delete(notebook.get());
-        }
+        Notebook notebook = notebookRepository.findByUserNameAndId(userName, notebookID)
+                .orElseThrow(() -> new NotFoundException("Not found. Id: " + notebookID));
+        notebookRepository.delete(notebook);
     }
 
     @Override
@@ -49,12 +44,9 @@ public class NotebookServiceImp implements NotebookService {
 
     @Override
     public Set<Notebook> findUserNotebooks() {
-        final Optional<Long> id = userService.getLoggedUser().map(User::getId);
-        if (id.isPresent()) {
-            return findUserNotebooks(id.get());
-        } else {
-            return new HashSet<Notebook>();
-        }
+        return userService.getLoggedUser().map(User::getId)
+                .map(this::findUserNotebooks)
+                .orElse(new HashSet<>());
     }
 
     @Override

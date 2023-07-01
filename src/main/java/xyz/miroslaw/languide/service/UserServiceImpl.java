@@ -17,17 +17,23 @@ import xyz.miroslaw.languide.model.Role;
 import xyz.miroslaw.languide.model.User;
 import xyz.miroslaw.languide.repository.UserRepository;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
-    private NotebookService notebookService;
-    private BCryptPasswordEncoder passwordEncoder;
+
+    private final UserRepository userRepository;
+    private final NotebookService notebookService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    UserServiceImpl(UserRepository userRepository, NotebookService notebookService, BCryptPasswordEncoder passwordEncoder) {
+    UserServiceImpl(UserRepository userRepository, NotebookService notebookService,
+            BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.notebookService = notebookService;
         this.passwordEncoder = passwordEncoder;
@@ -35,8 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(final Long id) {
-        return Optional.ofNullable(userRepository.findById(id))
-                .map(Optional::get)
+        return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Not found. Id: " + id));
     }
 
@@ -47,8 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return Optional.ofNullable(userRepository.findByEmail(email))
-                .map(Optional::get)
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("Not found: " + email));
     }
 
@@ -63,11 +67,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private User getIfExist(final Long id) {
-        Optional<User> article = userRepository.findById(id);
-        if (!article.isPresent()) {
-            throw new NotFoundException("Not found. Id: " + id);
-        }
-        return article.get();
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Not found: " + id));
     }
 
     @Override
@@ -75,17 +76,16 @@ public class UserServiceImpl implements UserService {
         user.setName(user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setNotebooks(user.getNotebooks());
-        user.setRoles(Arrays.asList(new Role("ROLE_USER")));
+        user.setRoles(Collections.singletonList(new Role("ROLE_USER")));
         user.setDictionary(new Dictionary());
         return userRepository.save(user);
     }
 
     @Override
     public HashSet<Notebook> getUserNotebooks() {
-        if (getLoggedUser().isPresent()) {
-            return (HashSet<Notebook>) notebookService.findUserNotebooks(getLoggedUser().get().getId());
-        }
-        return new HashSet<>();
+        return getLoggedUser()
+                .map(u -> (HashSet<Notebook>) notebookService.findUserNotebooks(u.getId()))
+                .orElse(new HashSet<>());
     }
 
     @Override
@@ -100,13 +100,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByName(name);
-        if (!user.isPresent()) {
-            throw new UsernameNotFoundException("Invalid username or password.");
-        }
-        return new org.springframework.security.core.userdetails.User(user.get().getName(),
-                user.get().getPassword(),
-                mapRolesToAuthorities(user.get().getRoles()));
+        final User user = userRepository.findByName(name)
+                .orElseThrow(() -> new UsernameNotFoundException("Invalid username or password."));
+        return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(),
+                mapRolesToAuthorities(user.getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {

@@ -2,21 +2,23 @@ package xyz.miroslaw.languide.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import xyz.miroslaw.languide.model.User;
 import xyz.miroslaw.languide.service.UserService;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Slf4j
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {
-    private UserService userService;
+
+    private final UserService userService;
 
     @Autowired
     RegistrationController(UserService userService) {
@@ -35,15 +37,17 @@ public class RegistrationController {
 
     @PostMapping
     public String registerUserAccount(@ModelAttribute @Valid User user, BindingResult result) {
-        Optional<User> existing = userService.findByName(user.getName());
-        if (existing.isPresent()) {
-            result.rejectValue("name", null, "There is already an account registered with that name");
-        }
-        if (result.hasErrors()) {
-            return "user/registerform";
-        }
-        userService.createUser(user);
-        return "user/login";
+        return userService.findByName(user.getName())
+                .map(e -> addError(result))
+                .orElseGet(() -> {
+                    userService.createUser(user);
+                    return "user/login";
+                });
+    }
+
+    private String addError(BindingResult result) {
+        result.rejectValue("name", null, "There is already an account registered with that name");
+        return "user/registerform";
     }
 
 }
