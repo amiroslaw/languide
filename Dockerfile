@@ -8,7 +8,7 @@ RUN mvn clean package -Pprod -DskipTests
 #
 # Package stage
 #
-FROM openjdk:8-jdk-alpine
+FROM eclipse-temurin:21-jre-alpine
 COPY --from=build /target/languide-0.0.1-SNAPSHOT.jar languide.jar
 # ENV PORT=8080
 EXPOSE 8080
